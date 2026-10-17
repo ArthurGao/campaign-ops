@@ -1,0 +1,41 @@
+{
+  "name": "@campaign-ops/backend",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "dev": "nest start --watch",
+    "test": "jest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src test --no-error-on-unmatched-pattern",
+    "prebuild": "pnpm --filter @campaign-ops/core build",
+    "predev": "pnpm --filter @campaign-ops/core build",
+    "prestart:dev": "pnpm --filter @campaign-ops/core build"
+  },
+  "dependencies": {
+    "@campaign-ops/core": "workspace:*",
+    "@nestjs/common": "^10.4.22",
+    "@nestjs/core": "^10.4.22",
+    "@nestjs/platform-express": "^10.4.22",
+    "@nestjs/swagger": "^7.4.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.4",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.9",
+    "@nestjs/schematics": "^10.2.3",
+    "@nestjs/testing": "^10.4.22",
+    "@types/express": "^4.17.25",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.19.43",
+    "@types/supertest": "^7.2.1",
+    "jest": "^29.7.0",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.15",
+    "typescript": "~5.9.3"
+  }
+}

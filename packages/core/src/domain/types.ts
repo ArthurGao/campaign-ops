@@ -1,0 +1,446 @@
+// Entities from docs/02-data-model.md (plus the additions recorded in docs/decisions.md).
+// Copied verbatim to frontend/src/types/ by `pnpm sync-types` — never edit the copy.
+import type {
+  AdResolution,
+  AgentId,
+  ApprovalStatus,
+  Blocks,
+  BriefStatus,
+  Channel,
+  DecisionStatus,
+  ErrorCode,
+  EvidenceSource,
+  EvidenceStatus,
+  FactPage,
+  FactStatus,
+  LandingPageStatus,
+  OutputType,
+  PackageStatus,
+  Priority,
+  PublishAction,
+  Ratio,
+  ReconChannel,
+  Role,
+  RunStatus,
+  RunTrigger,
+  SourceMedium,
+  Stage,
+  TaskStatus,
+  TaskType,
+  Validity,
+} from './enums';
+
+export type Actor = { role: Role; name: string };
+export type AuditEvent = { at: string; actor: Actor; action: string; detail?: string; reason?: string };
+
+/** Every entity carries timestamps and its own history list. */
+export type Tracked = { createdAt: string; updatedAt: string; events: AuditEvent[] };
+
+export type ApiErrorBody = { code: ErrorCode; message: string; hint?: string; gates?: AdGates };
+
+// ---------------------------------------------------------------- Fact Sheet
+
+export type FactEntry = Tracked & {
+  id: string; // 'FS-04'
+  page: FactPage;
+  label: string; // short name, e.g. 'Departure'
+  statement: string; // 'Departure: March 2027 [date TBC]'
+  status: FactStatus;
+  source?: string;
+  confirmedBy?: Actor;
+  confirmedAt?: string;
+  expiresAt?: string; // only for confirmed_with_expiry
+  publicNote?: string;
+  purpose?: string; // internal page only
+  supersededBy?: string;
+  rejectedNote?: string;
+};
+
+export type FactChange = { factId: string; before?: Partial<FactEntry>; after: Partial<FactEntry> };
+
+export type FactSheetVersion = {
+  version: string; // 'FS-v1.3'
+  at: string;
+  actor: Actor;
+  changes: FactChange[];
+  /** Items flagged needsRereview by this version (I-F3). */
+  affected: { kind: 'task' | 'package' | 'brief'; id: string }[];
+};
+
+/** Public-facing view of an entry plus its derived usability. */
+export type FactView = FactEntry & { publiclyUsable: boolean; expiringSoon: boolean };
+
+export type FactUsages = { tasks: Task[]; briefs: Brief[]; packages: PublishPackage[] };
+
+// ---------------------------------------------------------------- Evidence
+
+export type ProofLink = { label: string; url?: string };
+
+export type EvidenceItem = Tracked & {
+  id: string; // 'E-03'
+  source: EvidenceSource;
+  finding: string;
+  proof: ProofLink[];
+  impact: string;
+  blocks: Blocks;
+  priority: Priority;
+  suggestedOwner: string;
+  needsApproval: boolean;
+  status: EvidenceStatus;
+  convertedTaskId?: string;
+  originRunId?: string;
+  isExample?: boolean;
+};
+
+// ---------------------------------------------------------------- Tasks
+
+export type QAChecklistItem = { item: string; ok: boolean };
+export type QARecord = { by: Actor; at: string; passed: boolean; notes?: string; checklist: QAChecklistItem[] };
+
+export type NonSubstantiveAuth = { authorisedBy: string; scopeRef: string };
+export type PreApprovedAuth = { scopeRef: string; authorisedBy: string };
+export type PendingNonSubstantive = { scopeRef: string; markedBy: Actor; at: string };
+
+export type ApprovalRecord = {
+  approver: Actor;
+  at: string;
+  status: 'approved' | 'rejected';
+  approvedVersion: number;
+  note?: string;
+  nonSubstantive?: NonSubstantiveAuth;
+  preApproved?: PreApprovedAuth;
+};
+
+export type VerificationRecord = {
+  result: 'match' | 'mismatch';
+  runId: string;
+  outputId: string;
+  at: string;
+  by: Actor;
+  note?: string;
+};
+
+export type Task = Tracked & {
+  id: string; // 'TASK-021'
+  type: TaskType;
+  title: string;
+  channel?: Channel;
+  status: TaskStatus;
+  blockedReason?: string;
+  owner: string;
+  factRefs: string[];
+  needsConfirmation: boolean;
+  needsRereview: boolean;
+  version: number;
+  body?: string;
+  qa?: QARecord;
+  approval?: ApprovalRecord;
+  pendingNonSubstantive?: PendingNonSubstantive;
+  verification?: VerificationRecord;
+  pageUrl?: string;
+  linkedPackageId?: string;
+  linkedBriefId?: string;
+  originRunId?: string;
+  originEvidenceId?: string;
+};
+
+// ---------------------------------------------------------------- Agents
+
+export type OutputProposal =
+  | {
+      kind: 'evidence';
+      evidence: Pick<
+        EvidenceItem,
+        'source' | 'finding' | 'proof' | 'impact' | 'blocks' | 'priority' | 'suggestedOwner' | 'needsApproval'
+      >;
+    }
+  | {
+      kind: 'task';
+      task: { type: TaskType; title: string; channel?: Channel; body?: string; factRefs: string[]; taskId?: string };
+      scopeRef?: string;
+    }
+  | { kind: 'needs_confirmation'; factIds: string[]; title: string; type: TaskType; channel?: Channel; taskId?: string }
+  | { kind: 'verification'; target: 'task' | 'package'; targetId: string; result: 'match' | 'mismatch'; diff?: string[] };
+
+export type OutputDecision = {
+  status: DecisionStatus;
+  by: Actor;
+  at: string;
+  note?: string;
+  createdId?: string;
+  createdType?: 'evidence' | 'task' | 'package' | 'none';
+};
+
+export type AgentOutput = {
+  id: string; // 'RUN-0007-O1'
+  type: OutputType;
+  title: string;
+  body: string;
+  factRefs?: string[];
+  evidence?: ProofLink[];
+  inScope?: boolean;
+  immediate?: boolean;
+  approverRole?: Role;
+  proposal?: OutputProposal;
+  decision?: OutputDecision;
+};
+
+export type AgentRun = Tracked & {
+  id: string; // 'RUN-0007'
+  agent: AgentId;
+  trigger: RunTrigger;
+  inputs: Record<string, unknown>;
+  factSheetVersion?: string;
+  status: RunStatus;
+  startedAt?: string;
+  finishedAt?: string;
+  costEstimate?: { tokens: number; usd: number };
+  error?: string;
+  outputs: AgentOutput[];
+  requestedBy: Actor;
+};
+
+export type AgentCard = {
+  id: AgentId;
+  name: string;
+  role: string;
+  reads: string[];
+  permissions: string[];
+  guardrail: string;
+  lastRun?: Pick<AgentRun, 'id' | 'status' | 'startedAt' | 'finishedAt'>;
+};
+
+// ---------------------------------------------------------------- Video factory
+
+export type Deliverable = { channel: string; ratio: Ratio };
+
+export type ReceiptAsset = { assetId: string; ratio: string; durationSec: number; url: string; checksum: string };
+
+export type Receipt = {
+  version: string; // 'v1'
+  deliveredAt: string;
+  assets: ReceiptAsset[];
+  factsUsed: string[];
+  musicLicense: { status: 'licensed' | 'missing'; proof?: string };
+  creditsUsed: number;
+  renderAttempts: number;
+  issues: string[];
+};
+
+export type BriefQA = QARecord & { receiptVersion: string; reviewerName?: string };
+
+export type Brief = Tracked & {
+  id: string; // 'SOC-2027CT-003'
+  taskId: string;
+  idempotencyKey?: string;
+  campaign: string;
+  objective: string;
+  marketLanguage: string;
+  factSheetVersion: string;
+  allowedFacts: string[];
+  forbidden: string[];
+  deliverables: Deliverable[];
+  requirements: string[];
+  deadline: string;
+  costCap: { maxRerenders: number; maxCredits: number };
+  approver: string;
+  status: BriefStatus;
+  version: number;
+  receipts: Receipt[];
+  qa?: BriefQA;
+  needsRereview: boolean;
+  returnNotes: { version: number; note: string; at: string }[];
+};
+
+export type BriefDraft = Omit<Brief, keyof Tracked | 'id' | 'status' | 'version' | 'receipts' | 'needsRereview' | 'returnNotes'>;
+
+// ---------------------------------------------------------------- Publish packages
+
+export type PackageAsset = { assetId: string; version: string; url: string; checksum: string };
+export type PackageCaption = { version: string; text: string };
+
+export type PackageApproval = {
+  approver?: Actor;
+  status: ApprovalStatus;
+  at?: string;
+  approvedAssetVersion?: string;
+  approvedCaptionVersion?: string;
+  note?: string;
+  nonSubstantive?: NonSubstantiveAuth;
+};
+
+export type PublishLogEntry = {
+  at: string;
+  actor: Actor;
+  action: PublishAction;
+  postUrl?: string;
+  note?: string;
+};
+
+export type PublishPackage = Tracked & {
+  id: string; // 'PUB-2027CT-012'
+  sourceTaskId: string;
+  sourceBriefId?: string;
+  channel: string; // 'facebook_feed'
+  account: string;
+  asset?: PackageAsset;
+  caption: PackageCaption;
+  /** Every caption version ever written, oldest first; used for diffs. */
+  captionHistory: (PackageCaption & { at: string })[];
+  assetHistory: (PackageAsset & { at: string })[];
+  link: string;
+  factRefs: string[];
+  factSheetVersion: string;
+  scheduledAt: string;
+  qa: QARecord;
+  approval: PackageApproval;
+  pendingNonSubstantive?: PendingNonSubstantive;
+  executor: string;
+  status: PackageStatus;
+  publishLog: PublishLogEntry[];
+  takenDown: boolean;
+  needsConfirmation: boolean;
+  needsRereview: boolean;
+  verificationNote?: string;
+};
+
+export type PublishLogRow = PublishLogEntry & { packageId: string; channel: string; assetId?: string };
+
+// ---------------------------------------------------------------- Leads
+
+export type Lead = Tracked & {
+  id: string; // 'L-0012'
+  receivedAt: string;
+  contact: { name: string; email?: string; phone?: string };
+  enquiry: { tour: string; travelDate?: string; people?: number; notes?: string };
+  source: { utmSource?: string; utmMedium?: SourceMedium; utmCampaign?: string; channelLabel: string };
+  adDetail: {
+    campaignId?: string;
+    adId?: string;
+    utmContent?: string;
+    utmTerm?: string;
+    landingPageVersion?: string;
+    resolution: AdResolution;
+  };
+  clickIds: { gclid?: string; fbclid?: string; ttclid?: string };
+  selfReportedSource?: string;
+  firstResponseAt?: string;
+  owner: string;
+  validity: { value: Validity; decidedAt?: string; reason?: string };
+  /** I-L1: true once validity was ever 'valid'; never reset. */
+  everValid: boolean;
+  stage: Stage;
+  lostReason?: string;
+  order?: { tour: string; people: number; amountCents?: number };
+  mergedFrom?: string[];
+  mergedInto?: string;
+  relatedLeadIds?: string[];
+};
+
+export type MergeSuggestion = { leadId: string; intoId: string; matchedOn: ('email' | 'phone')[]; tour: string; travelDate?: string };
+
+// ---------------------------------------------------------------- Reconciliation
+
+export type ReconRow = {
+  weekStart: string;
+  channel: ReconChannel;
+  spendCents: number;
+  platformReportedConversions: number;
+  crmValidLeads: number;
+  /** null when spend > 0 and no valid leads; undefined when the channel has no spend. */
+  paidCpl?: number | null;
+  overReportRatio?: number | null;
+};
+
+export type ReconChannelSummary = {
+  channel: ReconChannel;
+  spendCents: number;
+  platformReportedConversions: number;
+  crmValidLeads: number;
+  paidCpl?: number | null;
+  overReportRatio?: number | null;
+};
+
+export type ReconResponse = {
+  rows: ReconRow[];
+  summary: { byChannel: ReconChannelSummary[]; totals: Omit<ReconChannelSummary, 'channel'> };
+};
+
+export type FunnelWeek = { weekStart: string; impressions: number; visits: number; validLeads: number; deposits: number };
+
+// ---------------------------------------------------------------- Settings
+
+export type LandingPageChecks = {
+  factsConfirmed: boolean;
+  leadFiresOnce: boolean;
+  sourceCaptured: boolean;
+  reachesSales: boolean;
+};
+
+export type Settings = {
+  campaign: { client: string; name: string; promotionWindow: string; startDate: string };
+  preApprovedScope: {
+    budgetCapCentsByChannel: Record<string, number>;
+    pauseConditions: string[];
+    allowedAssetScope: string;
+    pmMayApproveNonSubstantive: boolean;
+    nonSubstantiveList: string[];
+    signedBy: string;
+    signedAt: string;
+  };
+  people: {
+    pm: string;
+    approvers: Record<string, string>;
+    decisionMaker: string;
+    alertOwnerOutsideHours: { name: string; contact: string; responseMinutes: number };
+    executors: string[];
+    sales: string[];
+    landingPageDailyOwner: string;
+  };
+  utmTemplate: string;
+  prohibitedWords: string[];
+  landingPage: { url: string; checks: LandingPageChecks; status: LandingPageStatus };
+  factorySupportsIdempotency: boolean;
+  checkpointEveryDays: 14;
+  events: AuditEvent[];
+};
+
+// ---------------------------------------------------------------- Ad gates
+
+export type AdGates = {
+  productFactsConfirmed: boolean;
+  landingPageReady: boolean;
+  creativeApproved: boolean;
+  budgetAndMonitoringApproved: boolean;
+};
+
+// ---------------------------------------------------------------- Dashboard
+
+export type OpsStatus = {
+  tracking: { ga4: boolean; gtm: boolean; metaPixel: boolean; utmCaptured: boolean; crmConnected: boolean };
+  lastTestEnquiry?: { at: string; responseMinutes: number };
+  hoursThisWeek: number;
+  hoursCap: number;
+};
+
+export type DashboardResponse = {
+  threeQuestions: {
+    canSell: { usable: number; total: number; pending: { id: string; label: string; status: FactStatus }[] };
+    canCatch: {
+      landingPageStatus: LandingPageStatus;
+      checks: LandingPageChecks;
+      lastTestEnquiry?: OpsStatus['lastTestEnquiry'];
+    };
+    canMeasure: OpsStatus['tracking'];
+  };
+  funnel: { thisWeek: FunnelWeek; lastWeek: FunnelWeek };
+  blockers: ({ kind: 'evidence'; item: EvidenceItem } | { kind: 'task'; item: Task })[];
+  awaitingApprovalCount: number;
+  awaitingApproval: { tasks: number; packages: number };
+  nextCheckpoint: string;
+  hoursThisWeek: { used: number; cap: number };
+  now: string;
+  factSheetVersion: string;
+};
+
+export type DecisionResult = { createdType: OutputDecision['createdType']; createdId?: string; run: AgentRun };
