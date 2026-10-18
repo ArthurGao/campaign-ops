@@ -134,8 +134,11 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
     },
     10: {
       tone: undecidedSuggestions.length ? 'waiting' : 'ok',
-      text: `${plural(undecidedSuggestions.length, 'suggestion')} to decide; next checkpoint ${fmtDay(dash.nextCheckpoint)}`,
-      links: [{ to: '/agents', label: 'Agent outputs' }],
+      text: `${plural(undecidedSuggestions.length, 'suggestion')} to decide; this week's report ${dash.reportThisWeek === 'sent' ? 'sent' : 'not sent yet'}; next checkpoint ${fmtDay(dash.nextCheckpoint)}`,
+      links: [
+        { to: '/week', label: 'Week plan and report' },
+        { to: '/agents', label: 'Agent outputs' },
+      ],
     },
   };
 }

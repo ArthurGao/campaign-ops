@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, FlaskConical } from 'lucide-react';
 import { useDashboard, useHealth } from '@/api/queries/dashboard';
 import { Tooltip } from '@/components/ui/tooltip';
@@ -79,10 +80,16 @@ export function TopBar() {
             </Meta>
           ) : null}
           {hours ? (
-            <Meta label={copy.app.hours}>
-              <span className={cn(hours.used > hours.cap && 'text-bad')}>{hours.used}</span>
-              <span className="text-ink-3"> / {hours.cap} h</span>
-            </Meta>
+            <Link
+              to="/week?tab=hours"
+              className="rounded-sm hover:bg-panel"
+              title="Hours by category and the log"
+            >
+              <Meta label={copy.app.hours}>
+                <span className={cn(hours.used > hours.cap && 'text-bad')}>{hours.used}</span>
+                <span className="text-ink-3"> / {hours.cap} h</span>
+              </Meta>
+            </Link>
           ) : null}
           {dash ? <Meta label={copy.app.checkpoint}>{fmtDay(dash.nextCheckpoint)}</Meta> : null}
           {API_MODE === 'mock' ? (

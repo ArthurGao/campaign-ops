@@ -71,7 +71,5 @@ export function opsSeed(): OpsStatus {
   return {
     tracking: { ga4: true, gtm: true, metaPixel: true, utmCaptured: true, crmConnected: true },
     lastTestEnquiry: { at: at(-6, '08:10'), responseMinutes: 26 * 60 + 2 },
-    hoursThisWeek: 9.5,
-    hoursCap: 16,
   };
 }

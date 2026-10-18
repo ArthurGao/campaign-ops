@@ -13,6 +13,9 @@ const ROUTES = [
   '/leads',
   '/leads?tab=reconciliation',
   '/settings',
+  '/week',
+  '/week?tab=hours',
+  '/week?tab=report',
 ];
 
 for (const width of [1440, 390]) {

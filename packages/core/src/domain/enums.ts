@@ -173,6 +173,21 @@ export const PAID_RECON_CHANNELS = ['google_search', 'meta_ads', 'tiktok'] as co
 export const LANDING_PAGE_STATUSES = ['not_ready', 'traffic_ready'] as const;
 export type LandingPageStatus = (typeof LANDING_PAGE_STATUSES)[number];
 
+// Weekly loop (source workflow "每周 16 小时怎么花"): the PM's hours by category
+export const HOUR_CATEGORIES = [
+  'management',
+  'audit',
+  'site',
+  'social',
+  'seo_geo',
+  'ads',
+  'review',
+  'buffer',
+] as const;
+export type HourCategory = (typeof HOUR_CATEGORIES)[number];
+export const REPORT_STATUSES = ['draft', 'sent'] as const;
+export type ReportStatus = (typeof REPORT_STATUSES)[number];
+
 // Error codes returned in { code, message, hint }
 export const ERROR_CODES = [
   'FORBIDDEN',

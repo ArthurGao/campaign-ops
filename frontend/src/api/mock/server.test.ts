@@ -156,4 +156,25 @@ describe('in-browser mock API (standalone frontend, D-04)', () => {
     };
     expect(saved.data?.facts.find((f) => f.id === 'FS-04')?.status).toBe('pending');
   });
+  it('serves the weekly loop (D-37) with the same roles and errors as the backend', async () => {
+    const week = await call('client_approver', 'GET', '/weeks/current');
+    expect(week.status).toBe(200);
+    expect((week.body as { week: string }).week).toBe('2026-10-12');
+    expect(
+      (await call('sales', 'POST', '/weeks/current/time', { category: 'ads', hours: 1 })).status,
+    ).toBe(403);
+    expect((await call('pm', 'POST', '/weeks/current/time', { category: 'ads' })).status).toBe(400);
+    expect((await call('pm', 'PATCH', '/weeks/current/plan', { taskIds: 'TASK-019' })).status).toBe(
+      400,
+    );
+    const logged = await call('pm', 'POST', '/weeks/2026-10-12/time', {
+      category: 'ads',
+      hours: 0.5,
+    });
+    expect(logged.status).toBe(201);
+    expect((await call('pm', 'GET', '/dashboard')).body).toMatchObject({
+      hoursThisWeek: { used: 10, cap: 16 },
+    });
+    expect((await call('pm', 'GET', '/weeks/2026-10-13')).status).toBe(400);
+  });
 });

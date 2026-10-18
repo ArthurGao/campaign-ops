@@ -28,6 +28,7 @@ export const PERMISSIONS = {
   'lead.create': ['sales', 'pm'],
   'settings.scope': CLIENT_ROLES,
   'settings.general': ['pm'],
+  'week.edit': ['pm'],
 } as const satisfies Record<string, readonly Role[]>;
 
 export type Permission = keyof typeof PERMISSIONS;

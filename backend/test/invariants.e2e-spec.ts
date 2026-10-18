@@ -187,4 +187,38 @@ describe('API invariants and error shape (e2e)', () => {
     expect(d.hoursThisWeek).toEqual({ used: 9.5, cap: 16 });
     expect(d.nextCheckpoint).toBe('2026-10-25T20:00:00.000Z');
   });
+
+  it('weekly loop (D-37): plan, hours and a report the PM sends once', async () => {
+    const week = (await h.as('client_approver').get('/weeks/current').expect(200)).body;
+    expect([week.week, week.number, week.hours.total]).toEqual(['2026-10-12', 3, 9.5]);
+
+    const bad = await h.as('pm').post('/weeks/current/time', { category: 'travel', hours: 1 });
+    expect([bad.status, bad.body.code]).toEqual([400, 'VALIDATION']);
+    await h.as('sales').post('/weeks/current/time', { category: 'ads', hours: 1 }).expect(403);
+    const logged = (
+      await h.as('pm').post('/weeks/current/time', { category: 'ads', hours: 2 }).expect(201)
+    ).body;
+    expect(logged.hours.used.ads).toBe(4);
+    expect((await h.as('pm').get('/dashboard')).body.hoursThisWeek).toEqual({
+      used: 11.5,
+      cap: 16,
+    });
+
+    await h
+      .as('pm')
+      .patch('/weeks/2026-10-19/plan', { taskIds: ['TASK-019'] })
+      .expect(200);
+    await h
+      .as('pm')
+      .patch('/weeks/current/report', { done: '- Shipped', blocked: '', next: '- More' })
+      .expect(200);
+    const sent = (await h.as('pm').post('/weeks/current/report/send').expect(201)).body;
+    expect(sent.report).toMatchObject({ status: 'sent', sentBy: { role: 'pm' } });
+    const again = await h.as('pm').patch('/weeks/current/report', { done: '- Edit' });
+    expect([again.status, again.body.code]).toEqual([409, 'INVALID_TRANSITION']);
+    expect((await h.as('pm').get('/weeks').expect(200)).body[1]).toMatchObject({
+      week: '2026-10-12',
+      reportStatus: 'sent',
+    });
+  });
 });

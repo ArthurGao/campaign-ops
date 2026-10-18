@@ -14,6 +14,7 @@ import {
   SettingsService,
   TasksService,
   TimerScheduler,
+  WeeksService,
   type Clock,
   type Core,
   type Scheduler,
@@ -54,6 +55,7 @@ const fromCore = <K extends keyof Core>(token: unknown, key: K): Provider => ({
     fromCore(LeadsService, 'leads'),
     fromCore(ReconciliationService, 'recon'),
     fromCore(DashboardService, 'dashboard'),
+    fromCore(WeeksService, 'weeks'),
   ],
   exports: [
     CLOCK,
@@ -70,6 +72,7 @@ const fromCore = <K extends keyof Core>(token: unknown, key: K): Provider => ({
     LeadsService,
     ReconciliationService,
     DashboardService,
+    WeeksService,
   ],
 })
 export class CoreModule {}

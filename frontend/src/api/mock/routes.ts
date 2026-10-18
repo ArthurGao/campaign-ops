@@ -15,6 +15,7 @@ import {
   type CreateLeadInput,
   type CreatePackageInput,
   type CreateTaskInput,
+  type LogTimeInput,
   type PatchEvidenceInput,
   type PatchFactInput,
   type PatchLeadInput,
@@ -22,6 +23,7 @@ import {
   type PatchSettingsInput,
   type PatchTaskInput,
   type Role,
+  type SaveReportInput,
   type TransitionInput,
   BRIEF_QA_CHECKLIST,
 } from '@campaign-ops/core';
@@ -427,6 +429,48 @@ export const ROUTES: Route[] = [
   },
 
   // ---- Settings
+  // ---- Weekly loop (D-37): plan, the PM's 16 hours, the weekly report
+  { method: 'GET', pattern: '/weeks', handler: (c) => c.weeks.list() },
+  {
+    method: 'GET',
+    pattern: '/weeks/:week',
+    handler: (c, ctx) => c.weeks.get(ctx.params.week),
+  },
+  {
+    method: 'PATCH',
+    pattern: '/weeks/:week/plan',
+    roles: ['pm'],
+    handler: (c, ctx) => {
+      if (!Array.isArray(ctx.body.taskIds))
+        throw new AppError('VALIDATION', 'taskIds must be a list', undefined, 400);
+      return c.weeks.setPlan(ctx.params.week, ctx.body.taskIds.map(String), ctx.actor);
+    },
+  },
+  {
+    method: 'POST',
+    pattern: '/weeks/:week/time',
+    roles: ['pm'],
+    status: 201,
+    handler: (c, ctx) => (
+      need(ctx.body, 'category', 'hours'),
+      c.weeks.logTime(ctx.params.week, as<LogTimeInput>(ctx.body), ctx.actor)
+    ),
+  },
+  {
+    method: 'PATCH',
+    pattern: '/weeks/:week/report',
+    roles: ['pm'],
+    handler: (c, ctx) =>
+      c.weeks.saveReport(ctx.params.week, as<SaveReportInput>(ctx.body), ctx.actor),
+  },
+  {
+    method: 'POST',
+    pattern: '/weeks/:week/report/send',
+    roles: ['pm'],
+    status: 201,
+    handler: (c, ctx) => c.weeks.sendReport(ctx.params.week, ctx.actor),
+  },
+
   { method: 'GET', pattern: '/settings', handler: (c) => c.settings.get() },
   {
     method: 'PATCH',

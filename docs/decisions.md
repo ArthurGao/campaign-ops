@@ -105,3 +105,11 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
   The artifact's own content is not edited. `docs/source/workflow.html` is the verbatim copy the tests
   check against; re-read the live artifact and refresh that copy before regenerating. Deep links
   use URL fragments (`/agents#agent-outbound`, `/settings#scope`) resolved by `useHashTarget`.
+- **D-37 Week screen: plan, hours, report (user decision 2026-10-18).** The source workflow's weekly
+  loop, previously the one open item. `/week` has three tabs: the Monday plan (tasks from the board;
+  each row says what stops it), the PM's hours by category against the source split for that campaign
+  week, and the one-page client report (done / blocked / next) prefilled from the week's records and
+  sent once with a numbers snapshot. `OpsStatus.hoursThisWeek/hoursCap` are gone: the Dashboard and
+  top bar sum the time entries. Over 16 h is shown, not refused (time already spent cannot be
+  refused); the buffer needs a note so it is not used to plan new work. Out of scope: the week-4
+  review report and the AI cost log from the source.

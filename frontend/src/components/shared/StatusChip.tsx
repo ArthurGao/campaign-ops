@@ -6,6 +6,8 @@ type Tone = 'neutral' | 'info' | 'progress' | 'ok' | 'warn' | 'bad';
 const TONES: Record<string, Tone> = {
   // tasks
   draft: 'neutral',
+  // weekly report
+  sent: 'ok',
   qa: 'info',
   awaiting_approval: 'warn',
   approved: 'progress',

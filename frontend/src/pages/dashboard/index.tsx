@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
+import { HoursMeter } from '@/components/shared/HoursMeter';
 import { useDashboard } from '@/api/queries/dashboard';
 import { Section, PageHeader } from '@/components/shared/Layout';
 import { VersionBadge } from '@/components/shared/VersionBadge';
 import { SkeletonRows } from '@/components/ui/skeleton';
 import { copy } from '@/lib/copy';
 import { fmtDay, relDays } from '@/lib/format';
-import { cn } from '@/lib/utils';
 import { AdGatesPanel } from './AdGatesPanel';
 import { BlockersList } from './BlockersList';
 import { FunnelChart } from './FunnelChart';
@@ -69,29 +69,14 @@ export default function DashboardPage() {
                   </p>
                   <div className="grid gap-1.5">
                     <div className="flex justify-between text-xs text-ink-2">
-                      <span>PM hours this week</span>
+                      <Link to="/week?tab=hours" className="text-accent hover:underline">
+                        PM hours this week
+                      </Link>
                       <span className="font-mono text-ink">
                         {data.hoursThisWeek.used} / {data.hoursThisWeek.cap} h
                       </span>
                     </div>
-                    <div
-                      className="h-2 overflow-hidden rounded-sm bg-panel"
-                      role="meter"
-                      aria-valuemin={0}
-                      aria-valuemax={data.hoursThisWeek.cap}
-                      aria-valuenow={data.hoursThisWeek.used}
-                      aria-label="PM hours this week"
-                    >
-                      <div
-                        className={cn(
-                          'h-full',
-                          data.hoursThisWeek.used > data.hoursThisWeek.cap ? 'bg-bad' : 'bg-rail-2',
-                        )}
-                        style={{
-                          width: `${Math.min(100, (data.hoursThisWeek.used / data.hoursThisWeek.cap) * 100)}%`,
-                        }}
-                      />
-                    </div>
+                    <HoursMeter used={data.hoursThisWeek.used} cap={data.hoursThisWeek.cap} />
                   </div>
                 </div>
               </Section>

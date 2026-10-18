@@ -14,6 +14,7 @@ import { PackagesModule } from './modules/packages/packages.module';
 import { ReconciliationModule } from './modules/reconciliation/reconciliation.controller';
 import { SettingsModule } from './modules/settings/settings.module';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { WeeksModule } from './modules/weeks/weeks.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     LeadsModule,
     ReconciliationModule,
     SettingsModule,
+    WeeksModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: AppExceptionFilter },

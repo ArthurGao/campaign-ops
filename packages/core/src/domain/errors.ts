@@ -24,6 +24,10 @@ export function forbidden(action: string, roles: readonly Role[]): AppError {
   );
 }
 
+export function requireRole(actor: { role: Role }, roles: readonly Role[], action: string): void {
+  if (!roles.includes(actor.role)) throw forbidden(action, roles);
+}
+
 export function notFound(kind: string, id: string): AppError {
   return new AppError('NOT_FOUND', `${kind} ${id} does not exist.`, undefined, 404);
 }

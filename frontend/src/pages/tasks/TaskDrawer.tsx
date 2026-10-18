@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { ApprovalTab } from './drawer/ApprovalTab';
 import { DetailsTab } from './drawer/DetailsTab';
 import { QaTab } from './drawer/QaTab';
-import { isAdTask } from '@/lib/tasks';
+import { requiresAdGates } from '@campaign-ops/core';
 import { TransitionBar } from './TransitionBar';
 
 export function TaskDrawer({
@@ -28,7 +28,7 @@ export function TaskDrawer({
 }) {
   const { data: task, isLoading } = useTask(id ?? undefined);
   // D-32: pauses and cuts go live without the launch gates, so the tab is not shown for them.
-  const ad = !!task && isAdTask(task) && task.spendEffect !== 'decrease';
+  const ad = !!task && requiresAdGates(task);
   const gates = useTaskGates(task?.id, ad).data;
   return (
     <Sheet open={!!id} onOpenChange={(o) => !o && onClose()}>

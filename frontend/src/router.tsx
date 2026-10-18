@@ -7,6 +7,7 @@ import { NotFound } from '@/pages/NotFound';
 
 const Dashboard = lazy(() => import('@/pages/dashboard'));
 const Workflow = lazy(() => import('@/pages/workflow'));
+const Week = lazy(() => import('@/pages/week'));
 const FactSheet = lazy(() => import('@/pages/fact-sheet'));
 const Evidence = lazy(() => import('@/pages/evidence'));
 const Tasks = lazy(() => import('@/pages/tasks'));
@@ -26,6 +27,7 @@ export const router = createBrowserRouter(
       children: [
         { path: '/', element: page(<Dashboard />) },
         { path: '/workflow', element: page(<Workflow />) },
+        { path: '/week', element: page(<Week />) },
         { path: '/fact-sheet', element: page(<FactSheet />) },
         { path: '/evidence', element: page(<Evidence />) },
         { path: '/tasks', element: page(<Tasks />) },

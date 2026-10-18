@@ -5,7 +5,7 @@ Base URL `http://localhost:3000`. JSON everywhere. All mutating endpoints read t
 Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH`, `DUPLICATE_BRIEF`, `DUPLICATE_PUBLISH`, `AD_GATES_UNMET` (payload includes `gates: AdGates`), `PAGE_LOCKED`, `QA_REQUIRED`, `APPROVAL_REQUIRED`, `INVALID_TRANSITION`, `SCOPE_NOT_AUTHORISED`.
 
 ## Dashboard
-- `GET /dashboard` → `{ threeQuestions: {...}, funnel: ReconSummary, blockers: (EvidenceItem|Task)[], awaitingApprovalCount, nextCheckpoint, hoursThisWeek: { used, cap: 16 } }`
+- `GET /dashboard` → `{ threeQuestions: {...}, funnel: ReconSummary, blockers: (EvidenceItem|Task)[], awaitingApprovalCount, nextCheckpoint, hoursThisWeek: { used, cap: 16 } }` (`used` sums this week's time entries)
 
 ## Fact Sheet
 - `GET /fact-sheet?page=external|internal` → `FactEntry[]` + `{ version }`
@@ -73,6 +73,15 @@ Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH
 - `PATCH /settings` (pm for most; `preApprovedScope` and `people.approvers` require client roles) → recomputes `landingPage.status`
 - `POST /settings/reset-demo` (any) → reloads seed
 - `GET /settings/utm-preview?source=&medium=&content=` → rendered link
+
+## Weeks (D-37)
+`:week` is the Monday in Pacific/Auckland (`2026-10-12`) or `current`.
+- `GET /weeks` → `WeekSummary[]` (campaign weeks newest first, including next week)
+- `GET /weeks/:week` → `WeekView` (`plan`, `hours`, `entries`, `report?`, `draft`, `numbers`)
+- `PATCH /weeks/:week/plan` (pm) `{ taskIds }` → current or future week only (409 `INVALID_TRANSITION` for a past week; verified tasks refused)
+- `POST /weeks/:week/time` (pm) `{ category, hours, note?, date? }` → 400 `VALIDATION` for a future week, a bad amount, a date outside the week, or buffer without a note
+- `PATCH /weeks/:week/report` (pm) `{ done?, blocked?, next? }` → saves the draft; 409 once sent
+- `POST /weeks/:week/report/send` (pm) → needs `done` and `next`; snapshots `numbers`; 409 if already sent
 
 ## Health
 - `GET /health` → `{ ok: true, seedVersion }`

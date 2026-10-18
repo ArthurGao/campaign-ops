@@ -18,6 +18,7 @@ export const copy = {
   nav: {
     dashboard: 'Dashboard',
     workflow: 'Workflow',
+    week: 'Week',
     facts: 'Fact Sheet',
     evidence: 'Evidence',
     tasks: 'Tasks',
@@ -64,10 +65,33 @@ export const copy = {
       title: 'Settings',
       lede: 'Pre-approved scope, people, links and the landing-page gate.',
     },
+    week: {
+      title: 'Week',
+      lede: 'Monday plan from the board, the PM’s 16 hours against the plan’s split, and the one-page report to the client.',
+    },
     workflow: {
       title: 'Workflow',
       lede: 'The ten steps of the China Tour 2027 plan, and where each one stands right now.',
     },
+  },
+  week: {
+    categories: {
+      management: 'Management, comms, approvals',
+      audit: 'Audit and AI checks',
+      site: 'Site and tracking',
+      social: 'Social and video',
+      seo_geo: 'SEO and GEO',
+      ads: 'Ads',
+      review: 'Review and sales',
+      buffer: 'Buffer',
+    },
+    bufferHelp:
+      'Kept free for the unexpected. Not planned ahead; a buffer entry says what came up.',
+    planHelp: 'Picked from the board on Monday. Blocked items say what they wait on.',
+    pastPlan: 'This week is over; its plan is kept as it was.',
+    reportHelp: 'One page for the client: what got done, what is stuck, what comes next.',
+    reportNotSent: 'Not sent yet. The PM sends one page at the end of the week.',
+    sendConfirm: 'Sent reports are not edited. Corrections go into next week’s report.',
   },
   guardrail: 'Read-only. Produces drafts and suggestions only. A person accepts each item.',
   readOnly: (role: string, who: string) => `Read-only for ${role}. Switch role to ${who} to edit.`,

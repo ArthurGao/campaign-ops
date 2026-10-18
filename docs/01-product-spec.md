@@ -77,6 +77,12 @@ Purpose: answer the three starting questions at a glance.
 - Landing page status (`not_ready` / `traffic_ready`) with the four checks as toggles — only all four on allows `traffic_ready`.
 - "Reset demo data".
 
+### 10. Week (added 2026-10-18, D-37)
+The source workflow's weekly loop: plan on Monday, a one-page report at the end of the week, 16 PM hours.
+- **Plan**: tasks picked from the board for this or next week (pm). Each row says what stops it: an unconfirmed fact, client approval, unmet ad gates, or a block reason. Past weeks are read-only.
+- **Hours**: the PM logs time by category (management, audit, site, social, SEO/GEO, ads, review, buffer) in quarter hours. Used vs the source plan's split for that campaign week (15 h in week 1, then 16 h, with 1.5 h buffer); over 16 h shows as over. Buffer entries need a note. The top bar and Dashboard read the same total.
+- **Report**: done / blocked / next, prefilled from the week's records (status changes, publishes, Fact Sheet versions, open blockers, next week's plan), edited and saved as a draft, then sent once with a snapshot of the week's numbers (visits, valid leads, deposits, paid spend and CPL). Client roles see sent reports only; a sent report is not edited.
+
 ## Key flows (must work end to end in the demo)
 
 F1. **Unconfirmed fact blocks a draft.** Run Outbound for a Facebook caption while `FS-04` is pending → output `needs_confirmation` → accept creates a blocked task → client confirms `FS-04` with a source → task shows fact refs green → re-run Outbound → draft → QA → package → approve → schedule → publish → verify.

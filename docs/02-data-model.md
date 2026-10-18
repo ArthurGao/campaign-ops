@@ -294,6 +294,16 @@ type Settings = {
 
 Derived: `landingPage.status = all four checks ? 'traffic_ready' : 'not_ready'`.
 
+## Weekly loop (D-37)
+
+```ts
+type WeekId = string; // Monday in Pacific/Auckland: '2026-10-12'
+type TimeEntry = { id: 'TIME-0001'; week: WeekId; date: string; category: HourCategory; hours: number; note?: string; actor: Actor; createdAt: string };
+type WeekPlan = Tracked & { week: WeekId; taskIds: string[] };
+type WeeklyReport = Tracked & { id: 'WR-2026-10-12'; week: WeekId; status: 'draft' | 'sent'; done: string; blocked: string; next: string; numbers?: ReportNumbers; sentAt?: string; sentBy?: Actor };
+```
+Rules (`packages/core/src/domain/rules/week.ts`): hours in quarter steps, 0.25–8 per entry, not for a future week or before the campaign; buffer entries need a note; plans only for the current or a coming week and never with verified tasks; a report is sent once, with `done` and `next`, and is not edited after. The source plan's split per campaign week is `SOURCE_HOURS_PLAN` (weeks 1–4, week 5+ repeats week 4).
+
 ## Ad gates (used by Tasks and Dashboard)
 
 ```ts

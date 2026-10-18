@@ -1,4 +1,4 @@
-import type { LandingPageStatus } from '../enums';
+import { AD_TASK_TYPES, type LandingPageStatus, type TaskType } from '../enums';
 import type { AdGates, FactEntry, LandingPageChecks, Settings, Task } from '../types';
 import { needsConfirmation } from './facts';
 
@@ -8,6 +8,13 @@ export const GATE_LABELS: Record<keyof AdGates, string> = {
   creativeApproved: 'Creative approved (current version)',
   budgetAndMonitoringApproved: 'Budget cap and out-of-hours alert owner approved',
 };
+
+/** Ad tasks pass the four gates to go live, except spend-reducing changes (D-32). */
+export function requiresAdGates(task: Task): boolean {
+  return (
+    (AD_TASK_TYPES as readonly TaskType[]).includes(task.type) && task.spendEffect !== 'decrease'
+  );
+}
 
 /** R3: the four gates an ad task must pass before it can go live. */
 export function computeAdGates(

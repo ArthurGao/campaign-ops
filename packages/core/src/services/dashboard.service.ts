@@ -1,5 +1,6 @@
 import type { Clock } from '../domain/clock';
 import { isPubliclyUsable } from '../domain/rules/facts';
+import { weekHours, weekOf } from '../domain/rules/week';
 import type { DashboardResponse } from '../domain/types';
 import type { MemoryStore } from '../store/memory.store';
 import type { TasksService } from './tasks.service';
@@ -46,6 +47,9 @@ export class DashboardService {
     const awaitingTasks = tasks.filter((t) => t.status === 'awaiting_approval').length;
     const awaitingPackages = packages.filter((p) => p.status === 'awaiting_approval').length;
     const [lastWeek, thisWeek] = funnel.slice(-2);
+    const week = weekOf(now);
+    const hours = weekHours(this.store.data.timeEntries, week, settings.campaign.startDate);
+    const reportThisWeek = this.store.data.weeklyReports.find((r) => r.week === week)?.status;
 
     return {
       threeQuestions: {
@@ -68,7 +72,8 @@ export class DashboardService {
       awaitingApprovalCount: awaitingTasks + awaitingPackages,
       awaitingApproval: { tasks: awaitingTasks, packages: awaitingPackages },
       nextCheckpoint,
-      hoursThisWeek: { used: ops.hoursThisWeek, cap: ops.hoursCap },
+      hoursThisWeek: { used: hours.total, cap: hours.cap },
+      ...(reportThisWeek ? { reportThisWeek } : {}),
       now: now.toISOString(),
       factSheetVersion,
     };

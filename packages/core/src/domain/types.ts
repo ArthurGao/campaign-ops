@@ -13,6 +13,7 @@ import type {
   EvidenceStatus,
   FactPage,
   FactStatus,
+  HourCategory,
   LandingPageStatus,
   OutputType,
   PackageStatus,
@@ -20,6 +21,7 @@ import type {
   PublishAction,
   Ratio,
   ReconChannel,
+  ReportStatus,
   Role,
   RunStatus,
   RunTrigger,
@@ -501,8 +503,95 @@ export type OpsStatus = {
     crmConnected: boolean;
   };
   lastTestEnquiry?: { at: string; responseMinutes: number };
-  hoursThisWeek: number;
-  hoursCap: number;
+};
+
+// ---------------------------------------------------------------- Weekly loop
+
+/** Weeks are named by their Monday in Pacific/Auckland: '2026-10-12'. */
+export type WeekId = string;
+
+export type TimeEntry = {
+  id: string; // 'TIME-0001'
+  week: WeekId;
+  date: string; // '2026-10-14' (Pacific/Auckland)
+  category: HourCategory;
+  hours: number;
+  note?: string;
+  actor: Actor;
+  createdAt: string;
+};
+
+export type WeekPlan = Tracked & {
+  week: WeekId;
+  /** Tasks picked from the board for this week, in the PM's order. */
+  taskIds: string[];
+};
+
+export type ReportNumbers = {
+  visits?: number;
+  validLeads?: number;
+  deposits?: number;
+  paid: { channel: string; spendCents: number; validLeads: number; cplText: string }[];
+};
+
+/** The one-page weekly report to the client: done, blocked, next (one line per item). */
+export type WeeklyReport = Tracked & {
+  id: string; // 'WR-2026-10-12'
+  week: WeekId;
+  status: ReportStatus;
+  done: string;
+  blocked: string;
+  next: string;
+  /** Snapshot taken when the report is sent. */
+  numbers?: ReportNumbers;
+  sentAt?: string;
+  sentBy?: Actor;
+};
+
+export type HoursSummary = {
+  cap: number;
+  /** Source plan for this campaign week, by category (buffer included). */
+  planned: Record<HourCategory, number>;
+  used: Record<HourCategory, number>;
+  total: number;
+  plannedTotal: number;
+  remaining: number;
+  overCap: boolean;
+};
+
+export type PlanItemView = {
+  taskId: string;
+  title: string;
+  type: TaskType;
+  status: TaskStatus;
+  owner: string;
+  /** Why it cannot move now, if anything stops it. */
+  blocker?: string;
+  done: boolean;
+};
+
+export type ReportDraft = { done: string[]; blocked: string[]; next: string[] };
+
+export type WeekView = {
+  week: WeekId;
+  number: number;
+  isCurrent: boolean;
+  /** Past weeks are read-only for plans and hours. */
+  isPast: boolean;
+  plan: PlanItemView[];
+  hours: HoursSummary;
+  entries: TimeEntry[];
+  report?: WeeklyReport;
+  /** Suggested lines from the week's data; the PM edits them into the report. */
+  draft: ReportDraft;
+  numbers: ReportNumbers;
+};
+
+export type WeekSummary = {
+  week: WeekId;
+  number: number;
+  isCurrent: boolean;
+  reportStatus?: ReportStatus;
 };
 
 export type DashboardResponse = {
@@ -525,6 +614,8 @@ export type DashboardResponse = {
   awaitingApproval: { tasks: number; packages: number };
   nextCheckpoint: string;
   hoursThisWeek: { used: number; cap: number };
+  /** This week's client report, if one has been started (D-37). */
+  reportThisWeek?: ReportStatus;
   now: string;
   factSheetVersion: string;
 };

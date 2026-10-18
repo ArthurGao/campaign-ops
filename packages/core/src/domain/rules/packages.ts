@@ -1,5 +1,5 @@
-import { CLIENT_ROLES, type Role } from '../enums';
-import { AppError, forbidden, invalidTransition } from '../errors';
+import { CLIENT_ROLES } from '../enums';
+import { AppError, forbidden, invalidTransition, requireRole } from '../errors';
 import type { Actor, FactEntry, PackageAsset, PublishPackage, Settings } from '../types';
 import { needsConfirmationError, unusableRefs } from './facts';
 import { scopeAllows, scopeNotAuthorised } from './tasks';
@@ -7,10 +7,6 @@ import { isHttpUrl } from './url';
 import { assetVersion, bumpVersionLabel } from './versions';
 
 export type PackageContext = { now: Date; facts: readonly FactEntry[]; settings: Settings };
-
-function requireRole(actor: Actor, roles: readonly Role[], action: string): void {
-  if (!roles.includes(actor.role)) throw forbidden(action, roles);
-}
 
 function requireUsableFacts(pkg: PublishPackage, ctx: PackageContext): void {
   const missing = unusableRefs(pkg.factRefs, ctx.facts, ctx.now);

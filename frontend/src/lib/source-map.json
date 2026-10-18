@@ -9,9 +9,18 @@
       "zh": "建 Fact Sheet 和看板",
       "en": "Fact Sheet and task board",
       "app": [
-        { "label": "Workflow step 1", "path": "/workflow#step-1" },
-        { "label": "Fact Sheet", "path": "/fact-sheet" },
-        { "label": "Tasks", "path": "/tasks" }
+        {
+          "label": "Workflow step 1",
+          "path": "/workflow#step-1"
+        },
+        {
+          "label": "Fact Sheet",
+          "path": "/fact-sheet"
+        },
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        }
       ]
     },
     {
@@ -21,9 +30,18 @@
       "zh": "查现状",
       "en": "Audit the current state",
       "app": [
-        { "label": "Workflow step 2", "path": "/workflow#step-2" },
-        { "label": "Audit agent", "path": "/agents#agent-audit" },
-        { "label": "Evidence", "path": "/evidence" }
+        {
+          "label": "Workflow step 2",
+          "path": "/workflow#step-2"
+        },
+        {
+          "label": "Audit agent",
+          "path": "/agents#agent-audit"
+        },
+        {
+          "label": "Evidence",
+          "path": "/evidence"
+        }
       ]
     },
     {
@@ -33,9 +51,18 @@
       "zh": "核实和排序",
       "en": "Verify and prioritise",
       "app": [
-        { "label": "Workflow step 3", "path": "/workflow#step-3" },
-        { "label": "Evidence", "path": "/evidence?status=open" },
-        { "label": "Tasks", "path": "/tasks" }
+        {
+          "label": "Workflow step 3",
+          "path": "/workflow#step-3"
+        },
+        {
+          "label": "Evidence",
+          "path": "/evidence?status=open"
+        },
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        }
       ]
     },
     {
@@ -45,9 +72,18 @@
       "zh": "客户确认事实、预算和预批范围",
       "en": "Client confirms facts, budget and scope",
       "app": [
-        { "label": "Workflow step 4", "path": "/workflow#step-4" },
-        { "label": "Fact Sheet", "path": "/fact-sheet" },
-        { "label": "Pre-approved scope", "path": "/settings#scope" }
+        {
+          "label": "Workflow step 4",
+          "path": "/workflow#step-4"
+        },
+        {
+          "label": "Fact Sheet",
+          "path": "/fact-sheet"
+        },
+        {
+          "label": "Pre-approved scope",
+          "path": "/settings#scope"
+        }
       ]
     },
     {
@@ -57,9 +93,18 @@
       "zh": "出稿",
       "en": "Produce",
       "app": [
-        { "label": "Workflow step 5", "path": "/workflow#step-5" },
-        { "label": "Outbound agent", "path": "/agents#agent-outbound" },
-        { "label": "Video factory", "path": "/factory" }
+        {
+          "label": "Workflow step 5",
+          "path": "/workflow#step-5"
+        },
+        {
+          "label": "Outbound agent",
+          "path": "/agents#agent-outbound"
+        },
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        }
       ]
     },
     {
@@ -69,9 +114,18 @@
       "zh": "验收",
       "en": "QA",
       "app": [
-        { "label": "Workflow step 6", "path": "/workflow#step-6" },
-        { "label": "Tasks", "path": "/tasks" },
-        { "label": "Video factory", "path": "/factory" }
+        {
+          "label": "Workflow step 6",
+          "path": "/workflow#step-6"
+        },
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        },
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        }
       ]
     },
     {
@@ -81,9 +135,18 @@
       "zh": "客户批准",
       "en": "Client approves exact versions",
       "app": [
-        { "label": "Workflow step 7", "path": "/workflow#step-7" },
-        { "label": "Publish", "path": "/publish?status=awaiting_approval" },
-        { "label": "Tasks", "path": "/tasks" }
+        {
+          "label": "Workflow step 7",
+          "path": "/workflow#step-7"
+        },
+        {
+          "label": "Publish",
+          "path": "/publish?status=awaiting_approval"
+        },
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        }
       ]
     },
     {
@@ -93,9 +156,18 @@
       "zh": "上线并核对",
       "en": "Go live and verify",
       "app": [
-        { "label": "Workflow step 8", "path": "/workflow#step-8" },
-        { "label": "Publish", "path": "/publish" },
-        { "label": "Tasks", "path": "/tasks" }
+        {
+          "label": "Workflow step 8",
+          "path": "/workflow#step-8"
+        },
+        {
+          "label": "Publish",
+          "path": "/publish"
+        },
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        }
       ]
     },
     {
@@ -105,10 +177,22 @@
       "zh": "接咨询，看效果",
       "en": "Take enquiries, read results",
       "app": [
-        { "label": "Workflow step 9", "path": "/workflow#step-9" },
-        { "label": "Leads", "path": "/leads" },
-        { "label": "Reconciliation", "path": "/leads?tab=reconciliation" },
-        { "label": "Feedback agent", "path": "/agents#agent-feedback" }
+        {
+          "label": "Workflow step 9",
+          "path": "/workflow#step-9"
+        },
+        {
+          "label": "Leads",
+          "path": "/leads"
+        },
+        {
+          "label": "Reconciliation",
+          "path": "/leads?tab=reconciliation"
+        },
+        {
+          "label": "Feedback agent",
+          "path": "/agents#agent-feedback"
+        }
       ]
     },
     {
@@ -118,19 +202,32 @@
       "zh": "定下一轮",
       "en": "Decide the next round",
       "app": [
-        { "label": "Workflow step 10", "path": "/workflow#step-10" },
-        { "label": "Feedback agent", "path": "/agents#agent-feedback" },
-        { "label": "Dashboard", "path": "/" }
+        {
+          "label": "Workflow step 10",
+          "path": "/workflow#step-10"
+        },
+        {
+          "label": "Week plan and report",
+          "path": "/week"
+        },
+        {
+          "label": "Feedback agent",
+          "path": "/agents#agent-feedback"
+        }
       ]
     },
-
     {
       "key": "agent-dx",
       "kind": "agent",
       "anchor": "agent-dx",
       "zh": "诊断 Agent",
       "en": "Audit agent",
-      "app": [{ "label": "Audit agent", "path": "/agents#agent-audit" }]
+      "app": [
+        {
+          "label": "Audit agent",
+          "path": "/agents#agent-audit"
+        }
+      ]
     },
     {
       "key": "agent-out",
@@ -138,7 +235,12 @@
       "anchor": "agent-out",
       "zh": "出稿 Agent",
       "en": "Outbound agent",
-      "app": [{ "label": "Outbound agent", "path": "/agents#agent-outbound" }]
+      "app": [
+        {
+          "label": "Outbound agent",
+          "path": "/agents#agent-outbound"
+        }
+      ]
     },
     {
       "key": "agent-fb",
@@ -146,16 +248,25 @@
       "anchor": "agent-fb",
       "zh": "回流 Agent",
       "en": "Feedback agent",
-      "app": [{ "label": "Feedback agent", "path": "/agents#agent-feedback" }]
+      "app": [
+        {
+          "label": "Feedback agent",
+          "path": "/agents#agent-feedback"
+        }
+      ]
     },
-
     {
       "key": "ex-1",
       "kind": "exception",
       "anchor": "ex-1",
       "zh": "landing page 坏了或追踪断了",
       "en": "Landing page broken or tracking down",
-      "app": [{ "label": "Landing page checks", "path": "/settings#landing" }]
+      "app": [
+        {
+          "label": "Landing page checks",
+          "path": "/settings#landing"
+        }
+      ]
     },
     {
       "key": "ex-2",
@@ -163,7 +274,12 @@
       "anchor": "ex-2",
       "zh": "产品信息变了",
       "en": "Product facts changed",
-      "app": [{ "label": "Fact Sheet history", "path": "/fact-sheet?tab=history" }]
+      "app": [
+        {
+          "label": "Fact Sheet history",
+          "path": "/fact-sheet?tab=history"
+        }
+      ]
     },
     {
       "key": "ex-3",
@@ -172,8 +288,14 @@
       "zh": "AI 写了没确认的签证或团期",
       "en": "AI wrote an unconfirmed visa claim or date",
       "app": [
-        { "label": "Outbound agent", "path": "/agents#agent-outbound" },
-        { "label": "Fact Sheet", "path": "/fact-sheet" }
+        {
+          "label": "Outbound agent",
+          "path": "/agents#agent-outbound"
+        },
+        {
+          "label": "Fact Sheet",
+          "path": "/fact-sheet"
+        }
       ]
     },
     {
@@ -182,7 +304,12 @@
       "anchor": "ex-4",
       "zh": "视频生产失败或延迟",
       "en": "Video production failed or late",
-      "app": [{ "label": "Video factory", "path": "/factory" }]
+      "app": [
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        }
+      ]
     },
     {
       "key": "ex-5",
@@ -190,7 +317,12 @@
       "anchor": "ex-5",
       "zh": "审批一直没来",
       "en": "Approval never came",
-      "app": [{ "label": "Awaiting client approval", "path": "/#approvals" }]
+      "app": [
+        {
+          "label": "Awaiting client approval",
+          "path": "/#approvals"
+        }
+      ]
     },
     {
       "key": "ex-6",
@@ -206,7 +338,12 @@
       "anchor": "ex-7",
       "zh": "线上内容和批的不一样",
       "en": "Live content differs from approved",
-      "app": [{ "label": "Mismatched packages", "path": "/publish?status=mismatch" }]
+      "app": [
+        {
+          "label": "Mismatched packages",
+          "path": "/publish?status=mismatch"
+        }
+      ]
     },
     {
       "key": "ex-8",
@@ -214,16 +351,25 @@
       "anchor": "ex-8",
       "zh": "观看量涨了但没人咨询",
       "en": "Views up, no enquiries",
-      "app": [{ "label": "Funnel", "path": "/#funnel" }]
+      "app": [
+        {
+          "label": "Funnel",
+          "path": "/#funnel"
+        }
+      ]
     },
-
     {
       "key": "rule-1",
       "kind": "rule",
       "anchor": "rule-1",
       "zh": "上下文",
       "en": "Context",
-      "app": [{ "label": "Agents", "path": "/agents" }]
+      "app": [
+        {
+          "label": "Agents",
+          "path": "/agents"
+        }
+      ]
     },
     {
       "key": "rule-2",
@@ -231,7 +377,12 @@
       "anchor": "rule-2",
       "zh": "客户数据",
       "en": "Client data",
-      "app": [{ "label": "Leads (de-identified export)", "path": "/leads" }]
+      "app": [
+        {
+          "label": "Leads (de-identified export)",
+          "path": "/leads"
+        }
+      ]
     },
     {
       "key": "rule-3",
@@ -239,7 +390,12 @@
       "anchor": "rule-3",
       "zh": "版本",
       "en": "Versions",
-      "app": [{ "label": "Fact Sheet history", "path": "/fact-sheet?tab=history" }]
+      "app": [
+        {
+          "label": "Fact Sheet history",
+          "path": "/fact-sheet?tab=history"
+        }
+      ]
     },
     {
       "key": "rule-4",
@@ -247,7 +403,12 @@
       "anchor": "rule-4",
       "zh": "成本和重试",
       "en": "Cost and retries",
-      "app": [{ "label": "Video factory", "path": "/factory" }]
+      "app": [
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        }
+      ]
     },
     {
       "key": "rule-5",
@@ -255,7 +416,12 @@
       "anchor": "rule-5",
       "zh": "先手动再自动",
       "en": "Manual first",
-      "app": [{ "label": "Agents", "path": "/agents" }]
+      "app": [
+        {
+          "label": "Agents",
+          "path": "/agents"
+        }
+      ]
     },
     {
       "key": "rule-6",
@@ -263,9 +429,13 @@
       "anchor": "rule-6",
       "zh": "不用 Agent 的地方",
       "en": "Not an agent job",
-      "app": [{ "label": "Settings", "path": "/settings" }]
+      "app": [
+        {
+          "label": "Settings",
+          "path": "/settings"
+        }
+      ]
     },
-
     {
       "key": "h-terms",
       "kind": "section",
@@ -273,9 +443,18 @@
       "zh": "名词解释",
       "en": "Terms",
       "app": [
-        { "label": "Fact Sheet", "path": "/fact-sheet" },
-        { "label": "Evidence", "path": "/evidence" },
-        { "label": "Leads", "path": "/leads" }
+        {
+          "label": "Fact Sheet",
+          "path": "/fact-sheet"
+        },
+        {
+          "label": "Evidence",
+          "path": "/evidence"
+        },
+        {
+          "label": "Leads",
+          "path": "/leads"
+        }
       ]
     },
     {
@@ -284,7 +463,12 @@
       "anchor": "h-agents",
       "zh": "三个 Agent",
       "en": "Three agents",
-      "app": [{ "label": "Agents", "path": "/agents" }]
+      "app": [
+        {
+          "label": "Agents",
+          "path": "/agents"
+        }
+      ]
     },
     {
       "key": "h-flow",
@@ -292,7 +476,12 @@
       "anchor": "h-flow",
       "zh": "十个步骤",
       "en": "Ten steps",
-      "app": [{ "label": "Workflow", "path": "/workflow" }]
+      "app": [
+        {
+          "label": "Workflow",
+          "path": "/workflow"
+        }
+      ]
     },
     {
       "key": "h-sec4",
@@ -301,8 +490,14 @@
       "zh": "工作流细节和样例",
       "en": "Workflow details and samples",
       "app": [
-        { "label": "Video factory", "path": "/factory" },
-        { "label": "Publish", "path": "/publish" }
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        },
+        {
+          "label": "Publish",
+          "path": "/publish"
+        }
       ]
     },
     {
@@ -312,8 +507,14 @@
       "zh": "出问题时，和统一规则",
       "en": "Exceptions and shared rules",
       "app": [
-        { "label": "Exceptions", "path": "/workflow#exceptions" },
-        { "label": "Agent rules", "path": "/workflow#rules" }
+        {
+          "label": "Exceptions",
+          "path": "/workflow#exceptions"
+        },
+        {
+          "label": "Agent rules",
+          "path": "/workflow#rules"
+        }
       ]
     },
     {
@@ -322,7 +523,12 @@
       "anchor": "h-start",
       "zh": "已知条件和第一天怎么开始",
       "en": "Starting conditions and day one",
-      "app": [{ "label": "Evidence", "path": "/evidence" }]
+      "app": [
+        {
+          "label": "Evidence",
+          "path": "/evidence"
+        }
+      ]
     },
     {
       "key": "h-domains",
@@ -330,7 +536,12 @@
       "anchor": "h-domains",
       "zh": "五个领域怎么分工",
       "en": "Five areas",
-      "app": [{ "label": "Tasks", "path": "/tasks" }]
+      "app": [
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        }
+      ]
     },
     {
       "key": "h-time",
@@ -338,7 +549,12 @@
       "anchor": "h-time",
       "zh": "每周 16 小时怎么花",
       "en": "The weekly 16 hours",
-      "app": [{ "label": "Checkpoint and hours", "path": "/#checkpoint" }]
+      "app": [
+        {
+          "label": "Week: PM hours",
+          "path": "/week?tab=hours#hours"
+        }
+      ]
     },
     {
       "key": "h-quality",
@@ -347,18 +563,28 @@
       "zh": "怎么判断做得好不好",
       "en": "Measuring quality",
       "app": [
-        { "label": "Funnel", "path": "/#funnel" },
-        { "label": "Reconciliation", "path": "/leads?tab=reconciliation" }
+        {
+          "label": "Funnel",
+          "path": "/#funnel"
+        },
+        {
+          "label": "Reconciliation",
+          "path": "/leads?tab=reconciliation"
+        }
       ]
     },
-
     {
       "key": "FS-04",
       "kind": "entity",
       "anchor": "ref-FS-04",
       "zh": "团期",
       "en": "Departure",
-      "app": [{ "label": "FS-04 on the Fact Sheet", "path": "/fact-sheet?fact=FS-04#fact-FS-04" }]
+      "app": [
+        {
+          "label": "FS-04 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-04#fact-FS-04"
+        }
+      ]
     },
     {
       "key": "FS-07",
@@ -366,7 +592,12 @@
       "anchor": "ref-FS-07",
       "zh": "行程城市",
       "en": "Itinerary cities",
-      "app": [{ "label": "FS-07 on the Fact Sheet", "path": "/fact-sheet?fact=FS-07#fact-FS-07" }]
+      "app": [
+        {
+          "label": "FS-07 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-07#fact-FS-07"
+        }
+      ]
     },
     {
       "key": "FS-09",
@@ -374,7 +605,12 @@
       "anchor": "ref-FS-09",
       "zh": "新西兰护照赴华入境要求",
       "en": "Entry requirements (NZ passport)",
-      "app": [{ "label": "FS-09 on the Fact Sheet", "path": "/fact-sheet?fact=FS-09#fact-FS-09" }]
+      "app": [
+        {
+          "label": "FS-09 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-09#fact-FS-09"
+        }
+      ]
     },
     {
       "key": "FS-11",
@@ -382,7 +618,12 @@
       "anchor": "ref-FS-11",
       "zh": "包含项目",
       "en": "Inclusions",
-      "app": [{ "label": "FS-11 on the Fact Sheet", "path": "/fact-sheet?fact=FS-11#fact-FS-11" }]
+      "app": [
+        {
+          "label": "FS-11 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-11#fact-FS-11"
+        }
+      ]
     },
     {
       "key": "FS-12",
@@ -390,7 +631,12 @@
       "anchor": "ref-FS-12",
       "zh": "主要客户是 50 岁以上",
       "en": "Primary customer",
-      "app": [{ "label": "FS-12 on the Fact Sheet", "path": "/fact-sheet?fact=FS-12#fact-FS-12" }]
+      "app": [
+        {
+          "label": "FS-12 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-12#fact-FS-12"
+        }
+      ]
     },
     {
       "key": "FS-15",
@@ -398,7 +644,12 @@
       "anchor": "ref-FS-15",
       "zh": "价格",
       "en": "Price",
-      "app": [{ "label": "FS-15 on the Fact Sheet", "path": "/fact-sheet?fact=FS-15#fact-FS-15" }]
+      "app": [
+        {
+          "label": "FS-15 on the Fact Sheet",
+          "path": "/fact-sheet?fact=FS-15#fact-FS-15"
+        }
+      ]
     },
     {
       "key": "FS-20",
@@ -471,7 +722,12 @@
       "anchor": "ref-FS-v1.2",
       "zh": "Fact Sheet 版本",
       "en": "Fact Sheet version",
-      "app": [{ "label": "Fact Sheet history", "path": "/fact-sheet?tab=history" }]
+      "app": [
+        {
+          "label": "Fact Sheet history",
+          "path": "/fact-sheet?tab=history"
+        }
+      ]
     },
     {
       "key": "FS-v1.3",
@@ -479,7 +735,12 @@
       "anchor": "ref-FS-v1.3",
       "zh": "Fact Sheet 版本",
       "en": "Fact Sheet version",
-      "app": [{ "label": "Fact Sheet history", "path": "/fact-sheet?tab=history" }]
+      "app": [
+        {
+          "label": "Fact Sheet history",
+          "path": "/fact-sheet?tab=history"
+        }
+      ]
     },
     {
       "key": "E-03",
@@ -487,7 +748,12 @@
       "anchor": "ref-E-03",
       "zh": "Lead 触发了两次",
       "en": "Lead event fires twice",
-      "app": [{ "label": "E-03 in Evidence", "path": "/evidence?focus=E-03" }]
+      "app": [
+        {
+          "label": "E-03 in Evidence",
+          "path": "/evidence?focus=E-03"
+        }
+      ]
     },
     {
       "key": "E-07",
@@ -495,7 +761,12 @@
       "anchor": "ref-E-07",
       "zh": "页面还写着去年的团期",
       "en": "Last year's dates on the page",
-      "app": [{ "label": "E-07 in Evidence", "path": "/evidence?focus=E-07" }]
+      "app": [
+        {
+          "label": "E-07 in Evidence",
+          "path": "/evidence?focus=E-07"
+        }
+      ]
     },
     {
       "key": "TASK-021",
@@ -503,7 +774,12 @@
       "anchor": "ref-TASK-021",
       "zh": "Facebook 配文任务",
       "en": "Facebook caption task",
-      "app": [{ "label": "TASK-021", "path": "/tasks?task=TASK-021" }]
+      "app": [
+        {
+          "label": "TASK-021",
+          "path": "/tasks?task=TASK-021"
+        }
+      ]
     },
     {
       "key": "SOC-2027CT-003",
@@ -511,7 +787,12 @@
       "anchor": "ref-SOC-2027CT-003",
       "zh": "视频简报",
       "en": "Video brief",
-      "app": [{ "label": "SOC-2027CT-003 in the factory", "path": "/factory/SOC-2027CT-003" }]
+      "app": [
+        {
+          "label": "SOC-2027CT-003 in the factory",
+          "path": "/factory/SOC-2027CT-003"
+        }
+      ]
     },
     {
       "key": "VID-0031-4x5-v1",
@@ -519,7 +800,12 @@
       "anchor": "ref-VID-0031-4x5-v1",
       "zh": "视频素材",
       "en": "Video asset",
-      "app": [{ "label": "Receipt v1", "path": "/factory/SOC-2027CT-003" }]
+      "app": [
+        {
+          "label": "Receipt v1",
+          "path": "/factory/SOC-2027CT-003"
+        }
+      ]
     },
     {
       "key": "VID-0031-9x16-v1",
@@ -527,7 +813,12 @@
       "anchor": "ref-VID-0031-9x16-v1",
       "zh": "视频素材",
       "en": "Video asset",
-      "app": [{ "label": "Receipt v1", "path": "/factory/SOC-2027CT-003" }]
+      "app": [
+        {
+          "label": "Receipt v1",
+          "path": "/factory/SOC-2027CT-003"
+        }
+      ]
     },
     {
       "key": "VID-0031-16x9-v1",
@@ -535,7 +826,12 @@
       "anchor": "ref-VID-0031-16x9-v1",
       "zh": "视频素材",
       "en": "Video asset",
-      "app": [{ "label": "Receipt v1", "path": "/factory/SOC-2027CT-003" }]
+      "app": [
+        {
+          "label": "Receipt v1",
+          "path": "/factory/SOC-2027CT-003"
+        }
+      ]
     },
     {
       "key": "VID-0031-4x5-v2",
@@ -543,7 +839,12 @@
       "anchor": "ref-VID-0031-4x5-v2",
       "zh": "视频素材",
       "en": "Video asset",
-      "app": [{ "label": "Receipt v2", "path": "/factory/SOC-2027CT-003" }]
+      "app": [
+        {
+          "label": "Receipt v2",
+          "path": "/factory/SOC-2027CT-003"
+        }
+      ]
     },
     {
       "key": "PUB-2027CT-012",
@@ -551,7 +852,12 @@
       "anchor": "ref-PUB-2027CT-012",
       "zh": "发布包",
       "en": "Publish package",
-      "app": [{ "label": "PUB-2027CT-012", "path": "/publish/PUB-2027CT-012" }]
+      "app": [
+        {
+          "label": "PUB-2027CT-012",
+          "path": "/publish/PUB-2027CT-012"
+        }
+      ]
     },
     {
       "key": "CAP-012-v1",
@@ -559,7 +865,12 @@
       "anchor": "ref-CAP-012-v1",
       "zh": "配文版本",
       "en": "Caption version",
-      "app": [{ "label": "Caption on PUB-2027CT-012", "path": "/publish/PUB-2027CT-012" }]
+      "app": [
+        {
+          "label": "Caption on PUB-2027CT-012",
+          "path": "/publish/PUB-2027CT-012"
+        }
+      ]
     },
     {
       "key": "L-0012",
@@ -567,7 +878,12 @@
       "anchor": "ref-L-0012",
       "zh": "线索",
       "en": "Lead",
-      "app": [{ "label": "L-0012 in Leads", "path": "/leads?lead=L-0012" }]
+      "app": [
+        {
+          "label": "L-0012 in Leads",
+          "path": "/leads?lead=L-0012"
+        }
+      ]
     },
     {
       "key": "L-0013",
@@ -575,7 +891,12 @@
       "anchor": "ref-L-0013",
       "zh": "线索",
       "en": "Lead",
-      "app": [{ "label": "L-0013 in Leads", "path": "/leads?lead=L-0013" }]
+      "app": [
+        {
+          "label": "L-0013 in Leads",
+          "path": "/leads?lead=L-0013"
+        }
+      ]
     },
     {
       "key": "ADS-007",
@@ -583,9 +904,13 @@
       "anchor": "ref-ADS-007",
       "zh": "暂停 Meta 广告组 B",
       "en": "Pause Meta ad set B",
-      "app": [{ "label": "Feedback run RUN-0009", "path": "/agents/runs/RUN-0009" }]
+      "app": [
+        {
+          "label": "Feedback run RUN-0009",
+          "path": "/agents/runs/RUN-0009"
+        }
+      ]
     },
-
     {
       "key": "term-fact-sheet",
       "kind": "term",
@@ -593,7 +918,12 @@
       "find": "Fact Sheet：所有信息只认这一张表",
       "zh": "Fact Sheet 事实表 对外页 内部页",
       "en": "Fact Sheet",
-      "app": [{ "label": "Fact Sheet", "path": "/fact-sheet" }]
+      "app": [
+        {
+          "label": "Fact Sheet",
+          "path": "/fact-sheet"
+        }
+      ]
     },
     {
       "key": "term-evidence",
@@ -602,7 +932,12 @@
       "find": "证据和待办表：所有检查结果都写进这里",
       "zh": "证据和待办表",
       "en": "Evidence & backlog",
-      "app": [{ "label": "Evidence", "path": "/evidence" }]
+      "app": [
+        {
+          "label": "Evidence",
+          "path": "/evidence"
+        }
+      ]
     },
     {
       "key": "term-crm",
@@ -611,7 +946,12 @@
       "find": "CRM：每个咨询从进来到下单的记录",
       "zh": "CRM 线索 有效性 销售阶段",
       "en": "Leads",
-      "app": [{ "label": "Leads", "path": "/leads" }]
+      "app": [
+        {
+          "label": "Leads",
+          "path": "/leads"
+        }
+      ]
     },
     {
       "key": "term-board",
@@ -620,7 +960,16 @@
       "find": "任务看板",
       "zh": "任务看板",
       "en": "Tasks board",
-      "app": [{ "label": "Tasks", "path": "/tasks" }]
+      "app": [
+        {
+          "label": "Tasks",
+          "path": "/tasks"
+        },
+        {
+          "label": "Week plan",
+          "path": "/week#plan"
+        }
+      ]
     },
     {
       "key": "term-package",
@@ -629,7 +978,12 @@
       "find": "发布包",
       "zh": "发布包",
       "en": "Publish package",
-      "app": [{ "label": "Publish", "path": "/publish" }]
+      "app": [
+        {
+          "label": "Publish",
+          "path": "/publish"
+        }
+      ]
     },
     {
       "key": "term-traffic-ready",
@@ -638,7 +992,12 @@
       "find": "可引流",
       "zh": "可引流 landing page",
       "en": "Traffic-ready landing page",
-      "app": [{ "label": "Landing page checks", "path": "/settings#landing" }]
+      "app": [
+        {
+          "label": "Landing page checks",
+          "path": "/settings#landing"
+        }
+      ]
     },
     {
       "key": "term-lead-event",
@@ -648,8 +1007,14 @@
       "zh": "Lead 事件",
       "en": "Lead event",
       "app": [
-        { "label": "Landing page checks", "path": "/settings#landing" },
-        { "label": "E-03", "path": "/evidence?focus=E-03" }
+        {
+          "label": "Landing page checks",
+          "path": "/settings#landing"
+        },
+        {
+          "label": "E-03",
+          "path": "/evidence?focus=E-03"
+        }
       ]
     },
     {
@@ -659,7 +1024,12 @@
       "find": "UTM",
       "zh": "UTM",
       "en": "UTM template",
-      "app": [{ "label": "UTM template", "path": "/settings#utm" }]
+      "app": [
+        {
+          "label": "UTM template",
+          "path": "/settings#utm"
+        }
+      ]
     },
     {
       "key": "term-priority",
@@ -668,7 +1038,39 @@
       "find": "P0 / P1 / P2",
       "zh": "P0 P1 P2 优先级",
       "en": "Priority",
-      "app": [{ "label": "Evidence", "path": "/evidence" }]
+      "app": [
+        {
+          "label": "Evidence",
+          "path": "/evidence"
+        }
+      ]
+    },
+    {
+      "key": "term-week-plan",
+      "kind": "term",
+      "anchor": "term-week-plan",
+      "find": "下周计划",
+      "zh": "下周计划 周计划",
+      "en": "Week plan",
+      "app": [
+        {
+          "label": "Week plan",
+          "path": "/week#plan"
+        }
+      ]
+    },
+    {
+      "key": "term-weekly-report",
+      "kind": "term",
+      "anchor": "h-time",
+      "zh": "周报 一页周报 周末",
+      "en": "Weekly report",
+      "app": [
+        {
+          "label": "Weekly report",
+          "path": "/week?tab=report"
+        }
+      ]
     },
     {
       "key": "term-cpl",
@@ -677,7 +1079,12 @@
       "find": "CPL",
       "zh": "CPL 有效咨询 对账",
       "en": "Cost per valid lead",
-      "app": [{ "label": "Reconciliation", "path": "/leads?tab=reconciliation" }]
+      "app": [
+        {
+          "label": "Reconciliation",
+          "path": "/leads?tab=reconciliation"
+        }
+      ]
     },
     {
       "key": "term-scope",
@@ -685,7 +1092,12 @@
       "anchor": "step-4",
       "zh": "预批范围 预算上限",
       "en": "Pre-approved scope",
-      "app": [{ "label": "Pre-approved scope", "path": "/settings#scope" }]
+      "app": [
+        {
+          "label": "Pre-approved scope",
+          "path": "/settings#scope"
+        }
+      ]
     },
     {
       "key": "term-ad-gates",
@@ -694,7 +1106,12 @@
       "find": "上线前要满足的四个条件",
       "zh": "广告上线前四个条件",
       "en": "Ad gates",
-      "app": [{ "label": "Ad gates", "path": "/#ad-gates" }]
+      "app": [
+        {
+          "label": "Ad gates",
+          "path": "/#ad-gates"
+        }
+      ]
     },
     {
       "key": "term-factory",
@@ -703,7 +1120,12 @@
       "find": "交接样例一：我给视频工厂派单，工厂交回执",
       "zh": "视频工厂 简报 回执",
       "en": "Video factory",
-      "app": [{ "label": "Video factory", "path": "/factory" }]
+      "app": [
+        {
+          "label": "Video factory",
+          "path": "/factory"
+        }
+      ]
     }
   ]
 }

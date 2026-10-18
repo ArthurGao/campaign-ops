@@ -1,8 +1,8 @@
-import { AD_TASK_TYPES, CLIENT_ROLES, type Role, type TaskStatus, type TaskType } from '../enums';
-import { AppError, forbidden, invalidTransition } from '../errors';
+import { CLIENT_ROLES, type Role, type TaskStatus, type TaskType } from '../enums';
+import { AppError, forbidden, invalidTransition, requireRole } from '../errors';
 import type { Actor, AdGates, FactEntry, QAChecklistItem, Settings, Task } from '../types';
 import { needsConfirmation, needsConfirmationError, unusableRefs } from './facts';
-import { GATE_LABELS, unmetGates } from './gates';
+import { GATE_LABELS, requiresAdGates, unmetGates } from './gates';
 
 /** Transitions a person may request (docs/02-data-model.md). `→ blocked` is system-only. */
 export const ALLOWED_TRANSITIONS: Record<TaskStatus, TaskStatus[]> = {
@@ -30,15 +30,9 @@ export type TaskContext = {
   gates?: AdGates;
 };
 
-const isAdTask = (t: Task) => (AD_TASK_TYPES as readonly TaskType[]).includes(t.type);
-
 /** Out-of-scope ad changes need the client decision maker; everything else any client role. */
 export function approverRolesFor(task: Task): readonly Role[] {
   return task.type === 'ad_change' ? ['client_decision_maker'] : CLIENT_ROLES;
-}
-
-function requireRole(actor: Actor, roles: readonly Role[], action: string): void {
-  if (!roles.includes(actor.role)) throw forbidden(action, roles);
 }
 
 function requireUsableFacts(task: Task, ctx: TaskContext): void {
@@ -202,7 +196,7 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
         );
       }
       // D-32: stopping or cutting spend is never held back by the launch gates.
-      if (isAdTask(task) && task.spendEffect !== 'decrease') {
+      if (requiresAdGates(task)) {
         const gates = ctx.gates;
         if (!gates) throw new Error('Ad gates must be computed for ad tasks');
         const unmet = unmetGates(gates);
