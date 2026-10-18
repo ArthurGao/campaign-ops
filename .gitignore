@@ -10,3 +10,6 @@ playwright-report/
 .impeccable/config.local.json
 .playwright-mcp/
 .impeccable/review/
+.vercel
+.env*
+!.env.example
