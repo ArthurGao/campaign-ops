@@ -104,10 +104,12 @@ export type CreatePackageInput = { assetId?: string; channel?: string; scheduled
 // ---- Factory
 export type CreateBriefInput = {
   taskId: string;
-  campaign: string;
+  /** Ignored: the server stamps the campaign and the current Fact Sheet version. */
+  campaign?: string;
   objective: string;
   marketLanguage: string;
-  factSheetVersion: string;
+  /** Ignored: see campaign. */
+  factSheetVersion?: string;
   allowedFacts: string[];
   forbidden: string[];
   deliverables: { channel: string; ratio: Ratio }[];
@@ -152,6 +154,7 @@ export type PatchSettingsInput = {
     pauseConditions?: string[];
     allowedAssetScope?: string;
     pmMayApproveNonSubstantive?: boolean;
+    testEnquiry?: boolean;
     nonSubstantiveList?: string[];
   };
   people?: {

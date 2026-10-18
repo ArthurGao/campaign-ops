@@ -1,5 +1,5 @@
 // Status enums and other string unions, defined once.
-// Copied verbatim to frontend/src/types/ by `pnpm sync-types` — never edit the copy.
+// Single source for the frontend and backend, which import it from @campaign-ops/core (D-05).
 
 export const ROLES = [
   'pm',
@@ -24,7 +24,7 @@ export type FactStatus = (typeof FACT_STATUSES)[number];
 export const FACT_PAGES = ['external', 'internal'] as const;
 export type FactPage = (typeof FACT_PAGES)[number];
 
-// Evidence & backlog
+// Findings (UI name; entity Evidence, D-38)
 export const EVIDENCE_SOURCES = [
   'site',
   'tracking',

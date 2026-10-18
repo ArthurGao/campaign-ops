@@ -12,7 +12,7 @@ export class StartRunDto {
   trigger?: RunTrigger;
 
   /**
-   * Audit: siteUrl, scope[], testEnquiryApproved. Outbound: mode (draft|qa|verify), taskId, channel,
+   * Audit: siteUrl, scope[] (the TEST-enquiry consent comes from Settings). Outbound: mode (draft|qa|verify), taskId, channel,
    * spec, briefId, packageId. Feedback: dateRange, scope[], afterLaunchOf.
    */
   @IsObject()

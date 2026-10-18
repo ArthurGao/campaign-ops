@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import { CHANNELS, TASK_TYPES, type Channel, type TaskType } from '@campaign-ops/core';
+import { CHANNELS, TASK_TYPES, factRefsIn, type Channel, type TaskType } from '@campaign-ops/core';
 import { useCreateTask } from '@/api/queries/tasks';
 import { BlockedHint } from '@/components/shared/BlockedHint';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,7 @@ export function NewTaskDialog({
   const [channel, setChannel] = useState<Channel | undefined>('facebook');
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [refs, setRefs] = useState('');
+  const refs = factRefsIn(`${title} ${body}`);
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent wide>
@@ -50,17 +50,21 @@ export function NewTaskDialog({
         <Field label="Title" htmlFor={`${id}-ti`}>
           <Input id={`${id}-ti`} value={title} onChange={(e) => setTitle(e.target.value)} />
         </Field>
-        <Field label="Body" htmlFor={`${id}-b`} help="Optional. Put the FS id after every fact.">
+        <Field
+          label="Body"
+          htmlFor={`${id}-b`}
+          help="Optional. Put the FS id after every fact; the task cites the ids it finds."
+        >
           <Textarea id={`${id}-b`} value={body} onChange={(e) => setBody(e.target.value)} />
         </Field>
-        <Field label="Fact refs" htmlFor={`${id}-r`} help="Comma-separated, e.g. FS-07, FS-11">
-          <Input
-            id={`${id}-r`}
-            value={refs}
-            onChange={(e) => setRefs(e.target.value)}
-            className="font-mono"
-          />
-        </Field>
+        <p className="text-xs text-ink-2" aria-live="polite">
+          Cites:{' '}
+          {refs.length ? (
+            <span className="font-mono">{refs.join(', ')}</span>
+          ) : (
+            'no Fact Sheet ids yet'
+          )}
+        </p>
         <BlockedHint error={create.error} />
         <DialogFooter>
           <Button variant="ghost" onClick={onClose}>
@@ -77,10 +81,6 @@ export function NewTaskDialog({
                   title,
                   ...(channel ? { channel } : {}),
                   ...(body ? { body } : {}),
-                  factRefs: refs
-                    .split(/[\s,]+/)
-                    .map((r) => r.trim().toUpperCase())
-                    .filter(Boolean),
                 },
                 { onSuccess: (t) => onCreated(t.id) },
               )

@@ -1,40 +1,8 @@
 # 02 — Data model
 
-All entities live in memory in phase 1. Define TypeScript types in `backend/src/domain/` and mirror them to `frontend/src/types/`. IDs are human-readable strings. Every entity has `createdAt`, `updatedAt`, and an `events: AuditEvent[]` list (who, when, what changed, reason) for the history drawers.
-
-```ts
-type Role = 'pm' | 'client_approver' | 'client_decision_maker' | 'sales' | 'executor';
-type Actor = { role: Role; name: string };
-type AuditEvent = { at: string; actor: Actor; action: string; detail?: string; reason?: string };
-```
+The types are in `packages/core/src/domain/types.ts` and `enums.ts` (the single source, D-05); this page keeps only what the types cannot say: derived values, invariants and allowed transitions. Each rule is a pure function in `packages/core/src/domain/rules/` with a spec next to it. Tracked entities carry `createdAt`, `updatedAt` and `events` (who, when, what, reason) for the history drawers.
 
 ## Fact Sheet
-
-```ts
-type FactStatus = 'confirmed' | 'pending' | 'assumption' | 'confirmed_with_expiry' | 'superseded' | 'rejected';
-type FactPage = 'external' | 'internal';
-
-type FactEntry = {
-  id: string;                 // 'FS-04'
-  page: FactPage;
-  statement: string;          // 'Departure: March 2027 [date TBC]'
-  status: FactStatus;
-  source?: string;            // document name or URL
-  confirmedBy?: Actor;
-  confirmedAt?: string;
-  expiresAt?: string;         // only for confirmed_with_expiry
-  publicNote?: string;        // e.g. 'Must state: subject to official information at departure'
-  purpose?: string;           // internal page only, e.g. 'cap on leads to buy'
-  supersededBy?: string;      // FS id
-};
-
-type FactSheetVersion = {
-  version: string;            // 'FS-v1.3'
-  at: string;
-  actor: Actor;
-  changes: { factId: string; before?: Partial<FactEntry>; after: Partial<FactEntry> }[];
-};
-```
 
 Derived: `isPubliclyUsable(entry, now) = page === 'external' && (status === 'confirmed' || (status === 'confirmed_with_expiry' && expiresAt > now))`.
 
@@ -42,69 +10,16 @@ Invariants
 - I-F1: `internal` entries are never returned by the endpoint the Outbound agent reads (`GET /fact-sheet/external`).
 - I-F2: any status change bumps the Fact Sheet version and records a `FactSheetVersion`.
 - I-F3: a change to a referenced entry marks every referencing Task/Package/Brief with `needsRereview = true`.
+- Counts of "external facts" skip superseded and rejected entries everywhere (`isLiveExternal`, D-41).
 
-## Evidence
+## Findings (entity `Evidence`)
 
-```ts
-type EvidenceSource = 'site' | 'tracking' | 'channels' | 'seo' | 'geo' | 'sales' | 'ai_search';
-type Blocks = 'none' | 'traffic' | 'ads' | 'measurement';
-type Priority = 'P0' | 'P1' | 'P2';
-
-type EvidenceItem = {
-  id: string;                 // 'E-03'
-  source: EvidenceSource;
-  finding: string;
-  proof: { label: string; url?: string }[];
-  impact: string;
-  blocks: Blocks;
-  priority: Priority;
-  suggestedOwner: string;
-  needsApproval: boolean;
-  status: 'open' | 'converted' | 'dismissed';
-  convertedTaskId?: string;
-  originRunId?: string;       // if accepted from an agent run
-  isExample?: boolean;        // seed flag → UI banner
-};
-```
+- A finding with `blocks !== 'none'` keeps blocking until it is dismissed or the task it became is verified (`stillBlocking`, D-41). The Dashboard blockers, the sidebar badge and the weekly report all use it.
+- Converting a finding creates a draft task (blocked if it cites an unusable fact) and sets the finding `converted`.
 
 ## Tasks
 
-```ts
-type TaskType = 'site_change' | 'seo_change' | 'geo_change' | 'social_post' | 'ad_copy' | 'ad_change' | 'video_brief';
-type TaskStatus = 'draft' | 'qa' | 'awaiting_approval' | 'approved' | 'live' | 'verified' | 'blocked';
-
-type Task = {
-  id: string;                 // 'TASK-021'
-  type: TaskType;
-  title: string;
-  channel?: 'facebook' | 'instagram' | 'youtube' | 'tiktok' | 'google_search' | 'meta_ads' | 'website';
-  status: TaskStatus;
-  blockedReason?: string;
-  owner: string;
-  factRefs: string[];         // FS ids
-  needsConfirmation: boolean; // true if any factRef not publicly usable
-  needsRereview: boolean;
-  version: number;
-  body?: string;              // draft text / change description
-  qa?: QARecord;
-  approval?: ApprovalRecord;
-  pageUrl?: string;           // site changes: one task per page at a time
-  linkedPackageId?: string;
-  linkedBriefId?: string;
-  originRunId?: string;
-};
-
-type QARecord = { by: Actor; at: string; passed: boolean; notes?: string; checklist: { item: string; ok: boolean }[] };
-
-type ApprovalRecord = {
-  approver: Actor;
-  at: string;
-  status: 'approved' | 'rejected';
-  approvedVersion: number;     // task version
-  note?: string;
-  nonSubstantive?: { authorisedBy: string; scopeRef: string };  // PM-approved minor edits
-};
-```
+- Fact refs not given on create are read from the title and body (`factRefsIn`, D-41).
 
 Allowed transitions (anything else → 409):
 - `draft → qa` (pm; requires `needsConfirmation === false`)
@@ -118,36 +33,6 @@ Allowed transitions (anything else → 409):
 
 ## Agents
 
-```ts
-type AgentId = 'audit' | 'outbound' | 'feedback';
-type RunStatus = 'queued' | 'running' | 'completed' | 'failed';
-type OutputType = 'evidence' | 'draft' | 'suggestion' | 'needs_confirmation' | 'observation' | 'verification';
-
-type AgentRun = {
-  id: string;                 // 'RUN-0007'
-  agent: AgentId;
-  trigger: 'manual' | 'scheduled' | 'after_launch';
-  inputs: Record<string, unknown>;     // snapshot shown in UI
-  factSheetVersion?: string;
-  status: RunStatus;
-  startedAt?: string; finishedAt?: string;
-  costEstimate?: { tokens: number; usd: number };  // mock numbers
-  error?: string;
-  outputs: AgentOutput[];
-};
-
-type AgentOutput = {
-  id: string;
-  type: OutputType;
-  title: string;
-  body: string;               // markdown allowed
-  factRefs?: string[];
-  evidence?: { label: string; url?: string }[];
-  inScope?: boolean;          // suggestions: within pre-approved scope?
-  decision?: { status: 'accepted' | 'rejected'; by: Actor; at: string; note?: string; createdId?: string };
-};
-```
-
 Invariants
 - I-A1: accepting an output creates exactly one record (EvidenceItem, Task draft, Task `ad_change`, or sets `verified`) and stores `createdId`.
 - I-A2: outputs of type `needs_confirmation` can only be accepted into a Task with `status = 'blocked'` and `blockedReason = 'needs_confirmation: <FS ids>'`.
@@ -155,69 +40,12 @@ Invariants
 
 ## Video factory
 
-```ts
-type BriefStatus = 'submitted' | 'accepted' | 'in_production' | 'delivered' | 'qa_passed' | 'qa_returned' | 'cancelled';
-
-type Brief = {
-  id: string;                 // 'SOC-2027CT-003'
-  taskId: string;
-  idempotencyKey?: string;    // only if factory supports it (settings flag)
-  campaign: string;
-  objective: string;
-  marketLanguage: string;     // 'NZ English market; deliver in English; follow client brand guide'
-  factSheetVersion: string;
-  allowedFacts: string[];     // FS ids, must all be publicly usable at send time
-  forbidden: string[];
-  deliverables: { channel: string; ratio: '16:9' | '9:16' | '4:5' | '1:1' }[];
-  requirements: string[];
-  deadline: string;
-  costCap: { maxRerenders: number; maxCredits: number };
-  approver: string;
-  status: BriefStatus;
-  version: number;
-  receipts: Receipt[];
-};
-
-type Receipt = {
-  version: string;            // 'v1'
-  deliveredAt: string;
-  assets: { assetId: string; ratio: string; durationSec: number; url: string; checksum: string }[];
-  factsUsed: string[];
-  musicLicense: { status: 'licensed' | 'missing'; proof?: string };
-  creditsUsed: number;
-  renderAttempts: number;
-  issues: string[];
-};
-```
-
 Invariants
 - I-V1: sending a brief fails if another non-cancelled brief exists with the same `taskId`.
 - I-V2: QA pass requires `factsUsed ⊆ allowedFacts`, license proof present, `creditsUsed ≤ costCap.maxCredits`, and the human checklist item "captions, voice-over and key frames reviewed" ticked with a name.
 - I-V3: a returned brief creates a new receipt version; old receipts are kept.
 
 ## Publish packages
-
-```ts
-type PackageStatus = 'awaiting_approval' | 'approved' | 'scheduled' | 'published' | 'verified' | 'mismatch';
-
-type PublishPackage = {
-  id: string;                 // 'PUB-2027CT-012'
-  sourceTaskId: string;
-  channel: string;            // 'facebook_feed'
-  account: string;
-  asset: { assetId: string; version: string; url: string; checksum: string };
-  caption: { version: string; text: string };
-  link: string;               // generated from UTM template; read-only
-  factRefs: string[];
-  factSheetVersion: string;
-  scheduledAt: string;        // ISO with Pacific/Auckland display
-  qa: QARecord;
-  approval?: { approver: Actor; status: 'pending' | 'approved' | 'rejected'; at?: string; approvedAssetVersion?: string; approvedCaptionVersion?: string; note?: string; nonSubstantive?: ApprovalRecord['nonSubstantive'] };
-  executor: string;
-  status: PackageStatus;
-  publishLog: { at: string; actor: Actor; action: 'scheduled' | 'published' | 'verified' | 'mismatch' | 'taken_down'; postUrl?: string; note?: string }[];
-};
-```
 
 Invariants
 - I-P1: `approved` requires `approval.approvedAssetVersion === asset.version && approvedCaptionVersion === caption.version`.
@@ -227,59 +55,14 @@ Invariants
 
 ## Leads (CRM)
 
-```ts
-type Validity = 'pending' | 'valid' | 'invalid';
-type Stage = 'new' | 'contacted' | 'quoted' | 'deposit_paid' | 'lost';
-type SourceMedium = 'paid_social' | 'paid_search' | 'organic_search' | 'organic_social' | 'lead_ads' | 'email' | 'phone' | 'dm' | 'referral' | 'unknown';
-
-type Lead = {
-  id: string;                 // 'L-0012'
-  receivedAt: string;
-  contact: { name: string; email?: string; phone?: string };   // seed uses fake data
-  enquiry: { tour: string; travelDate?: string; people?: number; notes?: string };
-  source: { utmSource?: string; utmMedium?: SourceMedium; utmCampaign?: string; channelLabel: string };
-  adDetail: { campaignId?: string; adId?: string; utmContent?: string; utmTerm?: string; landingPageVersion?: string; resolution: 'captured' | 'matched_from_platform' | 'unknown' };
-  clickIds: { gclid?: string; fbclid?: string; ttclid?: string };
-  selfReportedSource?: string;
-  firstResponseAt?: string;
-  owner: string;
-  validity: { value: Validity; decidedAt?: string; reason?: string };
-  stage: Stage;
-  lostReason?: string;
-  order?: { tour: string; people: number; amountCents?: number };
-  mergedFrom?: string[];      // ids merged into this record
-  relatedLeadIds?: string[];  // same contact, different travel need
-};
-```
-
 Invariants
 - I-L1: `valid` once set remains part of "historically valid" counts even if `stage = 'lost'`.
 - I-L2: merge is only offered when same email/phone **and** same `enquiry.tour + travelDate`; otherwise records are linked via `relatedLeadIds`.
 - I-L3: de-identified export strips `contact` and `clickIds`.
 
-## Reconciliation
+## Reconciliation and funnel
 
-```ts
-type ReconRow = {
-  weekStart: string;
-  channel: 'google_search' | 'meta_ads' | 'organic_search' | 'organic_social' | 'tiktok' | 'direct';
-  spendCents: number;
-  platformReportedConversions: number;
-  crmValidLeads: number;      // attributed by the agreed rule (last non-direct click)
-  paidCpl?: number | null;    // null when crmValidLeads === 0 and spend > 0 → UI shows message
-  overReportRatio?: number;   // platformReported / crmValid
-};
-
-// Same seeded table as ReconRow, so valid leads always agree (D-39).
-type FunnelRow = {
-  weekStart: string;
-  channel: ReconRow['channel'];
-  impressions: number | null; // null where nothing is shown (direct)
-  visits: number;
-  validLeads: number;
-  deposits: number;
-};
-```
+Paid CPL (`rules/recon.ts`) = channel spend ÷ CRM valid leads; spend with none reads "no valid leads yet, spent $X", never 0, ∞ or NaN; the total paid CPL counts only valid leads from paid channels. Weekly rows are seeded aggregates (D-26); recon and funnel rows come from one seed table so valid leads agree (D-39).
 
 Funnel rules (`rules/funnel.ts`): step rate = next layer ÷ this layer (null when the base is 0 or
 missing); a base under 10 is a small sample and is not compared; change is relative to the same
@@ -288,54 +71,24 @@ totals (`funnelTotals`) feed the Dashboard funnel, the weekly report numbers and
 
 ## Settings
 
-```ts
-type Settings = {
-  campaign: { client: string; name: string; promotionWindow: string };
-  preApprovedScope: {
-    budgetCapCentsByChannel: Record<string, number>;
-    pauseConditions: string[];
-    allowedAssetScope: string;
-    pmMayApproveNonSubstantive: boolean;
-    nonSubstantiveList: string[];      // ['typos','punctuation','schedule time within same day']
-  };
-  people: { approvers: Record<string, string>; alertOwnerOutsideHours: { name: string; contact: string; responseMinutes: number }; executors: string[] };
-  utmTemplate: string;                 // '{base}?utm_source={source}&utm_medium={medium}&utm_campaign=china_tour_2027&utm_content={content}'
-  prohibitedWords: string[];
-  landingPage: { url: string; checks: { factsConfirmed: boolean; leadFiresOnce: boolean; sourceCaptured: boolean; reachesSales: boolean }; status: 'not_ready' | 'traffic_ready' };
-  factorySupportsIdempotency: boolean;
-  checkpointEveryDays: 14;
-};
-```
-
 Derived: `landingPage.status = all four checks ? 'traffic_ready' : 'not_ready'`.
+
+The client's consent to one TEST enquiry is part of the pre-approved scope (`testEnquiry`); every Audit run records it (D-41).
 
 ## Weekly loop (D-37)
 
-```ts
-type WeekId = string; // Monday in Pacific/Auckland: '2026-10-12'
-type TimeEntry = { id: 'TIME-0001'; week: WeekId; date: string; category: HourCategory; hours: number; note?: string; actor: Actor; createdAt: string };
-type WeekPlan = Tracked & { week: WeekId; taskIds: string[] };
-type WeeklyReport = Tracked & { id: 'WR-2026-10-12'; week: WeekId; status: 'draft' | 'sent'; done: string; blocked: string; next: string; numbers?: ReportNumbers; sentAt?: string; sentBy?: Actor };
-```
 Rules (`packages/core/src/domain/rules/week.ts`): hours in quarter steps, 0.25–8 per entry, not for a future week or before the campaign; buffer entries need a note; plans only for the current or a coming week and never with verified tasks; a report is sent once, with `done` and `next`, and is not edited after. The source plan's split per campaign week is `SOURCE_HOURS_PLAN` (weeks 1–4, week 5+ repeats week 4).
 
 ## Campaign review and AI cost (D-40)
 
-```ts
-type ReviewDecision = 'scale' | 'keep' | 'stop' | 'wait';
-type CampaignReview = Tracked & { id: 'REV-1'; status: 'draft' | 'sent'; decisions: { channel: ReconChannel; decision: ReviewDecision; note: string }[]; nextPhase: string; numbers?: ReviewNumbers; sentAt?: string; sentBy?: Actor };
-```
 Rules (`rules/review.ts`): full weeks only; under 2 (`MIN_REVIEW_WEEKS`) no scaling; a paid channel under 5 valid leads (`MIN_REVIEW_LEADS`) is not judged; suggestions as in the product spec; FS-23 is checked when the period has 10+ valid leads (`MIN_FUNNEL_BASE`). Sent once; the snapshot's weeks stay the review's weeks afterwards.
 AI cost (`rules/ai-cost.ts`) is derived, not stored: runs that started (machine time = finish − start, tokens and model cost from `costEstimate`), factory credits by receipt delivery week, check time = `audit` time entries; the estimate is the average of the full weeks.
 
 ## Ad gates (used by Tasks and Dashboard)
 
-```ts
-type AdGates = {
-  productFactsConfirmed: boolean;   // every productCore fact (date, price, seats, inclusions) + the ad's own refs are publicly usable (D-33)
-  landingPageReady: boolean;        // settings.landingPage.status === 'traffic_ready'
-  creativeApproved: boolean;        // linked package/task approved
-  budgetAndMonitoringApproved: boolean; // scope budget cap > 0 for channel AND alertOwnerOutsideHours set
-};
-```
+- `productFactsConfirmed`: every product-core fact (date, price, seats, inclusions) and the ad's own refs are publicly usable (D-33).
+- `landingPageReady`: `settings.landingPage.status === 'traffic_ready'`.
+- `creativeApproved`: the linked package or task is approved.
+- `budgetAndMonitoringApproved`: a budget cap above 0 for the channel and an out-of-hours alert owner.
+
 All four must be true for `ad_copy`/`ad_change` → `live`, except spend-reducing changes (`spendEffect: 'decrease'`, D-32).

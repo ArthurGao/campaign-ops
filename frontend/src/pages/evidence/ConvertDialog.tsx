@@ -8,6 +8,7 @@ import {
 } from '@campaign-ops/core';
 import type { ApiError } from '@/api/client';
 import { useConvertEvidence } from '@/api/queries/evidence';
+import { useSettings } from '@/api/queries/settings';
 import { BlockedHint } from '@/components/shared/BlockedHint';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from '@/components/ui/dialog';
@@ -34,11 +35,10 @@ export function ConvertDialog({ items, onClose }: { items: EvidenceItem[]; onClo
   const [type, setType] = useState<TaskType>(DEFAULT_TYPE[items[0].source]);
   const [title, setTitle] = useState(single?.finding ?? '');
   const [channel, setChannel] = useState<Channel | undefined>(undefined);
-  const [pageUrl, setPageUrl] = useState(
-    ['site_change', 'seo_change', 'geo_change'].includes(DEFAULT_TYPE[items[0].source])
-      ? 'https://demo-travel.example/tours/china-2027'
-      : '',
-  );
+  // Page work defaults to the landing page from Settings.
+  const landing = useSettings().data?.landingPage.url ?? '';
+  const [editedUrl, setEditedUrl] = useState<string>();
+  const pageUrl = editedUrl ?? landing;
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
   const pageType = ['site_change', 'seo_change', 'geo_change'].includes(type);
@@ -100,7 +100,11 @@ export function ConvertDialog({ items, onClose }: { items: EvidenceItem[]; onClo
         </Field>
         {pageType ? (
           <Field label="Page URL" htmlFor={`${id}-url`} help="One live change per page at a time.">
-            <Input id={`${id}-url`} value={pageUrl} onChange={(e) => setPageUrl(e.target.value)} />
+            <Input
+              id={`${id}-url`}
+              value={pageUrl}
+              onChange={(e) => setEditedUrl(e.target.value)}
+            />
           </Field>
         ) : null}
         <BlockedHint error={error} />

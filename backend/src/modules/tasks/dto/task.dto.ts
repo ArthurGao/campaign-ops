@@ -18,9 +18,10 @@ import {
   type Channel,
   type TaskStatus,
   type TaskType,
+  FS_ID,
 } from '@campaign-ops/core';
 
-const FS_ID = /^FS-\d{2,}$/;
+const FS_ID_ONLY = new RegExp(`^${FS_ID}$`);
 
 export class CreateTaskDto {
   @IsIn(TASK_TYPES)
@@ -41,7 +42,7 @@ export class CreateTaskDto {
   @IsOptional()
   @IsArray()
   @ArrayUnique()
-  @Matches(FS_ID, { each: true })
+  @Matches(FS_ID_ONLY, { each: true })
   factRefs?: string[];
 
   @IsOptional()
@@ -67,7 +68,7 @@ export class PatchTaskDto {
   @IsOptional()
   @IsArray()
   @ArrayUnique()
-  @Matches(FS_ID, { each: true })
+  @Matches(FS_ID_ONLY, { each: true })
   factRefs?: string[];
 
   @IsOptional()

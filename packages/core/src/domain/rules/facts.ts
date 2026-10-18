@@ -5,6 +5,19 @@ const DAY_MS = 86_400_000;
 /** A confirmed-with-expiry entry is "nearing" (amber chip) within this many days of expiry. */
 export const EXPIRY_WARNING_DAYS = 45;
 
+/** External facts still in play: superseded and rejected entries no longer count anywhere. */
+export function isLiveExternal(entry: Pick<FactEntry, 'page' | 'status'>): boolean {
+  return entry.page === 'external' && entry.status !== 'superseded' && entry.status !== 'rejected';
+}
+
+/** A Fact Sheet id (`FS-07`), as a RegExp source; DTOs, captions and chips all build on it. */
+export const FS_ID = 'FS-\\d{2,}';
+
+/** Fact Sheet ids cited in a text ("[← FS-07]" or a bare "FS-07"), first mention order, once each. */
+export function factRefsIn(text: string): string[] {
+  return [...new Set(text.match(new RegExp(`\\b${FS_ID}\\b`, 'g')) ?? [])];
+}
+
 export function isPubliclyUsable(entry: FactEntry, now: Date): boolean {
   if (entry.page !== 'external') return false;
   if (entry.status === 'confirmed') return true;

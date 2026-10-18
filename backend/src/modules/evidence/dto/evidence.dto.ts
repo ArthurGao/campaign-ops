@@ -24,6 +24,7 @@ import {
   type EvidenceStatus,
   type Priority,
   type TaskType,
+  FS_ID,
 } from '@campaign-ops/core';
 
 export class ProofDto {
@@ -108,6 +109,6 @@ export class ConvertEvidenceDto {
   @IsOptional()
   @IsArray()
   @ArrayUnique()
-  @Matches(/^FS-\d{2,}$/, { each: true })
+  @Matches(new RegExp(`^${FS_ID}$`), { each: true })
   factRefs?: string[];
 }

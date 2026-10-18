@@ -1,5 +1,5 @@
 // Entities from docs/02-data-model.md (plus the additions recorded in docs/decisions.md).
-// Copied verbatim to frontend/src/types/ by `pnpm sync-types` — never edit the copy.
+// Single source for the frontend and backend, which import it from @campaign-ops/core (D-05).
 import type {
   AdResolution,
   AgentId,
@@ -499,6 +499,8 @@ export type Settings = {
     pauseConditions: string[];
     allowedAssetScope: string;
     pmMayApproveNonSubstantive: boolean;
+    /** The client agreed to one marked TEST enquiry, so the Audit agent may observe sales response. */
+    testEnquiry: boolean;
     nonSubstantiveList: string[];
     signedBy: string;
     signedAt: string;

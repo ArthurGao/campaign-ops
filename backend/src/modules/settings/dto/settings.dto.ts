@@ -31,6 +31,10 @@ export class ScopeDto {
   pmMayApproveNonSubstantive?: boolean;
 
   @IsOptional()
+  @IsBoolean()
+  testEnquiry?: boolean;
+
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   nonSubstantiveList?: string[];

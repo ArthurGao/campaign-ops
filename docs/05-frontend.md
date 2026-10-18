@@ -1,10 +1,10 @@
 # 05 — Frontend
 
-React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + React Router. Data comes only from the backend API (`VITE_API_URL`); no mock data inside the frontend.
+React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + React Router. Data comes only through the API client: by default the API runs in the browser on `packages/core` (D-04); `VITE_API_MODE=http` uses the NestJS backend. No mock data inside components.
 
 ## Layout
 
-- Left sidebar (collapsible on mobile): Dashboard, Fact Sheet, Evidence, Tasks, Agents, Video factory, Publish, Leads, Settings.
+- Left sidebar (collapsible on mobile): Dashboard, Workflow, Week, Review, Fact Sheet, Findings, Tasks, Agents, Video factory, Publish, Leads, Settings.
 - Top bar: campaign name (`Demo Travel (NZ) · China Tour 2027`), **role switcher** (select; stored in Zustand; sent as `X-Role`), "Hours this week 9.5 / 16" pill, next checkpoint date.
 - Global toast for blocked actions: `message` from the API; inline `hint` under the control that was clicked.
 - Every destructive or state-changing button shows a confirm dialog with the reason it will record (e.g. reject note, mismatch note).
@@ -37,20 +37,9 @@ React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + React Rou
 9. **Polling**: while a run is `queued|running`, poll `GET /agents/runs/:id` every 2 s with a progress indicator; stop on completion.
 10. **Accessibility**: focus rings, labelled controls, tables with `<th scope>`, dialogs with focus trap (shadcn defaults). Mobile layout required for Dashboard and Tasks (horizontal scroll kanban).
 
-## Seed data the UI must look good with
+## Seed data
 
-The backend seed (see `CLAUDE.md` "Seed coverage") must include, at minimum, these headline records so the demo script works:
-
-- Fact Sheet external: `FS-04` Departure (pending), `FS-07` Itinerary cities (confirmed), `FS-09` NZ passport entry requirements (confirmed_with_expiry, expires in 30 days, public note "subject to official information at departure"), `FS-11` Inclusions (confirmed), `FS-12` Primary customer 50+ (assumption), `FS-15` Price (pending).
-- Fact Sheet internal: `FS-20` Ad budget (pending), `FS-21` Sales target `[N] seats` (assumption), `FS-22` Sales capacity per week (pending), `FS-23` Close rate `[r]` (assumption), `FS-24` People per booking `[p]` (assumption).
-- Evidence: `E-03` "Lead event fires twice on form submit" (tracking, blocks ads, P0, isExample), `E-07` "China Tour page still shows last year's departures" (site, blocks traffic, P0, isExample).
-- Tasks: `TASK-021` social_post Facebook caption (blocked, needs_confirmation FS-04), `TASK-018` site_change China Tour page (awaiting_approval), `TASK-030` ad_copy Google Search (approved, gates: landing page not ready), `TASK-011` video_brief (approved → brief `SOC-2027CT-003`).
-- Agent runs: `RUN-0003` audit completed; `RUN-0007` outbound completed with one `needs_confirmation`; `RUN-0009` feedback completed with "Pause Meta ad set B"; `RUN-0010` audit failed (no URL); `RUN-0011` feedback queued.
-- Factory: `SOC-2027CT-003` delivered with receipt `v1` (assets `VID-0031-4x5-v1`, `-9x16-v1`, `-16x9-v1`, `factsUsed ['FS-07','FS-11']`, license proof link, `creditsUsed 12 / cap 20`); `SOC-2027CT-004` in_production.
-- Packages: `PUB-2027CT-012` facebook_feed awaiting_approval (asset `VID-0031-4x5-v2`, caption `CAP-012-v1`); others covering each status; `PUB-2027CT-008` mismatch with a one-sentence caption diff.
-- Leads: `L-0012` paid_social valid / deposit_paid, 2 people; `L-0013` organic_search invalid "wants independent travel"; `L-0015` valid then lost; `L-0016` + `L-0017` same contact different travel dates (related, not merged); `L-0018` lead_ads with `adDetail.resolution = 'matched_from_platform'`; one phone lead with `adDetail.resolution = 'unknown'`.
-- Reconciliation: 3 weeks × channels; week 2 `meta_ads` spend > 0 and `crmValidLeads = 0`.
-- Settings: `pmMayApproveNonSubstantive: true` with list `['typos','punctuation','schedule time within the same day']`; alert owner set; landing page checks 3/4 on (so `not_ready`) — the demo flips the fourth.
+Headline records the demo depends on live in `packages/core/src/seed/` (pinned by `seed.spec.ts`); the click-through that uses them is `docs/demo-script.md`.
 
 ## Component notes
 
@@ -60,7 +49,6 @@ The backend seed (see `CLAUDE.md` "Seed coverage") must include, at minimum, the
 - `ReconTable`: columns week, channel, spend, platform conversions, CRM valid leads, CPL or message, over-report ratio with a subtle warning when > 1.3.
 - `VersionDiff`: simple line diff (use `diff` package) for captions and fact statements.
 
-## Testing (light)
+## Testing
 
-- Vitest: `FactChip` colour by status; `ReconTable` zero-denominator message; `GateBadges` rendering from `AdGates`.
-- Playwright smoke (optional): demo flow F1 end to end against the running mock backend.
+Vitest for shared components and the mock API (`src/**/*.test.ts*`); Playwright (`e2e/`) runs every flow in `docs/demo-script.md` plus the Week, Funnel, Review, source-link and layout checks against the in-browser mock API (port 5402).

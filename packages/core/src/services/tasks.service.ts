@@ -3,7 +3,7 @@ import { type IdService } from '../store/id.service';
 import type { Clock } from '../domain/clock';
 import { AD_TASK_TYPES, type Channel, type TaskStatus, type TaskType } from '../domain/enums';
 import { AppError, notFound } from '../domain/errors';
-import { needsConfirmation, unusableRefs } from '../domain/rules/facts';
+import { factRefsIn, needsConfirmation, unusableRefs } from '../domain/rules/facts';
 import { computeAdGates } from '../domain/rules/gates';
 import {
   applyEdit,
@@ -165,7 +165,11 @@ export class TasksService implements TaskReader {
   }
 
   create(dto: CreateTaskInput, actor: Actor): Task {
-    return this.createInternal(dto, actor);
+    // Fact refs not given: the ones cited in the text.
+    const factRefs = dto.factRefs?.length
+      ? dto.factRefs
+      : factRefsIn(`${dto.title} ${dto.body ?? ''}`);
+    return this.createInternal({ ...dto, factRefs }, actor);
   }
 
   patch(id: string, dto: PatchTaskInput, actor: Actor): Task {

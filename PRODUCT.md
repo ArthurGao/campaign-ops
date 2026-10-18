@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Decided in the repo docs (`README.md`, `backend/CLAUDE.md`, `frontend/CLAUDE.md`): React 18 + Vite + TypeScript strict + Tailwind CSS + shadcn/ui (Radix), TanStack Query v5, React Router v6, Zustand (UI state only), `@dnd-kit/core`, Recharts, `diff`; NestJS 10 mock backend with in-memory store; pnpm workspace. No code scaffolded yet (2026-10-18).
+Decided in the repo docs (`README.md`, `backend/CLAUDE.md`, `frontend/CLAUDE.md`): React 18 + Vite + TypeScript strict + Tailwind CSS + shadcn/ui (Radix), TanStack Query v5, React Router v6, Zustand (UI state only), `@dnd-kit/core`, Recharts, `diff`; framework-free domain package `packages/core` serving the API in the browser; optional NestJS 10 wrapper; pnpm workspace.
 
 ## Users
 
@@ -39,7 +39,7 @@ The product's point is that the plan is hard to break, not that it has many feat
 
 ## Capabilities and Constraints
 
-- Nine screens: Dashboard, Fact Sheet, Evidence & backlog, Tasks (kanban), Agents, Video factory, Publish packages, Leads + Reconciliation, Settings.
+- Twelve screens: Dashboard, Workflow, Week, Review, Fact Sheet, Findings, Tasks (kanban), Agents (with AI cost), Video factory, Publish packages, Leads (Funnel, Reconciliation), Settings.
 - Every blocked action returns `{ code, message, hint }`; the UI shows the specific unmet condition, never just a lock.
 - Mock only: no auth, no database, no file upload, no realtime beyond 2 s polling during agent runs.
 - UI copy in English only; no Chinese in the UI.

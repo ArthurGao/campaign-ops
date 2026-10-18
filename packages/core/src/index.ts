@@ -8,6 +8,7 @@ export * from './domain/rules/tasks';
 export * from './domain/rules/packages';
 export * from './domain/rules/leads';
 export * from './domain/rules/ai-cost';
+export * from './domain/rules/findings';
 export * from './domain/rules/funnel';
 export * from './domain/rules/review';
 export * from './domain/rules/recon';

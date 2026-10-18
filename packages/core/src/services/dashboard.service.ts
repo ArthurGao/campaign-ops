@@ -1,5 +1,6 @@
 import type { Clock } from '../domain/clock';
-import { isPubliclyUsable } from '../domain/rules/facts';
+import { isLiveExternal, isPubliclyUsable } from '../domain/rules/facts';
+import { stillBlocking } from '../domain/rules/findings';
 import { funnelTotals } from '../domain/rules/funnel';
 import { weekHours, weekOf } from '../domain/rules/week';
 import type { DashboardResponse } from '../domain/types';
@@ -19,21 +20,11 @@ export class DashboardService {
     const now = this.clock.now();
     const { facts, evidence, packages, settings, ops, funnel, factSheetVersion } = this.store.data;
     const tasks = this.tasks.list();
-    const external = facts.filter(
-      (f) => f.page === 'external' && f.status !== 'superseded' && f.status !== 'rejected',
-    );
+    const external = facts.filter(isLiveExternal);
     const usable = external.filter((f) => isPubliclyUsable(f, now));
-    const verifiedTasks = new Set(tasks.filter((t) => t.status === 'verified').map((t) => t.id));
 
     const blockers: DashboardResponse['blockers'] = [
-      ...evidence
-        .filter(
-          (e) =>
-            e.blocks !== 'none' &&
-            e.status !== 'dismissed' &&
-            !(e.convertedTaskId && verifiedTasks.has(e.convertedTaskId)),
-        )
-        .map((item) => ({ kind: 'evidence' as const, item })),
+      ...stillBlocking(evidence, tasks).map((item) => ({ kind: 'evidence' as const, item })),
       ...tasks
         .filter((t) => t.needsConfirmation && t.status !== 'verified')
         .map((item) => ({ kind: 'task' as const, item })),

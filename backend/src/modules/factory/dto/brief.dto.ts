@@ -14,7 +14,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { RATIOS, type Ratio } from '@campaign-ops/core';
+import { FS_ID, RATIOS, type Ratio } from '@campaign-ops/core';
 
 export class DeliverableDto {
   @IsString()
@@ -40,8 +40,10 @@ export class CreateBriefDto {
   @Matches(/^TASK-\d{3,}$/)
   taskId: string;
 
+  /** Ignored; the server stamps it. Accepted so a prefill can be posted back as is. */
+  @IsOptional()
   @IsString()
-  campaign: string;
+  campaign?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -50,12 +52,14 @@ export class CreateBriefDto {
   @IsString()
   marketLanguage: string;
 
+  /** Ignored; the server stamps the current version. */
+  @IsOptional()
   @IsString()
-  factSheetVersion: string;
+  factSheetVersion?: string;
 
   @IsArray()
   @ArrayUnique()
-  @Matches(/^FS-\d{2,}$/, { each: true })
+  @Matches(new RegExp(`^${FS_ID}$`), { each: true })
   allowedFacts: string[];
 
   @IsArray()

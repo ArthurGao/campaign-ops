@@ -136,3 +136,14 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
   rate at 10+ valid leads. One review (`REV-1`), sent once with a snapshot; its weeks stay fixed after.
   "AI 不是免费的" is Agents → AI cost, derived from runs, receipts and "Audit and AI checks" hours,
   with the full weeks' average as the estimate. Model cost stays in US$ as the runs report it.
+- **D-41 One definition per count; inputs the system already knows (user decision 2026-10-18).**
+  A finding blocks until it is dismissed or its task is verified (`stillBlocking`), and external
+  facts skip superseded and rejected entries (`isLiveExternal`); the Dashboard, sidebar badges,
+  Workflow and the weekly report use these instead of their own filters. The client's consent to a
+  TEST enquiry is part of the pre-approved scope (`testEnquiry`), not a per-run checkbox; the Audit
+  run records it. Briefs get the campaign and current Fact Sheet version from the server, not the
+  client. A new task's fact refs are the FS ids cited in its text. URL inputs default to the landing
+  page from Settings. Kept on purpose: the QA reviewer name (F2 requires it), `allowedAssetScope`
+  and a finding's "needs approval" (records from the source plan), and the reconciliation totals
+  (the source lists all-channel totals separately). Docs: `02-data-model.md` keeps invariants only;
+  types live in `types.ts`.

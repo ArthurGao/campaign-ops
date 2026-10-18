@@ -16,9 +16,9 @@ The current role is shown on every page. Disabled actions show a tooltip "Requir
 
 ## Scope (phase 1)
 
-In: all screens below with mock data; simulated agent runs; all invariants enforced in the mock backend; demo script.
+In: all screens below with mock data; simulated agent runs; all invariants enforced in `packages/core` (in-browser API or optional backend); demo script.
 
-Out: real integrations, auth, persistence beyond process memory (add a "Reset demo data" button in Settings that reloads the seed).
+Out: real integrations, auth, persistence beyond the browser's `localStorage` (or process memory with the optional backend) (add a "Reset demo data" button in Settings that reloads the seed).
 
 ## Screens
 
@@ -46,6 +46,7 @@ Purpose: answer the three starting questions at a glance.
 - Card: type (site_change, seo_change, geo_change, social_post, ad_copy, video_brief), title, owner, fact refs (chips, red if unconfirmed), version, gate badges for ads.
 - Drag between columns only where the transition is allowed (see 02-data-model); otherwise snap back with the reason.
 - Task drawer: description, fact refs with status, QA checklist, approval record, history log.
+- New task: fact refs are read from the FS ids cited in the title and body (D-41).
 
 ### 5. Agents
 - Three cards (Audit, Outbound, Feedback): one-line role, permissions, last run, **Run** button with a small form for inputs (e.g. Outbound: task type + channel + Fact Sheet version; Feedback: date range).
@@ -73,7 +74,7 @@ Purpose: answer the three starting questions at a glance.
 - Export button produces the de-identified CSV the Feedback agent would receive (names/emails/phones stripped) — download as a file.
 
 ### 9. Settings
-- Pre-approved scope: budget cap per channel, pause conditions, allowed asset/fact scope, **non-substantive edits PM may approve (yes/no + list)**.
+- Pre-approved scope: budget cap per channel, pause conditions, allowed asset/fact scope, the client's consent to one TEST enquiry (the Audit agent then observes sales response; D-41), **non-substantive edits PM may approve (yes/no + list)**.
 - People: approvers by category, alert owner outside PM hours (name, contact, response time), executors.
 - UTM template with live preview; prohibited words list used by Outbound checks.
 - Landing page status (`not_ready` / `traffic_ready`) with the four checks as toggles — only all four on allows `traffic_ready`.

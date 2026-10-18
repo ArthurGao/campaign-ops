@@ -1,4 +1,5 @@
-import { useAgents, useRuns } from '@/api/queries/agents';
+import { isLiveExternal, stillBlocking } from '@campaign-ops/core';
+import { useRuns } from '@/api/queries/agents';
 import { useEvidence } from '@/api/queries/evidence';
 import { useBriefs } from '@/api/queries/factory';
 import { useFacts } from '@/api/queries/facts';
@@ -18,16 +19,13 @@ export function useNavCounts(): Record<
   const evidence = useEvidence().data ?? [];
   const tasks = useTasks().data ?? [];
   const runs = useRuns().data ?? [];
-  useAgents();
   const briefs = useBriefs().data ?? [];
   const packages = usePackages().data ?? [];
   const leads = useLeads().data ?? [];
   const settings = useSettings().data;
 
-  const unconfirmed = facts.filter(
-    (f) => f.page === 'external' && !f.publiclyUsable && f.status !== 'superseded',
-  ).length;
-  const blocking = evidence.filter((e) => e.status === 'open' && e.blocks !== 'none').length;
+  const unconfirmed = facts.filter((f) => isLiveExternal(f) && !f.publiclyUsable).length;
+  const blocking = stillBlocking(evidence, tasks).length;
   const openEvidence = evidence.filter((e) => e.status === 'open').length;
   const blocked = tasks.filter((t) => t.status === 'blocked').length;
   const review = runs.flatMap((r) =>

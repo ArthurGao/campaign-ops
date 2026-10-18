@@ -1,3 +1,4 @@
+import { isLiveExternal } from '@campaign-ops/core';
 import { useRuns } from '@/api/queries/agents';
 import { useDashboard } from '@/api/queries/dashboard';
 import { useEvidence } from '@/api/queries/evidence';
@@ -41,7 +42,7 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
   )
     return undefined;
 
-  const external = facts.entries.filter((f) => f.page === 'external' && f.status !== 'superseded');
+  const external = facts.entries.filter(isLiveExternal);
   const unusable = external.filter((f) => !f.publiclyUsable);
   const superseded = facts.entries.filter((f) => f.status === 'superseded').length;
   const lastAudit = runs.find((r) => r.agent === 'audit' && r.status !== 'queued');

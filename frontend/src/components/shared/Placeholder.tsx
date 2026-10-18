@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { FS_ID } from '@campaign-ops/core';
 import { copy } from '@/lib/copy';
 import { cn } from '@/lib/utils';
 import { FactChip } from './FactChip';
@@ -24,7 +25,7 @@ export function Placeholder({
   );
 }
 
-const TOKEN = /(\[← FS-\d+\]|\[[^\]]*TBC[^\]]*\]|\[[A-Za-z]\])/;
+const TOKEN = new RegExp(`(\\[← ${FS_ID}\\]|\\[[^\\]]*TBC[^\\]]*\\]|\\[[A-Za-z]\\])`);
 const IS_PLACEHOLDER = /^(\[[^\]]*TBC[^\]]*\]|\[[A-Za-z]\])$/;
 
 /** Text with inline FS citations as fact chips and [TBC] tokens as placeholders. */
@@ -33,7 +34,7 @@ export function RichText({ text, className }: { text: string; className?: string
   return (
     <span className={className}>
       {parts.map((p, i) => {
-        const fs = /^\[← (FS-\d+)\]$/.exec(p);
+        const fs = new RegExp(`^\\[← (${FS_ID})\\]$`).exec(p);
         if (fs) return <FactChip key={i} id={fs[1]} className="mx-0.5" />;
         if (IS_PLACEHOLDER.test(p)) return <Placeholder key={i}>{p}</Placeholder>;
         return <Fragment key={i}>{p}</Fragment>;

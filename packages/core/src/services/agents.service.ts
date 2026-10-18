@@ -147,6 +147,13 @@ export class AgentsService {
       );
     }
 
+    // The client's consent to a TEST enquiry is recorded once, in the pre-approved scope.
+    if (agent === 'audit') {
+      inputs = {
+        ...inputs,
+        testEnquiryApproved: this.store.data.settings.preApprovedScope.testEnquiry,
+      };
+    }
     const snapshot = adapter.snapshot(inputs);
     if (agent === 'outbound') assertExternalOnly(snapshot);
     const at = this.clock.now().toISOString();

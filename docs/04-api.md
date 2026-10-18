@@ -1,6 +1,6 @@
 # 04 — API (mock backend, NestJS)
 
-Base URL `http://localhost:3000`. JSON everywhere. All mutating endpoints read the acting role from header `X-Role: pm | client_approver | client_decision_maker | sales | executor` and `X-Actor-Name` (defaults to a seeded name per role). Missing permission → `403 { code: 'FORBIDDEN', message, hint: 'Requires: client_approver' }`. Blocked by invariant → `409 { code, message, hint }`. Swagger at `/api/docs`.
+Served in the browser by `packages/core` by default; with `VITE_API_MODE=http`, by the NestJS backend at `http://localhost:3400`. JSON everywhere. All mutating endpoints read the acting role from header `X-Role: pm | client_approver | client_decision_maker | sales | executor` and `X-Actor-Name` (defaults to a seeded name per role). Missing permission → `403 { code: 'FORBIDDEN', message, hint: 'Requires: client_approver' }`. Blocked by invariant → `409 { code, message, hint }`. Swagger at `/api/docs`.
 
 Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH`, `DUPLICATE_BRIEF`, `DUPLICATE_PUBLISH`, `AD_GATES_UNMET` (payload includes `gates: AdGates`), `PAGE_LOCKED`, `QA_REQUIRED`, `APPROVAL_REQUIRED`, `INVALID_TRANSITION`, `SCOPE_NOT_AUTHORISED`.
 

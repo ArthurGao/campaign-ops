@@ -84,6 +84,8 @@ export class FactoryService implements BriefReader {
     const brief: Brief = {
       id,
       ...dto,
+      campaign: this.store.data.settings.campaign.name,
+      factSheetVersion: this.store.data.factSheetVersion,
       deliverables: dto.deliverables.map((d) => ({ ...d })),
       costCap: { ...dto.costCap },
       ...(this.store.data.settings.factorySupportsIdempotency

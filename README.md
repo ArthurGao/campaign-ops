@@ -18,8 +18,10 @@ Built to run the workflow in **China Tour 2027 推广工作流** (https://claude
 | Agents | Three agents — Audit, Outbound, Feedback — each with fixed inputs, read-only permissions, and outputs that must be reviewed. Trigger a run, watch status, review results, accept or reject. |
 | Video factory | Briefs out, receipts in. Idempotency check by `task_id`, QA checklist, cost cap. |
 | Publish packages | One record per post/ad: asset version + caption + UTM link + account + time + fact refs + QA + approval. Approval binds to a version. |
-| Leads (simple CRM) | Every enquiry with source, validity, sales stage, reason, order. Weekly reconciliation of platform-reported conversions vs CRM. |
-| Settings | Pre-approved scope, approvers, alert owner, UTM template, prohibited words. |
+| Leads (simple CRM) | Every enquiry with source, validity, sales stage, reason, order. Funnel by layer with break points; weekly reconciliation of platform-reported conversions vs CRM. |
+| Settings | Pre-approved scope (incl. the client's consent to one TEST enquiry), approvers, alert owner, UTM template, prohibited words. |
+| Workflow | The plan's ten steps with live status, linked both ways to the source artifact. |
+| Week · Review | Monday plan, the PM's 16 hours, the one-page weekly report; the week-4 channel review; AI cost under Agents. |
 
 ## Repo layout
 
@@ -32,8 +34,12 @@ campaign-ops/
 │   ├── 01-product-spec.md    # users, scope, screens, flows
 │   ├── 02-data-model.md      # entities, states, invariants
 │   ├── 03-agents.md          # the three agents: inputs, outputs, mock behaviour
-│   ├── 04-api.md             # REST endpoints (mock backend)
-│   └── 05-frontend.md        # routes, components, mock data, UX rules
+│   ├── 04-api.md             # REST endpoints (same in both API modes)
+│   ├── 05-frontend.md        # routes, components, UX rules
+│   ├── decisions.md          # D-01…: what was decided and why
+│   ├── workflow-source.md    # source plan step → screen map, two-way links
+│   ├── demo-script.md        # the 5-minute click-through
+│   └── source/               # verbatim copy of the source artifact + the linked version
 ├── packages/core/            # framework-free domain: types, rules, seed, mock agents/factory, services
 ├── backend/                  # NestJS wrapper over core (optional; DTO validation, Swagger)
 └── frontend/                 # React + Vite + TypeScript + Tailwind; in-browser mock API by default
@@ -44,7 +50,7 @@ campaign-ops/
 - **frontend**: React 18, Vite, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query, React Router, Zustand (only for UI state), Recharts for the small funnel/reconciliation charts.
 - **core**: plain TypeScript. Rules in `packages/core/src/domain/rules/`, seed in `packages/core/src/seed/`, services in `packages/core/src/services/`, mock integrations in `packages/core/src/integrations/`.
 - **backend** (optional): NestJS 10 controllers + `class-validator` DTOs over core. Swagger at `/api/docs`.
-- **tooling**: pnpm workspaces, ESLint + Prettier, Jest (core rules + seed, backend HTTP e2e), Vitest (frontend), Playwright (browser flows F1–F6).
+- **tooling**: pnpm workspaces, ESLint + Prettier, Jest (core rules + seed, backend HTTP e2e), Vitest (frontend), Playwright (browser flows).
 
 ## Run
 
@@ -68,8 +74,8 @@ their own demo state, reset from **Settings › Reset demo data**.
 ### Checks
 
 ```bash
-pnpm -r typecheck && pnpm lint && pnpm test   # core 99 · backend e2e 21 · frontend 21
-pnpm e2e                                      # Playwright: F1–F6 through the UI (uses system Chrome)
+pnpm typecheck && pnpm lint && pnpm test   # core (Jest), frontend (Vitest), backend HTTP e2e (Jest)
+pnpm e2e                                   # Playwright through the UI (system Chrome, port 5402)
 ```
 
 The 5-minute demo: `docs/demo-script.md`.
@@ -83,4 +89,4 @@ The 5-minute demo: `docs/demo-script.md`.
 
 ## Phase 2 (not in scope now)
 
-Real agent runs via Claude API using the prompts in `backend/src/agents/prompts/`, CSV import for CRM, Meta/Google read-only reporting, Google Sheets sync for the Fact Sheet external page, optional GitHub PR flow for drafts.
+Real agent runs via Claude API using the prompts in `packages/core/src/integrations/agents/prompts/`, CSV import for CRM, Meta/Google read-only reporting, Google Sheets sync for the Fact Sheet external page, optional GitHub PR flow for drafts.

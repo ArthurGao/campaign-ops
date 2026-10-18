@@ -11,7 +11,7 @@ interface AgentAdapter {
 
 `RunContext` provides read-only repositories. **The Outbound adapter is constructed with a `FactSheetReader` that only exposes the external page** (enforced by type: `ExternalFactReader`).
 
-Prompts for phase 2 live in `backend/src/agents/prompts/*.md`; create them now from the "Instruction" sections below so the mock and the future real agent share the same contract.
+Prompts live in `packages/core/src/integrations/agents/prompts/*.md`, copied from the "Instruction" sections below, so the mock and a future real agent share the same contract.
 
 ---
 

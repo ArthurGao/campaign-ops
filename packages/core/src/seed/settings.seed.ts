@@ -24,6 +24,7 @@ export function settingsSeed(): Settings {
       allowedAssetScope:
         'Factory videos that passed QA, and captions citing only confirmed external Fact Sheet entries',
       pmMayApproveNonSubstantive: true,
+      testEnquiry: true,
       nonSubstantiveList: ['typos', 'punctuation', 'schedule time within the same day'],
       signedBy: DECIDER.name,
       signedAt: at(-16, '11:00'),

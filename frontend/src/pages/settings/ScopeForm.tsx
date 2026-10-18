@@ -22,6 +22,7 @@ export function ScopeForm({ settings }: { settings: Settings }) {
   const [pause, setPause] = useState('');
   const [assets, setAssets] = useState('');
   const [pmMay, setPmMay] = useState(false);
+  const [testEnquiry, setTestEnquiry] = useState(false);
   const [list, setList] = useState('');
   useEffect(() => {
     setCaps(
@@ -32,6 +33,7 @@ export function ScopeForm({ settings }: { settings: Settings }) {
     setPause(s.pauseConditions.join('\n'));
     setAssets(s.allowedAssetScope);
     setPmMay(s.pmMayApproveNonSubstantive);
+    setTestEnquiry(s.testEnquiry);
     setList(s.nonSubstantiveList.join(', '));
   }, [s]);
   const save = () =>
@@ -46,6 +48,7 @@ export function ScopeForm({ settings }: { settings: Settings }) {
           .filter(Boolean),
         allowedAssetScope: assets,
         pmMayApproveNonSubstantive: pmMay,
+        testEnquiry,
         nonSubstantiveList: list
           .split(',')
           .map((x) => x.trim())
@@ -100,6 +103,14 @@ export function ScopeForm({ settings }: { settings: Settings }) {
         <Field label="Allowed assets and facts" htmlFor={`${id}-a`}>
           <Input id={`${id}-a`} value={assets} onChange={(e) => setAssets(e.target.value)} />
         </Field>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <Switch
+            checked={testEnquiry}
+            onCheckedChange={setTestEnquiry}
+            aria-label="Client agreed to one TEST enquiry"
+          />
+          Client agreed to one TEST enquiry (the Audit agent then checks sales response)
+        </label>
         <div className="grid gap-3 sm:grid-cols-[auto_1fr] sm:items-center">
           <label className="flex items-center gap-2 text-sm font-medium">
             <Switch

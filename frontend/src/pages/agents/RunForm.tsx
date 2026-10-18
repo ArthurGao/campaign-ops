@@ -12,6 +12,7 @@ import {
 import { useStartRun } from '@/api/queries/agents';
 import { useBriefs } from '@/api/queries/factory';
 import { usePackages } from '@/api/queries/packages';
+import { useSettings } from '@/api/queries/settings';
 import { useTasks } from '@/api/queries/tasks';
 import { BlockedHint } from '@/components/shared/BlockedHint';
 import { Button } from '@/components/ui/button';
@@ -61,9 +62,11 @@ export function RunForm({ agent, onCancel }: { agent: AgentId; onCancel(): void 
   const briefs = useBriefs().data ?? [];
   const packages = usePackages().data ?? [];
 
-  const [siteUrl, setSiteUrl] = useState('https://demo-travel.example');
+  const settings = useSettings().data;
+  // Defaults to the landing page from Settings; an emptied field shows the failed-run path.
+  const [editedUrl, setSiteUrl] = useState<string>();
+  const siteUrl = editedUrl ?? settings?.landingPage.url ?? '';
   const [auditScope, setAuditScope] = useState<string[]>([...AUDIT_SCOPES]);
-  const [testEnquiry, setTestEnquiry] = useState(false);
 
   const [mode, setMode] = useState<OutboundMode>('draft');
   const [taskId, setTaskId] = useState<string>(NONE);
@@ -79,7 +82,7 @@ export function RunForm({ agent, onCancel }: { agent: AgentId; onCancel(): void 
   const submit = () => {
     const inputs: Record<string, unknown> =
       agent === 'audit'
-        ? { siteUrl, scope: auditScope, testEnquiryApproved: testEnquiry }
+        ? { siteUrl, scope: auditScope }
         : agent === 'outbound'
           ? mode === 'draft'
             ? { mode, taskId: pick(taskId), channel, spec }
@@ -118,10 +121,10 @@ export function RunForm({ agent, onCancel }: { agent: AgentId; onCancel(): void 
             value={auditScope as never[]}
             onChange={setAuditScope}
           />
-          <label className="flex items-center gap-2 text-sm">
-            <Checkbox checked={testEnquiry} onCheckedChange={(v) => setTestEnquiry(v === true)} />
-            Client approved one TEST enquiry (needed to observe sales response)
-          </label>
+          <p className="text-xs text-ink-2">
+            Sales response is checked only if the client agreed to a TEST enquiry (Settings →
+            Pre-approved scope): {settings?.preApprovedScope.testEnquiry ? 'agreed' : 'not agreed'}.
+          </p>
         </>
       ) : null}
       {agent === 'outbound' ? (

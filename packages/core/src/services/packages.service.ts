@@ -3,7 +3,7 @@ import { type IdService } from '../store/id.service';
 import type { Clock } from '../domain/clock';
 import type { PackageStatus } from '../domain/enums';
 import { AppError, notFound } from '../domain/errors';
-import { needsConfirmation } from '../domain/rules/facts';
+import { FS_ID, needsConfirmation } from '../domain/rules/facts';
 import {
   applyPackageEdit,
   approvePackage,
@@ -32,7 +32,7 @@ import type { CreatePackageInput, PatchPackageInput } from './inputs';
 /** Remove FS markers and fill {link} so the caption reads as it will be posted. */
 export function captionFromBody(body: string, link: string): string {
   return body
-    .replace(/\s*\[← FS-\d+\]/g, '')
+    .replace(new RegExp(`\\s*\\[← ${FS_ID}\\]`, 'g'), '')
     .replace(/\{link\}/g, link)
     .replace(/\s+…\s+/g, ' ')
     .trim();

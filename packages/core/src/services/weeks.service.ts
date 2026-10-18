@@ -1,6 +1,7 @@
 import type { Clock } from '../domain/clock';
 import { AppError, notFound, requireRole } from '../domain/errors';
 import type { HourCategory, Role } from '../domain/enums';
+import { stillBlocking } from '../domain/rules/findings';
 import { requiresAdGates } from '../domain/rules/gates';
 import {
   addDays,
@@ -164,9 +165,9 @@ export class WeeksService {
       ...plan
         .filter((i) => i.blocker && !i.done)
         .map((i) => `${i.taskId} ${i.title}: ${i.blocker}`),
-      ...this.data.evidence
-        .filter((e) => e.blocks !== 'none' && e.status === 'open')
-        .map((e) => `${e.id} ${e.finding} (blocks ${e.blocks})`),
+      ...stillBlocking(this.data.evidence, this.data.tasks).map(
+        (e) => `${e.id} ${e.finding} (blocks ${e.blocks})`,
+      ),
     ];
     // Next week's plan if there is one; otherwise this week's unfinished items carry over.
     const following = this.planIds(addDays(week, 7)).flatMap((id) => {

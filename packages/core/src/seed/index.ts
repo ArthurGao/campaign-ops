@@ -27,7 +27,7 @@ import { opsSeed, settingsSeed } from './settings.seed';
 import { tasksSeed } from './tasks.seed';
 import { timeEntriesSeed, weeklyReportsSeed, weekPlansSeed } from './week.seed';
 
-export const SEED_VERSION = 'seed-2026-10-18.2';
+export const SEED_VERSION = 'seed-2026-10-18.3';
 
 export type Seed = {
   seedVersion: string;
