@@ -103,7 +103,7 @@ ul.pts li{margin:2px 0}
 .stop.hl .shead{border-color:var(--ag);box-shadow:inset 0 0 0 1px var(--ag)}
 .stitle{flex:1;min-width:0}
 .stitle b{display:block;font-weight:500;font-size:16px}
-.stitle span{display:block;font-size:13px;color:var(--ink2)}
+.stitle > span{display:block;font-size:13px;color:var(--ink2)}
 .roles{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:45%}
 .chev{flex:none;width:18px;height:18px;margin-top:3px;color:var(--ink3);transition:transform .2s}
 .shead[aria-expanded="true"] .chev{transform:rotate(180deg)}
@@ -612,7 +612,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
             <tr><td>社媒</td><td>验收第一批视频；出稿 Agent 写配文、整理发布包；客户批后在 Facebook、Instagram、YouTube 按排期发；发完核对、写日志</td></tr>
             <tr><td>SEO</td><td>诊断做完、排好序；挡住 indexing 的技术问题进官网改动队列</td></tr>
             <tr><td>GEO</td><td>复核第一周的 20 条观察；找出 AI 说错的地方和出处</td></tr>
-            <tr><td>广告</td><td>准备四个条件：预算书面批准、告警和暂停负责人、搜索广告文案初稿、回流 Agent 的检查项、每天看 landing page 的人</td></tr>
+            <tr><td>广告</td><td>按“广告获客”的四个条件准备：预算书面批准、告警和暂停负责人、搜索广告文案初稿；另外定好回流 Agent 的检查项和每天看 landing page 的人</td></tr>
             <tr><td>销售和 CRM</td><td>简易 CRM 表格建好，官网表单接进去（Lead Ads 等广告上线前一周再接）；和销售约好回复时限和状态怎么填</td></tr>
           </tbody>
         </table></div>
@@ -724,8 +724,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
             <tr><td>搜索和 AI 可见度</td><td>几个固定问题在 Google 和 AI 搜索里的表现</td><td>带日期的记录</td></tr>
           </tbody>
         </table></div>
-        <p>所有发现都按同一格式写进证据和待办表：发现了什么、证据、影响、卡不卡后面的事、建议谁处理、要不要审批。我抽查、去重、排好序，再变成任务。</p>
-        <p>表格格式和示例见前面“名词解释”。</p>
+        <p>所有发现都按“名词解释”里证据和待办表的格式记一行；我抽查、去重、排好序，再变成任务。</p>
       </div>
     </details>
 
@@ -896,7 +895,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <h4>谁来做</h4>
         <p><span class="tag t-pm">PM</span> 写简报、复核，<span class="tag t-vf">视频工厂</span> 生产，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 验收、写配文、打包、上线后核对，<span class="tag t-cl">客户</span> 批，<span class="tag t-tl">排期执行人</span> 发布，<button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 汇总效果。</p>
         <h4>简报写什么</h4>
-        <p>只写字段、限制和验收标准：任务 ID、idempotency key、目标、市场和语言（新西兰英语市场，英语交付，遵循客户品牌规范）、Fact Sheet 版本、能用哪些事实、不能出现什么、各渠道交付规格、截止时间、费用和重试上限、谁审批、当前状态。完整样例见前面“交接样例一”。</p>
+        <p>只写字段、限制和验收标准，字段见“交接样例一”的简报；市场和语言固定为新西兰英语市场、英语交付、遵循客户品牌规范。</p>
         <h4>渠道要求</h4>
         <div class="tw"><table class="dt">
           <thead><tr><th>渠道</th><th>交付</th><th>定位</th></tr></thead>
@@ -909,9 +908,9 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         </table></div>
         <p>统一要求：burned-in captions；链接用 UTM 模板生成；具体规格以工厂模板为准。</p>
         <h4>交付状态和回执</h4>
-        <p>派单 → 接单 → 生产中 → 交付 → 验收通过或退回。回执里要有素材 ID、版本、checksum、用了哪些事实、音乐授权凭证、实际用了多少额度。验收不过就附问题清单退回，出新版本，旧版本留着。</p>
+        <p>状态、回执字段和验收标准见“交接样例一”：验收不过就附问题清单退回，出新版本，旧版本留着。</p>
         <h4>审批和发布交接</h4>
-        <p>客户批的是整个发布包：哪个素材版本、配文、链接、账号、时间，批了就绑定这个版本。执行人发之前先查日志，避免重复；发完出稿 Agent 对一下线上内容和批的是否一样，写进发布日志。样例见“交接样例二”。</p>
+        <p>客户批的是整个发布包，批了就绑定这个版本；发之前查日志防重复，发完出稿 Agent 核对线上内容，见“交接样例二”。</p>
         <h4>生产出问题</h4>
         <ul class="pts">
           <li>简报信息不够：工厂退回给我，不自己补</li>
@@ -948,7 +947,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
           <li>每周两次：回流 Agent 跑一次，看花费、CPL、点击到咨询的 conversion rate，有异常就报</li>
           <li>每周一次：我和销售看线索质量，平台数据和 CRM 对账</li>
           <li>除了必须马上停的情况，一周只调一次，别打断平台的 learning phase</li>
-          <li>上线前把我不在线时谁接告警、谁能暂停、多久响应定下来；定不下来，就缩短投放时段，或者先别上</li>
+          <li>告警负责人（第四个条件）定不下来，就缩短投放时段，或者先别上</li>
           <li>平台 automated rules 只管花费和投放状态，网站坏了它不知道；landing page 和表单要另外做可用性检查，告警发给指定的人</li>
         </ul>
         <h4>什么时候停，什么时候调</h4>
@@ -1147,9 +1146,9 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <p>CRM 记什么见前面“名词解释”。</p>
         <ul class="pts">
           <li>所有咨询都进 CRM：官网表单、Lead Ads、私信评论、电话和邮件</li>
-          <li>每条都带来源：UTM、click ID、表单里“从哪知道我们的”；同一联系人合并，不同出行需求分开记</li>
+          <li>每条都带来源，合并和分开的规则同 CRM 表</li>
           <li>和销售约好第一次回复要多快，回得慢本身就是质量问题</li>
-          <li>销售更新两项：有效性（待判断 / 有效 / 无效，写原因和日期）和销售阶段（新线索 → 已联系 → 已报价 → 已付订金 / 流失，写原因）</li>
+          <li>销售更新有效性和销售阶段两项，分开记、都写原因</li>
           <li>每周和销售对 15 分钟：哪些无效、为什么，客户常担心什么，哪个来源更容易成</li>
           <li>有效和预订的状态回传广告平台，让它往质量上优化；无效原因用在下一轮简报和官网 FAQ 里</li>
         </ul>
@@ -1232,7 +1231,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
           </tbody>
         </table></div>
         <h4>版本变了</h4>
-        <p>批准跟着具体版本走。内容改了就是新版本，回到待批；客户书面授权过的非实质小改由我批，但同样生成新版本、记差异和授权依据，产品信息、价格、链接、账号、预算不算小改。Fact Sheet 更新时，按 Fact Sheet 编号把引用旧版本的内容全部找出来重新审。</p>
+        <p>批准跟着具体版本走：内容改了就是新版本，回到待批，小改按上表。Fact Sheet 更新时，按 Fact Sheet 编号把引用旧版本的内容全部找出来重新审。</p>
         <h4>发布失败</h4>
         <ul class="pts">
           <li>接口超时：先去平台看是不是已经发出去了，再决定要不要重试，免得发两遍</li>
@@ -1347,7 +1346,7 @@ const STEPS = [
    key:["没确认的信息不能对外"],
    care:["签证政策只记官方来源和日期，不保证 2027 年还是这样"]},
   {n:5,group:"每个任务都走",title:"出稿",sum:"官网改动、简报、配文、广告文案；视频任务交视频工厂",roles:["out","vf"],role:"ag",agent:"out",
-   what:["出稿 Agent 起草：官网改动（SEO 和 GEO 的需求合并，一个页面一个任务）、各平台配文、广告文案，每条事实标上 Fact Sheet 编号","视频任务：我写简报（渠道、比例、能用的事实、截止、额度），视频工厂按模板出多比例素材，交回执（素材 ID、版本、checksum、用了哪些事实、授权凭证、用了多少额度）"],
+   what:["出稿 Agent 起草：官网改动（SEO 和 GEO 的需求合并，一个页面一个任务）、各平台配文、广告文案，每条事实标上 Fact Sheet 编号","视频任务：我写简报，视频工厂按模板出多比例素材并交回执（字段见“交接样例一”）"],
    input:"Fact Sheet 对外页、品牌规范、渠道规格",output:"草稿和引用编号；视频素材和回执",
    key:["只用确认过的事实，需要没确认的信息就标出来停下","派单前按 task_id 查重；re-render 次数和费用都有上限"],
    care:["简报只写字段和限制，不写创意","工厂信息不够就退回给我，不自己补"]},

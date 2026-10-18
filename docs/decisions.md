@@ -147,3 +147,10 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
   and a finding's "needs approval" (records from the source plan), and the reconciliation totals
   (the source lists all-channel totals separately). Docs: `02-data-model.md` keeps invariants only;
   types live in `types.ts`.
+- **D-42 The source artifact itself is trimmed (user decision 2026-10-18).** An exception to D-36's
+  "content not edited", at the author's request: repeats that restated another section now point to
+  it (evidence format, brief/receipt/package fields, CRM rules, the non-substantive edit rule, the
+  ads alert owner), the week-2 ads row no longer lists five "four conditions", and `.stitle > span`
+  fixes the stretched "审批" stamp on steps 4 and 7. Section titles, record ids and the step,
+  exception and rule counts are unchanged, so every two-way link still resolves.
+  `docs/source/workflow.html` stays the exact copy of the published artifact minus the link block.
