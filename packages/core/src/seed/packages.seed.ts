@@ -34,16 +34,33 @@ function asset(assetId: string, checksum: string): PackageAsset {
 
 type PackageInit = Pick<
   PublishPackage,
-  'id' | 'sourceTaskId' | 'channel' | 'asset' | 'caption' | 'factRefs' | 'scheduledAt' | 'status' | 'approval' | 'publishLog'
+  | 'id'
+  | 'sourceTaskId'
+  | 'channel'
+  | 'asset'
+  | 'caption'
+  | 'factRefs'
+  | 'scheduledAt'
+  | 'status'
+  | 'approval'
+  | 'publishLog'
 > &
-  Partial<Pick<PublishPackage, 'sourceBriefId' | 'verificationNote' | 'factSheetVersion'>> & { created: string; history: PublishPackage['events'] };
+  Partial<Pick<PublishPackage, 'sourceBriefId' | 'verificationNote' | 'factSheetVersion'>> & {
+    created: string;
+    history: PublishPackage['events'];
+  };
 
 function pkg(init: PackageInit): PublishPackage {
   const { created, history, ...rest } = init;
   const { source, medium } = utmForChannel(init.channel);
   return {
     account: ACCOUNTS[init.channel],
-    link: renderUtm(UTM_TEMPLATE, { base: CHINA_TOUR_PAGE, source, medium, content: init.id.toLowerCase() }),
+    link: renderUtm(UTM_TEMPLATE, {
+      base: CHINA_TOUR_PAGE,
+      source,
+      medium,
+      content: init.id.toLowerCase(),
+    }),
     factSheetVersion: 'FS-v1.3',
     qa: PACKAGE_QA(created),
     executor: EXECUTOR.name,
@@ -72,7 +89,10 @@ export function packagesSeed(): PublishPackage[] {
       sourceTaskId: 'TASK-028',
       channel: 'instagram_reels',
       asset: asset('VID-0029-9x16-v1', 'sha256:a113…9e02'),
-      caption: { version: 'CAP-007-v1', text: "Four cities in 30 seconds: Beijing, Xi'an, Guilin, Shanghai. Link in bio." },
+      caption: {
+        version: 'CAP-007-v1',
+        text: "Four cities in 30 seconds: Beijing, Xi'an, Guilin, Shanghai. Link in bio.",
+      },
       factRefs: ['FS-07'],
       factSheetVersion: 'FS-v1.1',
       scheduledAt: at(-12, '12:00'),
@@ -80,11 +100,20 @@ export function packagesSeed(): PublishPackage[] {
       approval: approvedBy(at(-13, '11:00'), 'v1', 'CAP-007-v1'),
       publishLog: [
         { at: at(-13, '14:00'), actor: EXECUTOR, action: 'scheduled' },
-        { at: at(-12, '12:00'), actor: EXECUTOR, action: 'published', postUrl: 'https://instagram.example/p/ct27-007' },
+        {
+          at: at(-12, '12:00'),
+          actor: EXECUTOR,
+          action: 'published',
+          postUrl: 'https://instagram.example/p/ct27-007',
+        },
         { at: at(-8, '08:41'), actor: PM, action: 'verified', note: 'RUN-0006-O2: match' },
       ],
       created: at(-13, '10:00'),
-      history: [ev(at(-13, '10:00'), PM, 'created'), ev(at(-13, '11:00'), APPROVER, 'approved'), ev(at(-8, '08:41'), PM, 'verified')],
+      history: [
+        ev(at(-13, '10:00'), PM, 'created'),
+        ev(at(-13, '11:00'), APPROVER, 'approved'),
+        ev(at(-8, '08:41'), PM, 'verified'),
+      ],
     }),
     pkg({
       id: 'PUB-2027CT-008',
@@ -99,14 +128,29 @@ export function packagesSeed(): PublishPackage[] {
       scheduledAt: at(-5, '18:00'),
       status: 'mismatch',
       approval: approvedBy(at(-6, '11:30'), 'v1', 'CAP-008-v1'),
-      verificationNote: 'Live caption adds "Seats are limited — book now." which is not in approved CAP-008-v1',
+      verificationNote:
+        'Live caption adds "Seats are limited — book now." which is not in approved CAP-008-v1',
       publishLog: [
         { at: at(-6, '15:00'), actor: EXECUTOR, action: 'scheduled' },
-        { at: at(-5, '18:00'), actor: EXECUTOR, action: 'published', postUrl: 'https://facebook.example/demotravelnz/posts/ct27-008' },
-        { at: at(-1, '08:30'), actor: PM, action: 'mismatch', note: 'RUN-0008-O1: live caption adds one sentence' },
+        {
+          at: at(-5, '18:00'),
+          actor: EXECUTOR,
+          action: 'published',
+          postUrl: 'https://facebook.example/demotravelnz/posts/ct27-008',
+        },
+        {
+          at: at(-1, '08:30'),
+          actor: PM,
+          action: 'mismatch',
+          note: 'RUN-0008-O1: live caption adds one sentence',
+        },
       ],
       created: at(-6, '10:00'),
-      history: [ev(at(-6, '10:00'), PM, 'created'), ev(at(-6, '11:30'), APPROVER, 'approved'), ev(at(-1, '08:30'), PM, 'mismatch')],
+      history: [
+        ev(at(-6, '10:00'), PM, 'created'),
+        ev(at(-6, '11:30'), APPROVER, 'approved'),
+        ev(at(-1, '08:30'), PM, 'mismatch'),
+      ],
     }),
     pkg({
       id: 'PUB-2027CT-009',
@@ -123,10 +167,19 @@ export function packagesSeed(): PublishPackage[] {
       approval: approvedBy(at(-7, '11:30'), 'v1', 'CAP-009-v1'),
       publishLog: [
         { at: at(-7, '15:00'), actor: EXECUTOR, action: 'scheduled' },
-        { at: at(-6, '18:00'), actor: EXECUTOR, action: 'published', postUrl: 'https://facebook.example/demotravelnz/posts/ct27-009' },
+        {
+          at: at(-6, '18:00'),
+          actor: EXECUTOR,
+          action: 'published',
+          postUrl: 'https://facebook.example/demotravelnz/posts/ct27-009',
+        },
       ],
       created: at(-7, '10:00'),
-      history: [ev(at(-7, '10:00'), PM, 'created'), ev(at(-7, '11:30'), APPROVER, 'approved'), ev(at(-6, '18:00'), EXECUTOR, 'published')],
+      history: [
+        ev(at(-7, '10:00'), PM, 'created'),
+        ev(at(-7, '11:30'), APPROVER, 'approved'),
+        ev(at(-6, '18:00'), EXECUTOR, 'published'),
+      ],
     }),
     pkg({
       id: 'PUB-2027CT-010',
@@ -144,14 +197,21 @@ export function packagesSeed(): PublishPackage[] {
       approval: approvedBy(at(-3, '11:30'), 'v1', 'CAP-010-v1'),
       publishLog: [{ at: at(-2, '14:00'), actor: EXECUTOR, action: 'scheduled' }],
       created: at(-4, '10:00'),
-      history: [ev(at(-4, '10:00'), PM, 'created'), ev(at(-3, '11:30'), APPROVER, 'approved'), ev(at(-2, '14:00'), EXECUTOR, 'scheduled')],
+      history: [
+        ev(at(-4, '10:00'), PM, 'created'),
+        ev(at(-3, '11:30'), APPROVER, 'approved'),
+        ev(at(-2, '14:00'), EXECUTOR, 'scheduled'),
+      ],
     }),
     pkg({
       id: 'PUB-2027CT-011',
       sourceTaskId: 'TASK-025',
       channel: 'instagram_reels',
       asset: asset('VID-0029-9x16-v1', 'sha256:a113…9e02'),
-      caption: { version: 'CAP-011-v1', text: 'Four cities in 30 seconds. Which one would you visit first? Link in bio.' },
+      caption: {
+        version: 'CAP-011-v1',
+        text: 'Four cities in 30 seconds. Which one would you visit first? Link in bio.',
+      },
       factRefs: ['FS-07'],
       scheduledAt: at(4, '12:00'),
       status: 'approved',
@@ -184,7 +244,8 @@ export function packagesSeed(): PublishPackage[] {
 /** What the mock social platforms return for a live post URL (used by Outbound verify). */
 export function livePostsSeed(): Record<string, string> {
   return {
-    'https://instagram.example/p/ct27-007': "Four cities in 30 seconds: Beijing, Xi'an, Guilin, Shanghai. Link in bio.",
+    'https://instagram.example/p/ct27-007':
+      "Four cities in 30 seconds: Beijing, Xi'an, Guilin, Shanghai. Link in bio.",
     'https://facebook.example/demotravelnz/posts/ct27-008':
       'Every China Tour 2027 group travels with an English-speaking guide from New Zealand. Seats are limited — book now. Learn more at the link.',
     'https://facebook.example/demotravelnz/posts/ct27-009':

@@ -2,7 +2,12 @@ import type { AgentOutput, AgentRun } from '../domain/types';
 import { PM } from './actors';
 import { at, ev, tracked } from './time';
 
-const accepted = (when: string, createdType: 'evidence' | 'task' | 'package' | 'none', createdId?: string, note?: string) => ({
+const accepted = (
+  when: string,
+  createdType: 'evidence' | 'task' | 'package' | 'none',
+  createdId?: string,
+  note?: string,
+) => ({
   status: 'accepted' as const,
   by: PM,
   at: when,
@@ -12,7 +17,10 @@ const accepted = (when: string, createdType: 'evidence' | 'task' | 'package' | '
 });
 
 function run(
-  init: Omit<AgentRun, keyof ReturnType<typeof tracked> | 'requestedBy'> & { requestedBy?: AgentRun['requestedBy']; queuedAt?: string },
+  init: Omit<AgentRun, keyof ReturnType<typeof tracked> | 'requestedBy'> & {
+    requestedBy?: AgentRun['requestedBy'];
+    queuedAt?: string;
+  },
 ): AgentRun {
   const { queuedAt, ...rest } = init;
   const created = queuedAt ?? init.startedAt ?? at(0);
@@ -31,13 +39,23 @@ function auditOutputs(): AgentOutput[] {
       type: 'evidence',
       title: 'Lead event fires twice on form submit',
       body: 'GTM preview shows two `Lead` events for one submit (one from the form plugin, one from a page-view trigger). **Unconfirmed** which tag is the duplicate.',
-      evidence: [{ label: 'GTM preview log — 2 Lead events per submit', url: 'https://example.com/proof/e-03-gtm.png' }],
+      evidence: [
+        {
+          label: 'GTM preview log — 2 Lead events per submit',
+          url: 'https://example.com/proof/e-03-gtm.png',
+        },
+      ],
       proposal: {
         kind: 'evidence',
         evidence: {
           source: 'tracking',
           finding: 'Lead event fires twice on form submit',
-          proof: [{ label: 'GTM preview log — 2 Lead events per submit', url: 'https://example.com/proof/e-03-gtm.png' }],
+          proof: [
+            {
+              label: 'GTM preview log — 2 Lead events per submit',
+              url: 'https://example.com/proof/e-03-gtm.png',
+            },
+          ],
           impact: 'Platform-reported conversions roughly double; bidding optimises on bad data',
           blocks: 'ads',
           priority: 'P0',
@@ -52,13 +70,23 @@ function auditOutputs(): AgentOutput[] {
       type: 'evidence',
       title: "China Tour page still shows last year's departures",
       body: 'The departure table on the China Tour page lists 2026 dates.',
-      evidence: [{ label: 'Page screenshot — 2026 departure table', url: 'https://example.com/proof/e-07.png' }],
+      evidence: [
+        {
+          label: 'Page screenshot — 2026 departure table',
+          url: 'https://example.com/proof/e-07.png',
+        },
+      ],
       proposal: {
         kind: 'evidence',
         evidence: {
           source: 'site',
           finding: "China Tour page still shows last year's departures",
-          proof: [{ label: 'Page screenshot — 2026 departure table', url: 'https://example.com/proof/e-07.png' }],
+          proof: [
+            {
+              label: 'Page screenshot — 2026 departure table',
+              url: 'https://example.com/proof/e-07.png',
+            },
+          ],
           impact: 'Visitors see wrong dates; cannot send paid traffic to this page',
           blocks: 'traffic',
           priority: 'P0',
@@ -99,7 +127,8 @@ function auditOutputs(): AgentOutput[] {
         kind: 'evidence',
         evidence: {
           source: 'tracking',
-          finding: 'Meta Pixel is installed but owned by another Business Manager — ownership unknown, ask client',
+          finding:
+            'Meta Pixel is installed but owned by another Business Manager — ownership unknown, ask client',
           proof: [{ label: 'Pixel helper: dataset owned by an unrecognised business ID' }],
           impact: 'Cannot confirm who controls conversion data or audiences',
           blocks: 'none',
@@ -127,7 +156,8 @@ function auditOutputs(): AgentOutput[] {
         kind: 'evidence',
         evidence: {
           source: 'sales',
-          finding: 'Enquiry form posts to a shared inbox; owner outside office hours unknown (ask client)',
+          finding:
+            'Enquiry form posts to a shared inbox; owner outside office hours unknown (ask client)',
           proof: [{ label: 'Form action → shared inbox (from page source)' }],
           impact: 'Enquiries may wait overnight before anyone sees them',
           blocks: 'none',
@@ -219,7 +249,12 @@ export function runsSeed(): AgentRun[] {
           type: 'verification',
           title: 'PUB-2027CT-007 live reel matches approved versions',
           body: 'Live caption equals CAP-007-v1; asset checksum equals VID-0029-9x16-v1. **match**',
-          proposal: { kind: 'verification', target: 'package', targetId: 'PUB-2027CT-007', result: 'match' },
+          proposal: {
+            kind: 'verification',
+            target: 'package',
+            targetId: 'PUB-2027CT-007',
+            result: 'match',
+          },
           decision: accepted(at(-8, '08:41'), 'package', 'PUB-2027CT-007'),
         },
       ],
@@ -259,7 +294,7 @@ export function runsSeed(): AgentRun[] {
           id: 'RUN-0007-O2',
           type: 'evidence',
           title: "Prohibited word 'guaranteed' in TASK-022",
-          body: "TASK-022 body contains **guaranteed** (prohibited list). Suggest the PM edits before QA.",
+          body: 'TASK-022 body contains **guaranteed** (prohibited list). Suggest the PM edits before QA.',
           evidence: [{ label: 'Settings › Prohibited words: guaranteed' }],
           proposal: {
             kind: 'evidence',
@@ -288,7 +323,11 @@ export function runsSeed(): AgentRun[] {
       id: 'RUN-0008',
       agent: 'outbound',
       trigger: 'manual',
-      inputs: { mode: 'verify', packageId: 'PUB-2027CT-008', livePostUrl: 'https://facebook.example/demotravelnz/posts/ct27-008' },
+      inputs: {
+        mode: 'verify',
+        packageId: 'PUB-2027CT-008',
+        livePostUrl: 'https://facebook.example/demotravelnz/posts/ct27-008',
+      },
       factSheetVersion: 'FS-v1.3',
       status: 'completed',
       startedAt: at(-1, '08:15'),
@@ -315,7 +354,10 @@ export function runsSeed(): AgentRun[] {
       id: 'RUN-0009',
       agent: 'feedback',
       trigger: 'scheduled',
-      inputs: { dateRange: { from: at(-10, '00:00'), to: at(-1, '23:59') }, scope: ['ads', 'funnel', 'reconciliation'] },
+      inputs: {
+        dateRange: { from: at(-10, '00:00'), to: at(-1, '23:59') },
+        scope: ['ads', 'funnel', 'reconciliation'],
+      },
       factSheetVersion: 'FS-v1.3',
       status: 'completed',
       startedAt: at(-1, '07:00'),
@@ -353,6 +395,7 @@ export function runsSeed(): AgentRun[] {
             task: {
               type: 'ad_change',
               title: 'Pause Meta ad set B',
+              spendEffect: 'decrease',
               channel: 'meta_ads',
               body: 'Pause ad set B (campaign META-CT27-B). Reason: spend ≥ $150 in 10 days with 0 valid leads. Before: active · After: paused.',
               factRefs: [],
@@ -365,13 +408,19 @@ export function runsSeed(): AgentRun[] {
           title: 'Landing page is not traffic-ready while Meta ads are live',
           body: 'Settings show the landing page as `not_ready` (Lead event check failing) while TASK-031 (Meta ad set B) is live.',
           immediate: true,
-          evidence: [{ label: 'Settings › Landing page: 3 of 4 checks' }, { label: 'TASK-031 status: live' }],
+          evidence: [
+            { label: 'Settings › Landing page: 3 of 4 checks' },
+            { label: 'TASK-031 status: live' },
+          ],
           proposal: {
             kind: 'evidence',
             evidence: {
               source: 'tracking',
               finding: 'Landing page not traffic-ready while Meta ads are live',
-              proof: [{ label: 'Settings › Landing page: 3 of 4 checks' }, { label: 'TASK-031 status: live' }],
+              proof: [
+                { label: 'Settings › Landing page: 3 of 4 checks' },
+                { label: 'TASK-031 status: live' },
+              ],
               impact: 'Paid traffic lands on a page whose Lead event double-counts',
               blocks: 'ads',
               priority: 'P0',
@@ -398,7 +447,11 @@ export function runsSeed(): AgentRun[] {
       id: 'RUN-0011',
       agent: 'feedback',
       trigger: 'scheduled',
-      inputs: { scheduledFor: at(1, '07:00'), dateRange: 'last 10 days', scope: ['ads', 'funnel', 'reconciliation', 'leads_quality'] },
+      inputs: {
+        scheduledFor: at(1, '07:00'),
+        dateRange: 'last 10 days',
+        scope: ['ads', 'funnel', 'reconciliation', 'leads_quality'],
+      },
       status: 'queued',
       outputs: [],
       queuedAt: at(-1, '07:02'),

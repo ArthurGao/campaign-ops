@@ -1,0 +1,624 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T00:00:00+13:00",
+  "title": "Design System: CampaignOps",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "#f3f5f4",
+        "tonalRamp": [
+          "oklch(15% 0.002 165)",
+          "oklch(26% 0.002 165)",
+          "oklch(37% 0.002 165)",
+          "oklch(48% 0.002 165)",
+          "oklch(60% 0.002 165)",
+          "oklch(72% 0.002 165)",
+          "oklch(84% 0.002 165)",
+          "oklch(95% 0.002 165)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Sheet White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.000 90)",
+          "oklch(26% 0.000 90)",
+          "oklch(37% 0.000 90)",
+          "oklch(48% 0.000 90)",
+          "oklch(60% 0.000 90)",
+          "oklch(72% 0.000 90)",
+          "oklch(84% 0.000 90)",
+          "oklch(95% 0.000 90)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Ledger Tint",
+        "canonical": "#eaeeec",
+        "tonalRamp": [
+          "oklch(15% 0.005 165)",
+          "oklch(26% 0.005 165)",
+          "oklch(37% 0.005 165)",
+          "oklch(48% 0.005 165)",
+          "oklch(60% 0.005 165)",
+          "oklch(72% 0.005 165)",
+          "oklch(84% 0.005 165)",
+          "oklch(95% 0.005 165)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d3dad7",
+        "tonalRamp": [
+          "oklch(15% 0.007 169)",
+          "oklch(26% 0.008 169)",
+          "oklch(37% 0.009 169)",
+          "oklch(48% 0.009 169)",
+          "oklch(60% 0.009 169)",
+          "oklch(72% 0.009 169)",
+          "oklch(84% 0.008 169)",
+          "oklch(95% 0.007 169)"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Heavy Rule",
+        "canonical": "#17232e",
+        "tonalRamp": [
+          "oklch(15% 0.013 247)",
+          "oklch(26% 0.018 247)",
+          "oklch(37% 0.023 247)",
+          "oklch(48% 0.027 247)",
+          "oklch(60% 0.027 247)",
+          "oklch(72% 0.023 247)",
+          "oklch(84% 0.018 247)",
+          "oklch(95% 0.013 247)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#15202b",
+        "tonalRamp": [
+          "oklch(15% 0.013 249)",
+          "oklch(26% 0.018 249)",
+          "oklch(37% 0.022 249)",
+          "oklch(48% 0.026 249)",
+          "oklch(60% 0.026 249)",
+          "oklch(72% 0.023 249)",
+          "oklch(84% 0.018 249)",
+          "oklch(95% 0.013 249)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink Second",
+        "canonical": "#45525e",
+        "tonalRamp": [
+          "oklch(15% 0.013 246)",
+          "oklch(26% 0.017 246)",
+          "oklch(37% 0.022 246)",
+          "oklch(48% 0.026 246)",
+          "oklch(60% 0.026 246)",
+          "oklch(72% 0.023 246)",
+          "oklch(84% 0.017 246)",
+          "oklch(95% 0.013 246)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink Third",
+        "canonical": "#5f6b76",
+        "tonalRamp": [
+          "oklch(15% 0.012 246)",
+          "oklch(26% 0.016 246)",
+          "oklch(37% 0.020 246)",
+          "oklch(48% 0.023 246)",
+          "oklch(60% 0.023 246)",
+          "oklch(72% 0.020 246)",
+          "oklch(84% 0.016 246)",
+          "oklch(95% 0.012 246)"
+        ]
+      },
+      "rail": {
+        "role": "secondary",
+        "displayName": "Harbour Navy",
+        "canonical": "#0f2639",
+        "tonalRamp": [
+          "oklch(15% 0.019 246)",
+          "oklch(26% 0.028 246)",
+          "oklch(37% 0.036 246)",
+          "oklch(48% 0.045 246)",
+          "oklch(60% 0.046 246)",
+          "oklch(72% 0.037 246)",
+          "oklch(84% 0.028 246)",
+          "oklch(95% 0.019 246)"
+        ]
+      },
+      "rail-2": {
+        "role": "secondary",
+        "displayName": "Harbour Navy Lift",
+        "canonical": "#183a55",
+        "tonalRamp": [
+          "oklch(15% 0.025 245)",
+          "oklch(26% 0.036 245)",
+          "oklch(37% 0.047 245)",
+          "oklch(48% 0.059 245)",
+          "oklch(60% 0.061 245)",
+          "oklch(72% 0.048 245)",
+          "oklch(84% 0.036 245)",
+          "oklch(95% 0.025 245)"
+        ]
+      },
+      "rail-ink": {
+        "role": "secondary",
+        "displayName": "Rail Ink",
+        "canonical": "#e8eff4",
+        "tonalRamp": [
+          "oklch(15% 0.007 239)",
+          "oklch(26% 0.009 239)",
+          "oklch(37% 0.010 239)",
+          "oklch(48% 0.010 239)",
+          "oklch(60% 0.010 239)",
+          "oklch(72% 0.010 239)",
+          "oklch(84% 0.009 239)",
+          "oklch(95% 0.007 239)"
+        ]
+      },
+      "rail-muted": {
+        "role": "secondary",
+        "displayName": "Rail Mist",
+        "canonical": "#a3b6c6",
+        "tonalRamp": [
+          "oklch(15% 0.014 244)",
+          "oklch(26% 0.020 244)",
+          "oklch(37% 0.026 244)",
+          "oklch(48% 0.031 244)",
+          "oklch(60% 0.031 244)",
+          "oklch(72% 0.026 244)",
+          "oklch(84% 0.020 244)",
+          "oklch(95% 0.014 244)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Register Cobalt",
+        "canonical": "#2a4dd3",
+        "tonalRamp": [
+          "oklch(15% 0.057 267)",
+          "oklch(26% 0.087 267)",
+          "oklch(37% 0.116 267)",
+          "oklch(48% 0.145 267)",
+          "oklch(60% 0.151 267)",
+          "oklch(72% 0.119 267)",
+          "oklch(84% 0.087 267)",
+          "oklch(95% 0.057 267)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Pressed Cobalt",
+        "canonical": "#1f3cae",
+        "tonalRamp": [
+          "oklch(15% 0.057 267)",
+          "oklch(26% 0.087 267)",
+          "oklch(37% 0.116 267)",
+          "oklch(48% 0.145 267)",
+          "oklch(60% 0.151 267)",
+          "oklch(72% 0.119 267)",
+          "oklch(84% 0.087 267)",
+          "oklch(95% 0.057 267)"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Cobalt Wash",
+        "canonical": "#e6ebfb",
+        "tonalRamp": [
+          "oklch(15% 0.011 272)",
+          "oklch(26% 0.015 272)",
+          "oklch(37% 0.020 272)",
+          "oklch(48% 0.022 272)",
+          "oklch(60% 0.022 272)",
+          "oklch(72% 0.020 272)",
+          "oklch(84% 0.015 272)",
+          "oklch(95% 0.011 272)"
+        ]
+      },
+      "ok": {
+        "role": "tertiary",
+        "displayName": "Ledger Green",
+        "canonical": "#1b7348",
+        "tonalRamp": [
+          "oklch(15% 0.040 157)",
+          "oklch(26% 0.059 157)",
+          "oklch(37% 0.079 157)",
+          "oklch(48% 0.098 157)",
+          "oklch(60% 0.102 157)",
+          "oklch(72% 0.080 157)",
+          "oklch(84% 0.059 157)",
+          "oklch(95% 0.040 157)"
+        ]
+      },
+      "ok-soft": {
+        "role": "tertiary",
+        "displayName": "Green Wash",
+        "canonical": "#e1f1e8",
+        "tonalRamp": [
+          "oklch(15% 0.011 161)",
+          "oklch(26% 0.015 161)",
+          "oklch(37% 0.018 161)",
+          "oklch(48% 0.021 161)",
+          "oklch(60% 0.021 161)",
+          "oklch(72% 0.019 161)",
+          "oklch(84% 0.015 161)",
+          "oklch(95% 0.011 161)"
+        ]
+      },
+      "warn": {
+        "role": "tertiary",
+        "displayName": "Tidemark Amber",
+        "canonical": "#8f5400",
+        "tonalRamp": [
+          "oklch(15% 0.042 65)",
+          "oklch(26% 0.062 65)",
+          "oklch(37% 0.083 65)",
+          "oklch(48% 0.104 65)",
+          "oklch(60% 0.107 65)",
+          "oklch(72% 0.085 65)",
+          "oklch(84% 0.062 65)",
+          "oklch(95% 0.042 65)"
+        ]
+      },
+      "warn-soft": {
+        "role": "tertiary",
+        "displayName": "Amber Wash",
+        "canonical": "#fbeed6",
+        "tonalRamp": [
+          "oklch(15% 0.016 83)",
+          "oklch(26% 0.022 83)",
+          "oklch(37% 0.028 83)",
+          "oklch(48% 0.035 83)",
+          "oklch(60% 0.035 83)",
+          "oklch(72% 0.029 83)",
+          "oklch(84% 0.022 83)",
+          "oklch(95% 0.016 83)"
+        ]
+      },
+      "bad": {
+        "role": "tertiary",
+        "displayName": "Refusal Red",
+        "canonical": "#b02c24",
+        "tonalRamp": [
+          "oklch(15% 0.057 28)",
+          "oklch(26% 0.087 28)",
+          "oklch(37% 0.116 28)",
+          "oklch(48% 0.145 28)",
+          "oklch(60% 0.151 28)",
+          "oklch(72% 0.119 28)",
+          "oklch(84% 0.087 28)",
+          "oklch(95% 0.057 28)"
+        ]
+      },
+      "bad-soft": {
+        "role": "tertiary",
+        "displayName": "Red Wash",
+        "canonical": "#fbe6e3",
+        "tonalRamp": [
+          "oklch(15% 0.012 27)",
+          "oklch(26% 0.016 27)",
+          "oklch(37% 0.020 27)",
+          "oklch(48% 0.023 27)",
+          "oklch(60% 0.023 27)",
+          "oklch(72% 0.021 27)",
+          "oklch(84% 0.016 27)",
+          "oklch(95% 0.012 27)"
+        ]
+      },
+      "internal": {
+        "role": "tertiary",
+        "displayName": "Internal Slate",
+        "canonical": "#59636d",
+        "tonalRamp": [
+          "oklch(15% 0.011 248)",
+          "oklch(26% 0.014 248)",
+          "oklch(37% 0.018 248)",
+          "oklch(48% 0.020 248)",
+          "oklch(60% 0.020 248)",
+          "oklch(72% 0.019 248)",
+          "oklch(84% 0.014 248)",
+          "oklch(95% 0.011 248)"
+        ]
+      },
+      "internal-soft": {
+        "role": "tertiary",
+        "displayName": "Slate Wash",
+        "canonical": "#e7eaed",
+        "tonalRamp": [
+          "oklch(15% 0.005 248)",
+          "oklch(26% 0.005 248)",
+          "oklch(37% 0.005 248)",
+          "oklch(48% 0.005 248)",
+          "oklch(60% 0.005 248)",
+          "oklch(72% 0.005 248)",
+          "oklch(84% 0.005 248)",
+          "oklch(95% 0.005 248)"
+        ]
+      },
+      "progress": {
+        "role": "tertiary",
+        "displayName": "Process Blue",
+        "canonical": "#1d4f74",
+        "tonalRamp": [
+          "oklch(15% 0.031 244)",
+          "oklch(26% 0.046 244)",
+          "oklch(37% 0.061 244)",
+          "oklch(48% 0.076 244)",
+          "oklch(60% 0.079 244)",
+          "oklch(72% 0.063 244)",
+          "oklch(84% 0.046 244)",
+          "oklch(95% 0.031 244)"
+        ],
+        "note": "Literal value in components, not declared in the @theme block of frontend/src/index.css."
+      },
+      "progress-soft": {
+        "role": "tertiary",
+        "displayName": "Process Wash",
+        "canonical": "#e4eef6",
+        "tonalRamp": [
+          "oklch(15% 0.009 242)",
+          "oklch(26% 0.012 242)",
+          "oklch(37% 0.015 242)",
+          "oklch(48% 0.015 242)",
+          "oklch(60% 0.015 242)",
+          "oklch(72% 0.015 242)",
+          "oklch(84% 0.012 242)",
+          "oklch(95% 0.009 242)"
+        ],
+        "note": "Literal value in components, not declared in the @theme block of frontend/src/index.css."
+      },
+      "chart-previous": {
+        "role": "neutral",
+        "displayName": "Prior Period Grey",
+        "canonical": "#9fb3c3",
+        "tonalRamp": [
+          "oklch(15% 0.015 242)",
+          "oklch(26% 0.021 242)",
+          "oklch(37% 0.026 242)",
+          "oklch(48% 0.032 242)",
+          "oklch(60% 0.032 242)",
+          "oklch(72% 0.027 242)",
+          "oklch(84% 0.021 242)",
+          "oklch(95% 0.015 242)"
+        ],
+        "note": "Literal value in components, not declared in the @theme block of frontend/src/index.css."
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles only, on the 2px heavy rule."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Dashboard question columns."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Section headings over a 1px rule, with a mono count."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default text at a 15px root; ledes cap at 72ch."
+      },
+      "body-dense": {
+        "displayName": "Body Dense",
+        "purpose": "Table cells, kanban card titles, gate segment titles."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase data labels: column heads, gate strip titles, top-bar metadata, kanban columns, stamps. Never a kicker above a heading."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Ids, versions, times, counts, money, error codes and placeholders, tabular with slashed zero."
+      }
+    },
+    "shadows": [
+      {
+        "name": "overlay",
+        "value": "0 12px 32px -8px rgb(15 38 57 / 0.28), 0 2px 6px rgb(15 38 57 / 0.12)",
+        "purpose": "Dialogs, drawers, tooltips and a dragged kanban card only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-transition",
+        "value": "150ms",
+        "purpose": "Colour and border transitions on buttons, nav, tabs, fields and kanban columns."
+      },
+      {
+        "name": "rail-slide",
+        "value": "200ms transform",
+        "purpose": "Off-canvas rail below 1024px."
+      },
+      {
+        "name": "gate-fill",
+        "value": "220ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "A gate bar or square fills from the left when its condition passes."
+      },
+      {
+        "name": "pulse-soft",
+        "value": "1.6s ease-in-out infinite (opacity to 0.45)",
+        "purpose": "Running-state status dots and skeletons."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "All animation and transition durations collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "main-max",
+        "value": "96rem (1440px at the 15px root)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one cobalt action on a view.",
+      "html": "<button class=\"ds-btn-primary\">Submit for approval</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:2.125rem;padding:0 0.875rem;border-radius:var(--radius-md,4px);font:500 0.875rem/1 'Public Sans Variable',ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms;border:none;background:var(--color-accent,#2a4dd3);color:#fff;} .ds-btn-primary:hover,.ds-btn-primary:active{background:var(--color-accent-strong,#1f3cae);} .ds-btn-primary:focus-visible{outline:2px solid var(--color-accent,#2a4dd3);outline-offset:2px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Default button: white with a hairline border.",
+      "html": "<button class=\"ds-btn-secondary\">Open history</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:2.125rem;padding:0 0.875rem;border-radius:var(--radius-md,4px);font:500 0.875rem/1 'Public Sans Variable',ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms;border:1px solid var(--color-rule,#d3dad7);background:var(--color-surface,#fff);color:var(--color-ink,#15202b);} .ds-btn-secondary:hover{border-color:var(--color-ink-3,#5f6b76);background:var(--color-ground,#f3f5f4);} .ds-btn-secondary:focus-visible{outline:2px solid var(--color-accent,#2a4dd3);outline-offset:2px;}"
+    },
+    {
+      "name": "Approve Button",
+      "kind": "button",
+      "refersTo": "button-approve",
+      "description": "Green action reserved for approval and confirmation.",
+      "html": "<button class=\"ds-btn-approve\">Approve v3</button>",
+      "css": ".ds-btn-approve{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:2.125rem;padding:0 0.875rem;border-radius:var(--radius-md,4px);font:500 0.875rem/1 'Public Sans Variable',ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms;border:none;background:var(--color-ok,#1b7348);color:#fff;} .ds-btn-approve:hover{background:#145a38;} .ds-btn-approve:focus-visible{outline:2px solid var(--color-accent,#2a4dd3);outline-offset:2px;}"
+    },
+    {
+      "name": "Refused Action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "An action the role may not take: visible, aria-disabled at 45% opacity, reason in the tooltip.",
+      "html": "<button class=\"ds-btn-primary ds-btn-refused\" aria-disabled=\"true\" title=\"Requires Client approver\">Approve</button>",
+      "css": ".ds-btn-refused{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:2.125rem;padding:0 0.875rem;border-radius:var(--radius-md,4px);font:500 0.875rem/1 'Public Sans Variable',ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms;border:none;background:var(--color-accent,#2a4dd3);color:#fff;opacity:0.45;cursor:not-allowed;} .ds-btn-refused:focus-visible{outline:2px solid var(--color-accent,#2a4dd3);outline-offset:2px;}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Hairline field with a cobalt border and ring on focus.",
+      "html": "<input class=\"ds-input\" placeholder=\"Search facts\" aria-label=\"Search facts\" />",
+      "css": ".ds-input{height:2.125rem;width:16rem;padding:0 0.625rem;border:1px solid var(--color-rule,#d3dad7);border-radius:var(--radius-md,4px);background:var(--color-surface,#fff);color:var(--color-ink,#15202b);font:0.875rem 'Public Sans Variable',ui-sans-serif,sans-serif;caret-color:var(--color-accent,#2a4dd3);transition:border-color 150ms;} .ds-input::placeholder{color:var(--color-ink-3,#5f6b76);} .ds-input:hover{border-color:var(--color-ink-3,#5f6b76);} .ds-input:focus-visible{outline:none;border-color:var(--color-accent,#2a4dd3);box-shadow:0 0 0 2px rgb(42 77 211 / 0.25);}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Harbour-navy rail with live mono counts; active item on the lifted navy.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-rail-item ds-rail-active\" href=\"#\">Dashboard</a><a class=\"ds-rail-item\" href=\"#\">Fact Sheet<span class=\"ds-rail-count ds-rail-alert\">4</span></a><a class=\"ds-rail-item\" href=\"#\">Agents<span class=\"ds-rail-count\">6</span></a></nav>",
+      "css": ".ds-rail{display:grid;gap:1px;width:15rem;padding:0.5rem;background:var(--color-rail,#0f2639);font-family:'Public Sans Variable',ui-sans-serif,sans-serif;} .ds-rail-item{display:flex;align-items:center;gap:10px;padding:0.45rem 0.625rem;border-radius:var(--radius-md,4px);color:rgb(232 239 244 / 0.85);font-size:0.875rem;text-decoration:none;transition:background-color 150ms,color 150ms;} .ds-rail-item:hover{background:rgb(255 255 255 / 0.06);color:#fff;} .ds-rail-item:focus-visible{outline:2px solid var(--color-accent,#2a4dd3);outline-offset:2px;} .ds-rail-active{background:var(--color-rail-2,#183a55);color:#fff;font-weight:600;} .ds-rail-count{margin-left:auto;min-width:1.25rem;padding:0 4px;border-radius:var(--radius-sm,3px);background:rgb(255 255 255 / 0.12);color:var(--color-rail-ink,#e8eff4);font:600 0.68rem/1.1rem 'JetBrains Mono Variable',ui-monospace,monospace;text-align:center;} .ds-rail-alert{background:#f2b8b2;color:#5c1410;}"
+    },
+    {
+      "name": "Status and Fact Chips",
+      "kind": "chip",
+      "refersTo": "status-chip-ok",
+      "description": "Semantic chips: status with a dot, fact ids in mono with an icon, and a version stamp.",
+      "html": "<span class=\"ds-row\"><span class=\"ds-chip ds-ok\"><i class=\"ds-dot\"></i>Live</span><span class=\"ds-chip ds-warn\"><i class=\"ds-dot\"></i>Awaiting approval</span><span class=\"ds-chip ds-progress\"><i class=\"ds-dot\"></i>Scheduled</span><span class=\"ds-chip ds-mono ds-bad\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg>FS-04</span><span class=\"ds-chip ds-mono ds-ok\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>FS-07</span><span class=\"ds-chip ds-mono ds-plain\">v3</span><span class=\"ds-tbc\">[date TBC]</span></span>",
+      "css": ".ds-row{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:'Public Sans Variable',ui-sans-serif,sans-serif;} .ds-chip{display:inline-flex;align-items:center;gap:5px;padding:1px 6px;border:1px solid;border-radius:var(--radius-sm,3px);font-size:0.72rem;font-weight:500;line-height:1rem;white-space:nowrap;} .ds-mono{font-family:'JetBrains Mono Variable',ui-monospace,monospace;gap:4px;} .ds-dot{width:6px;height:6px;border-radius:50%;background:currentColor;} .ds-ok{background:var(--color-ok-soft,#e1f1e8);color:var(--color-ok,#1b7348);border-color:rgb(27 115 72 / 0.3);} .ds-warn{background:var(--color-warn-soft,#fbeed6);color:var(--color-warn,#8f5400);border-color:rgb(143 84 0 / 0.35);} .ds-bad{background:var(--color-bad-soft,#fbe6e3);color:var(--color-bad,#b02c24);border-color:rgb(176 44 36 / 0.3);} .ds-progress{background:#e4eef6;color:#1d4f74;border-color:rgb(29 79 116 / 0.2);} .ds-plain{background:var(--color-ground,#f3f5f4);color:var(--color-ink-2,#45525e);border-color:var(--color-rule,#d3dad7);} .ds-tbc{padding:0 4px;border:1px dashed rgb(95 107 118 / 0.5);border-radius:2px;background:rgb(234 238 236 / 0.7);color:var(--color-ink-3,#5f6b76);font:0.85em 'JetBrains Mono Variable',ui-monospace,monospace;}"
+    },
+    {
+      "name": "Gate Strip",
+      "kind": "custom",
+      "description": "Signature: numbered gate segments that fill green as conditions pass and name the unmet ones, hatched in red.",
+      "html": "<div class=\"ds-gates\"><div class=\"ds-gates-head\"><span class=\"ds-gates-title\">Ad gates</span><span class=\"ds-gates-count\">2/4 passed — cannot go live</span></div><ol class=\"ds-gates-row\"><li class=\"ds-gate ds-gate-no\"><span class=\"ds-gate-bar\"></span><span class=\"ds-gate-n\">Gate 1 <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></span><span class=\"ds-gate-short\">Facts</span><span class=\"ds-gate-label\">Product facts confirmed</span></li><li class=\"ds-gate ds-gate-no\"><span class=\"ds-gate-bar\"></span><span class=\"ds-gate-n\">Gate 2 <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></span><span class=\"ds-gate-short\">Landing page</span><span class=\"ds-gate-label\">Landing page traffic-ready</span></li><li class=\"ds-gate ds-gate-ok\"><span class=\"ds-gate-bar\"></span><span class=\"ds-gate-n\">Gate 3 <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span class=\"ds-gate-short\">Creative</span><span class=\"ds-gate-label\">Creative approved (current version)</span></li><li class=\"ds-gate ds-gate-ok\"><span class=\"ds-gate-bar\"></span><span class=\"ds-gate-n\">Gate 4 <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span class=\"ds-gate-short\">Budget &amp; alerts</span><span class=\"ds-gate-label\">Budget cap and out-of-hours alert owner approved</span></li></ol></div>",
+      "css": ".ds-gates{display:grid;gap:8px;max-width:48rem;font-family:'Public Sans Variable',ui-sans-serif,sans-serif;} .ds-gates-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;} .ds-gates-title{font-size:0.6875rem;font-weight:600;letter-spacing:0.025em;text-transform:uppercase;color:var(--color-ink-2,#45525e);} .ds-gates-count{font:600 0.75rem 'JetBrains Mono Variable',ui-monospace,monospace;color:var(--color-bad,#b02c24);} .ds-gates-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:0;padding:0;list-style:none;overflow:hidden;border:1px solid var(--color-rule,#d3dad7);border-radius:var(--radius-md,4px);background:var(--color-rule,#d3dad7);} .ds-gate{position:relative;display:grid;align-content:start;gap:2px;padding:8px 10px;background:var(--color-surface,#fff);} .ds-gate-no{background:repeating-linear-gradient(135deg,var(--color-bad-soft,#fbe6e3) 0 6px,var(--color-surface,#fff) 6px 12px);} .ds-gate-bar{position:absolute;left:0;right:0;top:0;height:4px;transform-origin:left;background:var(--color-bad,#b02c24);} .ds-gate-ok .ds-gate-bar{background:var(--color-ok,#1b7348);animation:ds-gate-fill 220ms cubic-bezier(0.16,1,0.3,1);} .ds-gate-n{display:flex;align-items:center;gap:4px;padding-top:2px;font:0.68rem 'JetBrains Mono Variable',ui-monospace,monospace;color:var(--color-ink-3,#5f6b76);} .ds-gate-ok .ds-gate-n svg{color:var(--color-ok,#1b7348);} .ds-gate-no .ds-gate-n svg{color:var(--color-bad,#b02c24);} .ds-gate-short{font-size:0.8125rem;font-weight:600;line-height:1.25;color:var(--color-ink,#15202b);} .ds-gate-no .ds-gate-short{color:var(--color-bad,#b02c24);} .ds-gate-label{font-size:0.72rem;line-height:1.375;color:var(--color-ink-2,#45525e);} @keyframes ds-gate-fill{from{transform:scaleX(0.2);opacity:0.4}to{transform:scaleX(1);opacity:1}} @media (prefers-reduced-motion:reduce){.ds-gate-bar{animation:none!important}}"
+    },
+    {
+      "name": "Blocked Hint",
+      "kind": "custom",
+      "description": "Inline refusal beside the control: code, message and hint.",
+      "html": "<div class=\"ds-blocked\" role=\"alert\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.9 4.9 14.2 14.2\"/></svg><div><p class=\"ds-blocked-msg\"><span class=\"ds-blocked-code\">FACT_NOT_CONFIRMED</span>Draft cites FS-04, which is still pending.</p><p class=\"ds-blocked-hint\">Ask the client approver to confirm FS-04 on the Fact Sheet.</p></div></div>",
+      "css": ".ds-blocked{display:flex;gap:8px;align-items:flex-start;max-width:36rem;padding:10px 12px;border:1px solid rgb(176 44 36 / 0.3);border-radius:var(--radius-md,4px);background:rgb(251 230 227 / 0.6);font:0.875rem/1.45 'Public Sans Variable',ui-sans-serif,sans-serif;} .ds-blocked>svg{flex-shrink:0;margin-top:2px;color:var(--color-bad,#b02c24);} .ds-blocked p{margin:0;} .ds-blocked-msg{font-weight:500;color:var(--color-ink,#15202b);} .ds-blocked-code{margin-right:6px;font:600 0.7rem 'JetBrains Mono Variable',ui-monospace,monospace;color:var(--color-bad,#b02c24);} .ds-blocked-hint{color:var(--color-ink-2,#45525e);}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Kept Register",
+    "overview": "CampaignOps reads like a well-kept record book: who approved which version, which fact is usable, which gate is still shut and why. It refuses the dark metric-card dashboard. The ground is a cool paper-white, the type is blue-black ink, and the shell (a deep harbour-navy rail) is the only committed mass of colour. Content sits on white records separated by 1px rules, not on floating cards.\n\nDensity is high but legible. A 15px root keeps tables, kanban cards and drawers compact; ids, versions, times, money and counts are set in a monospace with tabular figures so provenance scans in columns. Colour carries meaning, not mood: one cobalt for action and selection, and a strict semantic set (green, amber, red, grey) reserved for fact and gate state, always paired with a word or icon.\n\nThe signature is the gate strip: numbered segments that fill green as each condition passes and name the unmet ones inline, with unmet segments hatched in red. The same object appears on the dashboard, in drawers, in blocked-action hints and, compacted, on kanban cards. The world's motion is the moment a block clears: a segment fills, a chip turns green, a version stamp changes.",
+    "keyCharacteristics": [
+      "Cool paper-white ground, white records, 1px rules; no resting shadows.",
+      "Harbour-navy rail as the shell; the role switcher and tooltips share its colour.",
+      "One cobalt accent for primary action, selection, links and focus.",
+      "Semantic colour for fact and gate state only, never without text.",
+      "Public Sans for UI, JetBrains Mono for every id, version, time, count and placeholder.",
+      "Square-ish 4px corners; a 2px heavy rule under each page heading.",
+      "The gate strip as the reusable signature of every refusal."
+    ],
+    "rules": [
+      {
+        "name": "The Semantic-Only Rule",
+        "body": "Green, amber, red, grey and process blue mean fact or workflow state and nothing else, and every use carries a word, id or icon. A coloured dot or tint alone never states a status.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Cobalt Rule",
+        "body": "Cobalt marks what you can act on or what is selected. It never signals a status, and it is never decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Navy Shell Rule",
+        "body": "Harbour Navy is the shell's colour: rail, role switcher, tooltips, scrim. Content regions stay on paper and white.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Provenance Rule",
+        "body": "Anything that identifies, versions, times, counts or prices a record is set in JetBrains Mono with tabular figures and slashed zero. Prose never is.",
+        "section": "typography"
+      },
+      {
+        "name": "The Placeholder Rule",
+        "body": "An unknown value (`[date TBC]`, `[price TBC]`) is mono, muted ink-3, on a tinted panel with a dashed border, so it can never be mistaken for a real value.",
+        "section": "typography"
+      },
+      {
+        "name": "The Overlay-Only Shadow Rule",
+        "body": "A surface casts a shadow only when it floats above the page (dialog, sheet, tooltip, a dragged card). Resting cards, tables and panels are flat.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Heavy Rule Rule",
+        "body": "Only page headings sit on the 2px rule-strong line. Everything else divides with 1px Hairline.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do keep the ground Cool Paper (#f3f5f4) and every record Sheet White, separated by 1px Hairline rules.",
+      "Do name the rule and the fix wherever an action is refused: keep the control visible at 45% opacity, put the reason in its tooltip, and show code, message and hint in a Blocked Hint.",
+      "Do use the gate strip for any multi-condition gate, in full form in drawers, dashboard and hints and in compact form on cards.",
+      "Do set ids, versions, times, counts and money in JetBrains Mono with tabular figures.",
+      "Do render TBC values as dashed, muted mono placeholders.",
+      "Do pair every semantic colour with a word, id or icon.",
+      "Do keep motion to state changes: 150ms colour transitions, 220ms gate fills, a soft pulse only for running work and skeletons, all collapsed under reduced motion."
+    ],
+    "donts": [
+      "Don't build a dark dashboard of metric cards; this is a light register.",
+      "Don't use a cream or warm ground; the paper is cool.",
+      "Don't use cobalt to signal state, or semantic colours for decoration or emphasis.",
+      "Don't put shadows on resting cards, tables or panels; the overlay shadow is for floating surfaces only.",
+      "Don't hide an action the current role cannot take; disable it and say who can.",
+      "Don't place an uppercase label above a page or section heading as a kicker; uppercase labels name data columns, metadata and stamps.",
+      "Don't round past 6px or use pill-shaped buttons and chips."
+    ]
+  }
+}

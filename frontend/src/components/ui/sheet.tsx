@@ -3,26 +3,76 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-/** Right-hand drawer for record details (task, fact usages, lead). */
-export const Sheet = DialogPrimitive.Root;
+/**
+ * Right-hand side panel for record details (task, fact usages, lead). Non-modal on purpose: the
+ * role switcher and navigation stay usable while it is open, so a demo can switch role mid-flow.
+ */
+export function Sheet({
+  open,
+  onOpenChange,
+  children,
+}: {
+  open: boolean;
+  onOpenChange(open: boolean): void;
+  children: React.ReactNode;
+}) {
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange} modal={false}>
+      {children}
+    </DialogPrimitive.Root>
+  );
+}
 
-export function SheetContent({ title, description, children, className, actions }: { title: React.ReactNode; description?: React.ReactNode; children: React.ReactNode; className?: string; actions?: React.ReactNode }) {
+/** Clicks on the top bar or inside popovers (selects, tooltips) do not dismiss the panel. */
+function keepOpen(e: { target: EventTarget | null; preventDefault(): void }) {
+  const el = e.target as Element | null;
+  if (
+    el?.closest(
+      '[data-keep-sheet], [data-radix-popper-content-wrapper], [role="dialog"], [data-sonner-toaster]',
+    )
+  )
+    e.preventDefault();
+}
+
+export function SheetContent({
+  title,
+  description,
+  children,
+  className,
+  actions,
+}: {
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+  actions?: React.ReactNode;
+}) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-40 bg-rail/30" />
       <DialogPrimitive.Content
+        onInteractOutside={keepOpen}
         className={cn(
-          'fixed inset-y-0 right-0 z-50 flex w-full max-w-[44rem] flex-col border-l border-rule bg-surface shadow-overlay data-[state=open]:animate-[sheet-in_200ms_cubic-bezier(0.16,1,0.3,1)]',
+          'fixed bottom-0 right-0 top-14 z-30 flex w-full max-w-[44rem] flex-col border-l border-rule bg-surface shadow-overlay',
           className,
         )}
       >
         <header className="flex items-start gap-3 border-b border-rule px-5 py-4">
           <div className="min-w-0 flex-1">
-            <DialogPrimitive.Title className="text-base font-semibold leading-snug text-ink">{title}</DialogPrimitive.Title>
-            <DialogPrimitive.Description className={description ? 'mt-1 text-sm text-ink-2' : 'sr-only'}>{description ?? 'Details'}</DialogPrimitive.Description>
+            <DialogPrimitive.Title className="text-base font-semibold leading-snug text-ink">
+              {title}
+            </DialogPrimitive.Title>
+            <DialogPrimitive.Description
+              asChild={!!description}
+              className={description ? 'mt-1 text-sm text-ink-2' : 'sr-only'}
+            >
+              {description ? <div>{description}</div> : 'Details'}
+            </DialogPrimitive.Description>
           </div>
           {actions}
-          <DialogPrimitive.Close className="rounded-sm p-1 text-ink-3 hover:bg-panel hover:text-ink" aria-label="Close">
+          <DialogPrimitive.Close
+            className="rounded-sm p-1 text-ink-3 hover:bg-panel hover:text-ink"
+            aria-label="Close"
+          >
             <X className="size-4" />
           </DialogPrimitive.Close>
         </header>

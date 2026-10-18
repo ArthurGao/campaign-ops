@@ -13,6 +13,10 @@ export class HealthController {
 
   @Get()
   get() {
-    return { ok: true, seedVersion: this.store.data.seedVersion, now: this.clock.now().toISOString() };
+    return {
+      ok: true,
+      seedVersion: this.store.data.seedVersion,
+      now: this.clock.now().toISOString(),
+    };
   }
 }

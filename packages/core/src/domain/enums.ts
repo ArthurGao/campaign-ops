@@ -1,7 +1,13 @@
 // Status enums and other string unions, defined once.
 // Copied verbatim to frontend/src/types/ by `pnpm sync-types` — never edit the copy.
 
-export const ROLES = ['pm', 'client_approver', 'client_decision_maker', 'sales', 'executor'] as const;
+export const ROLES = [
+  'pm',
+  'client_approver',
+  'client_decision_maker',
+  'sales',
+  'executor',
+] as const;
 export type Role = (typeof ROLES)[number];
 export const CLIENT_ROLES = ['client_approver', 'client_decision_maker'] as const;
 
@@ -19,7 +25,15 @@ export const FACT_PAGES = ['external', 'internal'] as const;
 export type FactPage = (typeof FACT_PAGES)[number];
 
 // Evidence & backlog
-export const EVIDENCE_SOURCES = ['site', 'tracking', 'channels', 'seo', 'geo', 'sales', 'ai_search'] as const;
+export const EVIDENCE_SOURCES = [
+  'site',
+  'tracking',
+  'channels',
+  'seo',
+  'geo',
+  'sales',
+  'ai_search',
+] as const;
 export type EvidenceSource = (typeof EVIDENCE_SOURCES)[number];
 export const BLOCKS = ['none', 'traffic', 'ads', 'measurement'] as const;
 export type Blocks = (typeof BLOCKS)[number];
@@ -113,7 +127,13 @@ export const PACKAGE_STATUSES = [
 export type PackageStatus = (typeof PACKAGE_STATUSES)[number];
 export const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'] as const;
 export type ApprovalStatus = (typeof APPROVAL_STATUSES)[number];
-export const PUBLISH_ACTIONS = ['scheduled', 'published', 'verified', 'mismatch', 'taken_down'] as const;
+export const PUBLISH_ACTIONS = [
+  'scheduled',
+  'published',
+  'verified',
+  'mismatch',
+  'taken_down',
+] as const;
 export type PublishAction = (typeof PUBLISH_ACTIONS)[number];
 
 // Leads: a valid lead is validity 'valid'

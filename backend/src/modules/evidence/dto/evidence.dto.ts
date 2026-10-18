@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
   Matches,
   ValidateNested,
 } from 'class-validator';
@@ -31,7 +32,7 @@ export class ProofDto {
   label: string;
 
   @IsOptional()
-  @IsString()
+  @IsUrl({ protocols: ['http', 'https'], require_protocol: true })
   url?: string;
 }
 

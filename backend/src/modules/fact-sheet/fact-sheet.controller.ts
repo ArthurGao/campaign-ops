@@ -17,7 +17,13 @@ export class FactSheetController {
   @Get()
   @ApiQuery({ name: 'page', enum: FACT_PAGES, required: false })
   list(@Query('page') page?: FactPage) {
-    if (page && !FACT_PAGES.includes(page)) throw new AppError('VALIDATION', `page must be one of ${FACT_PAGES.join(', ')}`, undefined, 400);
+    if (page && !FACT_PAGES.includes(page))
+      throw new AppError(
+        'VALIDATION',
+        `page must be one of ${FACT_PAGES.join(', ')}`,
+        undefined,
+        400,
+      );
     return this.facts.list(page);
   }
 
@@ -49,8 +55,9 @@ export class FactSheetController {
     return this.facts.patch(id, dto, actor);
   }
 
+  /** Client roles; the PM only for official-source entries, with an expiry (rule in core). */
   @Post(':id/confirm')
-  @Roles('client_approver', 'client_decision_maker')
+  @Roles('client_approver', 'client_decision_maker', 'pm')
   confirm(@Param('id') id: string, @Body() dto: ConfirmFactDto, @CurrentActor() actor: Actor) {
     return this.facts.confirm(id, dto, actor);
   }

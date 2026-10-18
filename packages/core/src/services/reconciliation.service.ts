@@ -7,7 +7,9 @@ export class ReconciliationService {
 
   /** Last `weeks` weeks of platform-reported vs CRM valid leads, with derived CPL and ratio. */
   get(weeks = 3): ReconResponse {
-    const starts = [...new Set(this.store.data.recon.map((r) => r.weekStart))].sort().slice(-Math.max(1, weeks));
+    const starts = [...new Set(this.store.data.recon.map((r) => r.weekStart))]
+      .sort()
+      .slice(-Math.max(1, weeks));
     const rows = this.store.data.recon.filter((r) => starts.includes(r.weekStart)).map(withDerived);
     return { rows, summary: summarize(rows) };
   }

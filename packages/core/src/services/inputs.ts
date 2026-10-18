@@ -22,7 +22,13 @@ export function defined<T extends object>(obj: T): Partial<T> {
 }
 
 // ---- Fact Sheet
-export type CreateFactInput = { page: FactPage; label: string; statement: string; purpose?: string; publicNote?: string };
+export type CreateFactInput = {
+  page: FactPage;
+  label: string;
+  statement: string;
+  purpose?: string;
+  publicNote?: string;
+};
 export type PatchFactInput = {
   label?: string;
   statement?: string;
@@ -51,7 +57,13 @@ export type PatchEvidenceInput = {
   blocks?: Blocks;
   reason?: string;
 };
-export type ConvertEvidenceInput = { type: TaskType; title?: string; channel?: Channel; pageUrl?: string; factRefs?: string[] };
+export type ConvertEvidenceInput = {
+  type: TaskType;
+  title?: string;
+  channel?: Channel;
+  pageUrl?: string;
+  factRefs?: string[];
+};
 
 // ---- Tasks
 export type CreateTaskInput = {
@@ -104,13 +116,23 @@ export type CreateBriefInput = {
   costCap: { maxRerenders: number; maxCredits: number };
   approver: string;
 };
-export type BriefQAInput = { passed: boolean; checklist: QAChecklistItem[]; notes?: string; reviewerName?: string };
+export type BriefQAInput = {
+  passed: boolean;
+  checklist: QAChecklistItem[];
+  notes?: string;
+  reviewerName?: string;
+};
 
 // ---- Leads
 export type CreateLeadInput = {
   contact: { name: string; email?: string; phone?: string };
   enquiry: { tour: string; travelDate?: string; people?: number; notes?: string };
-  source: { utmSource?: string; utmMedium?: SourceMedium; utmCampaign?: string; channelLabel: string };
+  source: {
+    utmSource?: string;
+    utmMedium?: SourceMedium;
+    utmCampaign?: string;
+    channelLabel: string;
+  };
   selfReportedSource?: string;
 };
 export type PatchLeadInput = {
@@ -142,7 +164,12 @@ export type PatchSettingsInput = {
   prohibitedWords?: string[];
   landingPage?: {
     url?: string;
-    checks?: { factsConfirmed?: boolean; leadFiresOnce?: boolean; sourceCaptured?: boolean; reachesSales?: boolean };
+    checks?: {
+      factsConfirmed?: boolean;
+      leadFiresOnce?: boolean;
+      sourceCaptured?: boolean;
+      reachesSales?: boolean;
+    };
   };
   factorySupportsIdempotency?: boolean;
 };

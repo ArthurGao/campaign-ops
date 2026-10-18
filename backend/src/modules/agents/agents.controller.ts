@@ -39,7 +39,12 @@ export class AgentsController {
 
   @Post('runs/:runId/outputs/:outputId/decision')
   @Roles('pm')
-  decide(@Param('runId') runId: string, @Param('outputId') outputId: string, @Body() dto: DecisionDto, @CurrentActor() actor: Actor) {
+  decide(
+    @Param('runId') runId: string,
+    @Param('outputId') outputId: string,
+    @Body() dto: DecisionDto,
+    @CurrentActor() actor: Actor,
+  ) {
     return this.agents.decide(runId, outputId, dto.status, dto.note, actor);
   }
 }

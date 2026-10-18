@@ -33,7 +33,10 @@ export function splitSentences(text: string): string[] {
 export function sentenceDiff(approved: string, live: string): string[] {
   const a = splitSentences(approved);
   const l = splitSentences(live);
-  return [...l.filter((s) => !a.includes(s)).map((s) => `+ ${s}`), ...a.filter((s) => !l.includes(s)).map((s) => `- ${s}`)];
+  return [
+    ...l.filter((s) => !a.includes(s)).map((s) => `+ ${s}`),
+    ...a.filter((s) => !l.includes(s)).map((s) => `- ${s}`),
+  ];
 }
 
 /**
@@ -57,14 +60,16 @@ export class MockOutboundAdapter implements AgentAdapter {
       ...inputs,
       factSheet: {
         version: this.facts.version(),
-        entries: this.facts.getExternal().map(({ id, page, label, status, statement, publiclyUsable }) => ({
-          id,
-          page,
-          label,
-          status,
-          statement,
-          publiclyUsable,
-        })),
+        entries: this.facts
+          .getExternal()
+          .map(({ id, page, label, status, statement, publiclyUsable }) => ({
+            id,
+            page,
+            label,
+            status,
+            statement,
+            publiclyUsable,
+          })),
       },
       prohibitedWords: this.settings.get().prohibitedWords,
     };
@@ -73,7 +78,10 @@ export class MockOutboundAdapter implements AgentAdapter {
   async run(inputs: Record<string, unknown>, ctx: RunContext): Promise<AgentOutputDraft[]> {
     const mode = String(inputs.mode ?? 'draft') as OutboundMode;
     if (!OUTBOUND_MODES.includes(mode)) throw new Error(`Unknown mode "${mode}"`);
-    const task = typeof inputs.taskId === 'string' && inputs.taskId ? this.tasks.find(inputs.taskId) : undefined;
+    const task =
+      typeof inputs.taskId === 'string' && inputs.taskId
+        ? this.tasks.find(inputs.taskId)
+        : undefined;
     if (inputs.taskId && !task) throw new Error(`Task ${String(inputs.taskId)} not found`);
 
     const outputs =
@@ -89,29 +97,48 @@ export class MockOutboundAdapter implements AgentAdapter {
     return new Map(this.facts.getExternal().map((f) => [f.id, f]));
   }
 
-  private draft(inputs: Record<string, unknown>, task: Task | undefined, ctx: RunContext): AgentOutputDraft[] {
+  private draft(
+    inputs: Record<string, unknown>,
+    task: Task | undefined,
+    ctx: RunContext,
+  ): AgentOutputDraft[] {
     const spec = String(inputs.spec ?? '').toLowerCase();
     const channel = String(inputs.channel ?? task?.channel ?? 'facebook') as Channel;
     const facts = this.usable();
-    const required = REQUIRED_FACTS.filter((r) => r.keywords.some((k) => new RegExp(`\\b${k}`).test(spec))).map((r) => r.factId);
+    const required = REQUIRED_FACTS.filter((r) =>
+      r.keywords.some((k) => new RegExp(`\\b${k}`).test(spec)),
+    ).map((r) => r.factId);
     const missing = required.filter((id) => !facts.get(id)?.publiclyUsable);
-    const type: TaskType = task?.type ?? (AD_CHANNELS.includes(channel) ? 'ad_copy' : 'social_post');
+    const type: TaskType =
+      task?.type ?? (AD_CHANNELS.includes(channel) ? 'ad_copy' : 'social_post');
     const title = task?.title ?? `${channel.replace('_', ' ')} caption — draft`;
 
     if (missing.length) {
-      const names = missing.map((id) => `**${id}** (${facts.get(id)?.label ?? 'unknown'}) is \`${facts.get(id)?.status ?? 'missing'}\``);
+      const names = missing.map(
+        (id) =>
+          `**${id}** (${facts.get(id)?.label ?? 'unknown'}) is \`${facts.get(id)?.status ?? 'missing'}\``,
+      );
       return [
         {
           type: 'needs_confirmation',
           title: `${missing.map((id) => facts.get(id)?.label ?? id).join(' and ')} needed — ${missing.join(', ')} not confirmed`,
           body: `The spec requires information that is not publicly usable: ${names.join('; ')}. No draft text was produced for it. Confirm ${missing.join(', ')} with a source, then re-run.`,
           factRefs: missing,
-          proposal: { kind: 'needs_confirmation', factIds: missing, title, type, channel, ...(task ? { taskId: task.id } : {}) },
+          proposal: {
+            kind: 'needs_confirmation',
+            factIds: missing,
+            title,
+            type,
+            channel,
+            ...(task ? { taskId: task.id } : {}),
+          },
         },
       ];
     }
 
-    const refs = [...new Set([...required, ...BASE_FACTS])].filter((id) => facts.get(id)?.publiclyUsable);
+    const refs = [...new Set([...required, ...BASE_FACTS])].filter(
+      (id) => facts.get(id)?.publiclyUsable,
+    );
     const settings = this.settings.get();
     const packageChannel = PACKAGE_CHANNEL[channel] ?? channel;
     const { source, medium } = utmForChannel(packageChannel);
@@ -123,7 +150,10 @@ export class MockOutboundAdapter implements AgentAdapter {
     });
     const sentences = refs.map((id) => {
       const f = facts.get(id)!;
-      const note = f.publicNote && f.status === 'confirmed_with_expiry' ? ` (${f.publicNote.replace(/^Must state:\s*/i, '')})` : '';
+      const note =
+        f.publicNote && f.status === 'confirmed_with_expiry'
+          ? ` (${f.publicNote.replace(/^Must state:\s*/i, '')})`
+          : '';
       return `${f.statement}${note} [← ${id}]`;
     });
     const body = `${sentences.join(' … ')} … Learn more: ${link}`;
@@ -133,7 +163,17 @@ export class MockOutboundAdapter implements AgentAdapter {
         title: `Draft — ${title}`,
         body,
         factRefs: refs,
-        proposal: { kind: 'task', task: { type, title, channel, body, factRefs: refs, ...(task ? { taskId: task.id } : {}) } },
+        proposal: {
+          kind: 'task',
+          task: {
+            type,
+            title,
+            channel,
+            body,
+            factRefs: refs,
+            ...(task ? { taskId: task.id } : {}),
+          },
+        },
       },
     ];
   }
@@ -146,15 +186,24 @@ export class MockOutboundAdapter implements AgentAdapter {
       if (!brief) throw new Error(`Brief ${briefId} not found`);
       const receipt = brief.receipts.at(-1);
       if (!receipt) {
-        return [{ type: 'observation', title: `${brief.id} has no receipt yet`, body: 'Nothing to check until the factory delivers.' }];
+        return [
+          {
+            type: 'observation',
+            title: `${brief.id} has no receipt yet`,
+            body: 'Nothing to check until the factory delivers.',
+          },
+        ];
       }
       const delivered = new Set(brief.receipts.flatMap((r) => r.assets.map((a) => a.ratio)));
       const issues: string[] = [];
-      for (const d of brief.deliverables) if (!delivered.has(d.ratio)) issues.push(`Ratio ${d.ratio} (${d.channel}) not delivered`);
+      for (const d of brief.deliverables)
+        if (!delivered.has(d.ratio)) issues.push(`Ratio ${d.ratio} (${d.channel}) not delivered`);
       const outside = receipt.factsUsed.filter((f) => !brief.allowedFacts.includes(f));
       if (outside.length) issues.push(`facts_used outside allowed_facts: ${outside.join(', ')}`);
-      if (receipt.musicLicense.status !== 'licensed' || !receipt.musicLicense.proof) issues.push('Music license proof missing');
-      if (receipt.creditsUsed > brief.costCap.maxCredits) issues.push(`Credits ${receipt.creditsUsed} exceed cap ${brief.costCap.maxCredits}`);
+      if (receipt.musicLicense.status !== 'licensed' || !receipt.musicLicense.proof)
+        issues.push('Music license proof missing');
+      if (receipt.creditsUsed > brief.costCap.maxCredits)
+        issues.push(`Credits ${receipt.creditsUsed} exceed cap ${brief.costCap.maxCredits}`);
       if (receipt.assets.some((a) => !a.checksum)) issues.push('Asset without checksum');
 
       for (const issue of issues) {
@@ -196,45 +245,81 @@ export class MockOutboundAdapter implements AgentAdapter {
           title: `${task.id} cites unconfirmed facts: ${missing.join(', ')}`,
           body: `QA stops: ${missing.join(', ')} not publicly usable.`,
           factRefs: missing,
-          proposal: { kind: 'needs_confirmation', factIds: missing, title: task.title, type: task.type, channel: task.channel, taskId: task.id },
+          proposal: {
+            kind: 'needs_confirmation',
+            factIds: missing,
+            title: task.title,
+            type: task.type,
+            channel: task.channel,
+            taskId: task.id,
+          },
         });
       } else if (!briefId) {
-        outputs.push({ type: 'observation', title: `${task.id} facts check`, body: `All fact refs (${task.factRefs.join(', ') || 'none'}) are publicly usable.` });
+        outputs.push({
+          type: 'observation',
+          title: `${task.id} facts check`,
+          body: `All fact refs (${task.factRefs.join(', ') || 'none'}) are publicly usable.`,
+        });
       }
     }
     if (!briefId && !task) throw new Error('QA needs a briefId or a taskId');
     return outputs;
   }
 
-  private async verify(inputs: Record<string, unknown>, task: Task | undefined): Promise<AgentOutputDraft[]> {
-    const packageId = typeof inputs.packageId === 'string' && inputs.packageId ? inputs.packageId : undefined;
+  private async verify(
+    inputs: Record<string, unknown>,
+    task: Task | undefined,
+  ): Promise<AgentOutputDraft[]> {
+    const packageId =
+      typeof inputs.packageId === 'string' && inputs.packageId ? inputs.packageId : undefined;
     if (packageId) {
       const pkg = this.packages.find(packageId);
       if (!pkg) throw new Error(`Package ${packageId} not found`);
       const published = [...pkg.publishLog].reverse().find((e) => e.action === 'published');
       if (!published?.postUrl) {
-        return [{ type: 'observation', title: `${pkg.id} is not published yet`, body: 'Nothing live to compare.' }];
+        return [
+          {
+            type: 'observation',
+            title: `${pkg.id} is not published yet`,
+            body: 'Nothing live to compare.',
+          },
+        ];
       }
       const live = (await this.social.fetchLivePost(published.postUrl)) ?? '';
       const approvedVersion = pkg.approval.approvedCaptionVersion ?? pkg.caption.version;
-      const approved = pkg.captionHistory.find((c) => c.version === approvedVersion)?.text ?? pkg.caption.text;
+      const approved =
+        pkg.captionHistory.find((c) => c.version === approvedVersion)?.text ?? pkg.caption.text;
       const diff = sentenceDiff(approved, live);
       const match = diff.length === 0;
       return [
         {
           type: 'verification',
-          title: match ? `${pkg.id} live post matches approved ${approvedVersion}` : `${pkg.id} live caption differs from approved ${approvedVersion}`,
+          title: match
+            ? `${pkg.id} live post matches approved ${approvedVersion}`
+            : `${pkg.id} live caption differs from approved ${approvedVersion}`,
           body: match
             ? `Live caption equals ${approvedVersion}; asset ${pkg.asset?.assetId ?? '—'} unchanged. **match**`
             : `Differences between live and approved:\n\n${diff.map((d) => `${d}`).join('\n')}`,
           evidence: [{ label: 'Live post', url: published.postUrl }],
-          proposal: { kind: 'verification', target: 'package', targetId: pkg.id, result: match ? 'match' : 'mismatch', ...(match ? {} : { diff }) },
+          proposal: {
+            kind: 'verification',
+            target: 'package',
+            targetId: pkg.id,
+            result: match ? 'match' : 'mismatch',
+            ...(match ? {} : { diff }),
+          },
         },
       ];
     }
     if (task) {
       if (task.status !== 'live') {
-        return [{ type: 'observation', title: `${task.id} is ${task.status}`, body: 'Only live work can be verified.' }];
+        return [
+          {
+            type: 'observation',
+            title: `${task.id} is ${task.status}`,
+            body: 'Only live work can be verified.',
+          },
+        ];
       }
       return [
         {

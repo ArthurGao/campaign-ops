@@ -22,7 +22,13 @@ export type QAInput = { passed: boolean; checklist: QAChecklistItem[]; notes?: s
 
 export type TransitionRequest = { to: TaskStatus; actor: Actor; note?: string; qa?: QAInput };
 
-export type TaskContext = { now: Date; facts: readonly FactEntry[]; settings: Settings; tasks: readonly Task[]; gates?: AdGates };
+export type TaskContext = {
+  now: Date;
+  facts: readonly FactEntry[];
+  settings: Settings;
+  tasks: readonly Task[];
+  gates?: AdGates;
+};
 
 const isAdTask = (t: Task) => (AD_TASK_TYPES as readonly TaskType[]).includes(t.type);
 
@@ -44,14 +50,20 @@ function requireUsableFacts(task: Task, ctx: TaskContext): void {
 export function pageLockConflict(task: Task, tasks: readonly Task[]): Task | undefined {
   if (!task.pageUrl || !PAGE_TASK_TYPES.includes(task.type)) return undefined;
   return tasks.find(
-    (t) => t.id !== task.id && t.pageUrl === task.pageUrl && PAGE_TASK_TYPES.includes(t.type) && t.status === 'live',
+    (t) =>
+      t.id !== task.id &&
+      t.pageUrl === task.pageUrl &&
+      PAGE_TASK_TYPES.includes(t.type) &&
+      t.status === 'live',
   );
 }
 
 /** Whether the PM may approve a pending non-substantive edit under the signed scope. */
 export function scopeAllows(settings: Settings, scopeRef: string | undefined): boolean {
   const scope = settings.preApprovedScope;
-  return !!scopeRef && scope.pmMayApproveNonSubstantive && scope.nonSubstantiveList.includes(scopeRef);
+  return (
+    !!scopeRef && scope.pmMayApproveNonSubstantive && scope.nonSubstantiveList.includes(scopeRef)
+  );
 }
 
 export function scopeNotAuthorised(scopeRef: string | undefined): AppError {
@@ -71,11 +83,21 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
   const from = task.status;
 
   if (to === 'blocked') {
-    throw invalidTransition(from, to, 'Only the system blocks tasks (for example when a fact is unconfirmed).');
+    throw invalidTransition(
+      from,
+      to,
+      'Only the system blocks tasks (for example when a fact is unconfirmed).',
+    );
   }
   if (!ALLOWED_TRANSITIONS[from].includes(to)) {
     const allowed = ALLOWED_TRANSITIONS[from];
-    throw invalidTransition(from, to, allowed.length ? `From ${from} the next step is ${allowed.join(' or ')}.` : `${from} is final.`);
+    throw invalidTransition(
+      from,
+      to,
+      allowed.length
+        ? `From ${from} the next step is ${allowed.join(' or ')}.`
+        : `${from} is final.`,
+    );
   }
 
   switch (`${from}->${to}`) {
@@ -105,7 +127,8 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
       if (actor.role === 'pm') {
         const pending = task.pendingNonSubstantive;
         if (!pending) throw forbidden('approve this task', approverRolesFor(task));
-        if (!scopeAllows(ctx.settings, pending.scopeRef)) throw scopeNotAuthorised(pending.scopeRef);
+        if (!scopeAllows(ctx.settings, pending.scopeRef))
+          throw scopeNotAuthorised(pending.scopeRef);
         requireUsableFacts(task, ctx);
         return {
           ...task,
@@ -118,7 +141,10 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
             status: 'approved',
             approvedVersion: task.version,
             ...(req.note ? { note: req.note } : {}),
-            nonSubstantive: { authorisedBy: ctx.settings.preApprovedScope.signedBy, scopeRef: pending.scopeRef },
+            nonSubstantive: {
+              authorisedBy: ctx.settings.preApprovedScope.signedBy,
+              scopeRef: pending.scopeRef,
+            },
           },
         };
       }
@@ -129,21 +155,37 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
         status: 'approved',
         needsRereview: false,
         pendingNonSubstantive: undefined,
-        approval: { approver: actor, at, status: 'approved', approvedVersion: task.version, ...(req.note ? { note: req.note } : {}) },
+        approval: {
+          approver: actor,
+          at,
+          status: 'approved',
+          approvedVersion: task.version,
+          ...(req.note ? { note: req.note } : {}),
+        },
       };
     }
 
     case 'awaiting_approval->draft': {
       requireRole(actor, approverRolesFor(task), 'reject this task');
       if (!req.note?.trim()) {
-        throw new AppError('VALIDATION', 'A rejection needs a note.', 'Say what must change before it comes back.');
+        throw new AppError(
+          'VALIDATION',
+          'A rejection needs a note.',
+          'Say what must change before it comes back.',
+        );
       }
       return {
         ...task,
         status: 'draft',
         qa: undefined,
         pendingNonSubstantive: undefined,
-        approval: { approver: actor, at, status: 'rejected', approvedVersion: task.version, note: req.note },
+        approval: {
+          approver: actor,
+          at,
+          status: 'rejected',
+          approvedVersion: task.version,
+          note: req.note,
+        },
       };
     }
 
@@ -154,10 +196,13 @@ export function applyTransition(task: Task, req: TransitionRequest, ctx: TaskCon
         throw new AppError(
           'APPROVAL_REQUIRED',
           `${task.id} v${task.version} has no approval for this version.`,
-          approval ? `Approved version: v${approval.approvedVersion}.` : 'Send it for client approval.',
+          approval
+            ? `Approved version: v${approval.approvedVersion}.`
+            : 'Send it for client approval.',
         );
       }
-      if (isAdTask(task)) {
+      // D-32: stopping or cutting spend is never held back by the launch gates.
+      if (isAdTask(task) && task.spendEffect !== 'decrease') {
         const gates = ctx.gates;
         if (!gates) throw new Error('Ad gates must be computed for ad tasks');
         const unmet = unmetGates(gates);
@@ -221,14 +266,23 @@ export type TaskEdit = {
  * Edit rules: content edits on approved / awaiting_approval bump the version and reset approval
  * (optionally marked non-substantive, D-19); edits in QA clear the QA record; live work is frozen.
  */
-export function applyEdit(task: Task, edit: TaskEdit, actor: Actor, ctx: Pick<TaskContext, 'now' | 'facts' | 'settings'>): Task {
+export function applyEdit(
+  task: Task,
+  edit: TaskEdit,
+  actor: Actor,
+  ctx: Pick<TaskContext, 'now' | 'facts' | 'settings'>,
+): Task {
   const contentChanged =
     (edit.title !== undefined && edit.title !== task.title) ||
     (edit.body !== undefined && edit.body !== task.body) ||
     (edit.factRefs !== undefined && edit.factRefs.join() !== task.factRefs.join());
 
   if (contentChanged && (task.status === 'live' || task.status === 'verified')) {
-    throw new AppError('INVALID_TRANSITION', `${task.id} is ${task.status}; its content is frozen.`, 'Create a follow-up task for further changes.');
+    throw new AppError(
+      'INVALID_TRANSITION',
+      `${task.id} is ${task.status}; its content is frozen.`,
+      'Create a follow-up task for further changes.',
+    );
   }
   if (edit.nonSubstantive && !scopeAllows(ctx.settings, edit.nonSubstantive.scopeRef)) {
     throw scopeNotAuthorised(edit.nonSubstantive.scopeRef);

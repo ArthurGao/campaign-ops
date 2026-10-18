@@ -29,7 +29,11 @@ export class SettingsController {
   }
 
   @Get('utm-preview')
-  utmPreview(@Query('source') source?: string, @Query('medium') medium?: string, @Query('content') content?: string) {
+  utmPreview(
+    @Query('source') source?: string,
+    @Query('medium') medium?: string,
+    @Query('content') content?: string,
+  ) {
     return this.settings.utmPreview({ source, medium, content });
   }
 }

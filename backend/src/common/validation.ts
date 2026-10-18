@@ -13,6 +13,7 @@ export function createValidationPipe(): ValidationPipe {
     whitelist: true,
     forbidNonWhitelisted: true,
     transform: true,
-    exceptionFactory: (errors) => new AppError('VALIDATION', flatten(errors).join('; '), undefined, 400),
+    exceptionFactory: (errors) =>
+      new AppError('VALIDATION', flatten(errors).join('; '), undefined, 400),
   });
 }

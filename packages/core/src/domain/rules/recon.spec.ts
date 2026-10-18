@@ -22,13 +22,23 @@ describe('reconciliation rules (R6)', () => {
   it('derives the seeded week-2 meta_ads row as zero-denominator', () => {
     const seed = freshSeed();
     const week2 = [...new Set(seed.recon.map((r) => r.weekStart))][1];
-    const row = withDerived(seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads')!);
+    const row = withDerived(
+      seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads')!,
+    );
     expect(row).toMatchObject({ paidCpl: null, overReportRatio: null });
   });
 
   it('summarises by channel and computes total paid CPL over paid channels only', () => {
     const { byChannel, totals } = summarize(freshSeed().recon);
-    expect(byChannel.find((c) => c.channel === 'meta_ads')).toMatchObject({ spendCents: 57_000, crmValidLeads: 4, paidCpl: 14_250 });
-    expect(totals).toMatchObject({ spendCents: 104_000, crmValidLeads: 18, paidCpl: Math.round(104_000 / 10) });
+    expect(byChannel.find((c) => c.channel === 'meta_ads')).toMatchObject({
+      spendCents: 57_000,
+      crmValidLeads: 4,
+      paidCpl: 14_250,
+    });
+    expect(totals).toMatchObject({
+      spendCents: 104_000,
+      crmValidLeads: 18,
+      paidCpl: Math.round(104_000 / 10),
+    });
   });
 });

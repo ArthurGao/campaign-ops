@@ -11,8 +11,14 @@ export const DEFAULT_ACTOR_NAMES: Record<Role, string> = {
 };
 
 export const PM: Actor = { role: 'pm', name: DEFAULT_ACTOR_NAMES.pm };
-export const APPROVER: Actor = { role: 'client_approver', name: DEFAULT_ACTOR_NAMES.client_approver };
-export const DECIDER: Actor = { role: 'client_decision_maker', name: DEFAULT_ACTOR_NAMES.client_decision_maker };
+export const APPROVER: Actor = {
+  role: 'client_approver',
+  name: DEFAULT_ACTOR_NAMES.client_approver,
+};
+export const DECIDER: Actor = {
+  role: 'client_decision_maker',
+  name: DEFAULT_ACTOR_NAMES.client_decision_maker,
+};
 export const SALES: Actor = { role: 'sales', name: DEFAULT_ACTOR_NAMES.sales };
 export const EXECUTOR: Actor = { role: 'executor', name: DEFAULT_ACTOR_NAMES.executor };
 /** Used for automatic changes (blocking, factory callbacks, derived flags). */

@@ -16,7 +16,12 @@ export class AppError extends Error {
 }
 
 export function forbidden(action: string, roles: readonly Role[]): AppError {
-  return new AppError('FORBIDDEN', `Your role cannot ${action}.`, `Requires: ${roles.join(' or ')}`, 403);
+  return new AppError(
+    'FORBIDDEN',
+    `Your role cannot ${action}.`,
+    `Requires: ${roles.join(' or ')}`,
+    403,
+  );
 }
 
 export function notFound(kind: string, id: string): AppError {

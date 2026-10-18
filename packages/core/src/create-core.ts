@@ -50,7 +50,14 @@ export function createCore(opts: CoreOptions = {}) {
   const adapters: AgentAdapter[] = [
     new MockAuditAdapter(evidence),
     // Outbound gets a reader with getExternal() only: it cannot reach the internal page (I-F1).
-    new MockOutboundAdapter({ getExternal: () => facts.getExternal(), version: () => facts.version() }, tasks, factory, packages, settings, social),
+    new MockOutboundAdapter(
+      { getExternal: () => facts.getExternal(), version: () => facts.version() },
+      tasks,
+      factory,
+      packages,
+      settings,
+      social,
+    ),
     new MockFeedbackAdapter(
       {
         recon: () => store.data.recon,
@@ -63,12 +70,36 @@ export function createCore(opts: CoreOptions = {}) {
       tasks,
     ),
   ];
-  const agents = new AgentsService(store, ids, tasks, evidence, packages, adapters, clock, scheduler);
+  const agents = new AgentsService(
+    store,
+    ids,
+    tasks,
+    evidence,
+    packages,
+    adapters,
+    clock,
+    scheduler,
+  );
   const leads = new LeadsService(store, ids, clock);
   const recon = new ReconciliationService(store);
   const dashboard = new DashboardService(store, tasks, clock);
 
-  return { clock, scheduler, store, ids, facts, settings, packages, tasks, evidence, factory, agents, leads, recon, dashboard };
+  return {
+    clock,
+    scheduler,
+    store,
+    ids,
+    facts,
+    settings,
+    packages,
+    tasks,
+    evidence,
+    factory,
+    agents,
+    leads,
+    recon,
+    dashboard,
+  };
 }
 
 export type Core = ReturnType<typeof createCore>;

@@ -38,7 +38,11 @@ const fromCore = <K extends keyof Core>(token: unknown, key: K): Provider => ({
   providers: [
     { provide: CLOCK, useFactory: () => new DemoClock() },
     { provide: SCHEDULER, useFactory: () => new TimerScheduler() },
-    { provide: CORE, inject: [CLOCK, SCHEDULER], useFactory: (clock: Clock, scheduler: Scheduler) => createCore({ clock, scheduler }) },
+    {
+      provide: CORE,
+      inject: [CLOCK, SCHEDULER],
+      useFactory: (clock: Clock, scheduler: Scheduler) => createCore({ clock, scheduler }),
+    },
     fromCore(MemoryStore, 'store'),
     fromCore(FactSheetService, 'facts'),
     fromCore(SettingsService, 'settings'),

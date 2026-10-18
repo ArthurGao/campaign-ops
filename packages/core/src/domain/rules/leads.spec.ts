@@ -16,7 +16,13 @@ describe('lead rules', () => {
 
   it('I-L2: suggests merging only same contact AND same travel need (newer into older)', () => {
     expect(mergeSuggestions(seed.leads)).toEqual([
-      { leadId: 'L-0026', intoId: 'L-0025', matchedOn: ['phone'], tour: 'China Tour 2027', travelDate: '2027-04' },
+      {
+        leadId: 'L-0026',
+        intoId: 'L-0025',
+        matchedOn: ['phone'],
+        tour: 'China Tour 2027',
+        travelDate: '2027-04',
+      },
     ]);
   });
 
@@ -38,24 +44,40 @@ describe('lead rules', () => {
   });
 
   it('I-L1: a lead valid once stays historically valid after it is lost', () => {
-    const lost = applyLeadPatch(lead('L-0021'), { stage: 'lost', lostReason: 'Changed plans' }, SEED_NOW);
+    const lost = applyLeadPatch(
+      lead('L-0021'),
+      { stage: 'lost', lostReason: 'Changed plans' },
+      SEED_NOW,
+    );
     expect(lost.everValid).toBe(true);
-    const flipped = applyLeadPatch(lost, { validity: 'invalid', validityReason: 'Duplicate of a phone enquiry' }, SEED_NOW);
-    expect(flipped).toMatchObject({ everValid: true, validity: { value: 'invalid', decidedAt: SEED_NOW.toISOString() } });
+    const flipped = applyLeadPatch(
+      lost,
+      { validity: 'invalid', validityReason: 'Duplicate of a phone enquiry' },
+      SEED_NOW,
+    );
+    expect(flipped).toMatchObject({
+      everValid: true,
+      validity: { value: 'invalid', decidedAt: SEED_NOW.toISOString() },
+    });
     const seededValid = seed.leads.filter((l) => l.everValid && !l.mergedInto).map((l) => l.id);
     expect(seededValid).toEqual(['L-0012', 'L-0014', 'L-0015', 'L-0016', 'L-0021']);
     expect(historicallyValidCount(seed.leads)).toBe(5);
   });
 
   it('requires reasons for invalid and lost', () => {
-    expectCode(() => applyLeadPatch(lead('L-0018'), { validity: 'invalid' }, SEED_NOW), 'VALIDATION');
+    expectCode(
+      () => applyLeadPatch(lead('L-0018'), { validity: 'invalid' }, SEED_NOW),
+      'VALIDATION',
+    );
     expectCode(() => applyLeadPatch(lead('L-0018'), { stage: 'lost' }, SEED_NOW), 'VALIDATION');
   });
 
   it('I-L3: the de-identified export has no names, emails, phones, click ids or notes', () => {
     const csv = toCsv(seed.leads.map(deidentify));
     expect(csv.split('\n')[0]).toBe(DEIDENTIFIED_COLUMNS.join(','));
-    expect(csv).not.toMatch(/@example\.com|\+64|Demo Lead|fbclid|gclid|fb\.demo|Travelling as a couple/);
+    expect(csv).not.toMatch(
+      /@example\.com|\+64|Demo Lead|fbclid|gclid|fb\.demo|Travelling as a couple/,
+    );
     expect(csv).toContain('L-0012,');
   });
 });

@@ -298,10 +298,10 @@ Derived: `landingPage.status = all four checks ? 'traffic_ready' : 'not_ready'`.
 
 ```ts
 type AdGates = {
-  productFactsConfirmed: boolean;   // required external facts for the ad are publicly usable
+  productFactsConfirmed: boolean;   // every productCore fact (date, price, seats, inclusions) + the ad's own refs are publicly usable (D-33)
   landingPageReady: boolean;        // settings.landingPage.status === 'traffic_ready'
   creativeApproved: boolean;        // linked package/task approved
   budgetAndMonitoringApproved: boolean; // scope budget cap > 0 for channel AND alertOwnerOutsideHours set
 };
 ```
-All four must be true for `ad_copy`/`ad_change` → `live`.
+All four must be true for `ad_copy`/`ad_change` → `live`, except spend-reducing changes (`spendEffect: 'decrease'`, D-32).

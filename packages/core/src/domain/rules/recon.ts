@@ -13,7 +13,10 @@ export function paidCpl(spendCents: number, validLeads: number): number | null |
 }
 
 /** Platform-reported ÷ CRM valid. null when the CRM has none but the platform reports some. */
-export function overReportRatio(platformReported: number, validLeads: number): number | null | undefined {
+export function overReportRatio(
+  platformReported: number,
+  validLeads: number,
+): number | null | undefined {
   if (validLeads === 0) return platformReported > 0 ? null : undefined;
   return Math.round((platformReported / validLeads) * 100) / 100;
 }
@@ -33,10 +36,18 @@ export function withDerived(row: ReconRow): ReconRow {
   };
 }
 
-export function summarize(rows: readonly ReconRow[]): { byChannel: ReconChannelSummary[]; totals: Omit<ReconChannelSummary, 'channel'> } {
+export function summarize(rows: readonly ReconRow[]): {
+  byChannel: ReconChannelSummary[];
+  totals: Omit<ReconChannelSummary, 'channel'>;
+} {
   const byChannel = new Map<string, ReconChannelSummary>();
   for (const r of rows) {
-    const s = byChannel.get(r.channel) ?? { channel: r.channel, spendCents: 0, platformReportedConversions: 0, crmValidLeads: 0 };
+    const s = byChannel.get(r.channel) ?? {
+      channel: r.channel,
+      spendCents: 0,
+      platformReportedConversions: 0,
+      crmValidLeads: 0,
+    };
     s.spendCents += r.spendCents;
     s.platformReportedConversions += r.platformReportedConversions;
     s.crmValidLeads += r.crmValidLeads;
@@ -56,10 +67,16 @@ export function summarize(rows: readonly ReconRow[]): { byChannel: ReconChannelS
     { spendCents: 0, platformReportedConversions: 0, crmValidLeads: 0 },
   );
   // Total paid CPL only counts valid leads attributed to paid channels.
-  const paid = channels.filter((s) => (PAID_RECON_CHANNELS as readonly ReconChannel[]).includes(s.channel));
+  const paid = channels.filter((s) =>
+    (PAID_RECON_CHANNELS as readonly ReconChannel[]).includes(s.channel),
+  );
   const paidValid = paid.reduce((n, s) => n + s.crmValidLeads, 0);
   return {
     byChannel: channels,
-    totals: { ...t, paidCpl: paidCpl(t.spendCents, paidValid), overReportRatio: overReportRatio(t.platformReportedConversions, t.crmValidLeads) },
+    totals: {
+      ...t,
+      paidCpl: paidCpl(t.spendCents, paidValid),
+      overReportRatio: overReportRatio(t.platformReportedConversions, t.crmValidLeads),
+    },
   };
 }

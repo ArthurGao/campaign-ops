@@ -7,9 +7,16 @@ export const Dialog = DialogPrimitive.Root;
 export const DialogTrigger = DialogPrimitive.Trigger;
 export const DialogClose = DialogPrimitive.Close;
 
-const Overlay = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Overlay>, React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>>(
-  ({ className, ...props }, ref) => <DialogPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-40 bg-rail/35', className)} {...props} />,
-);
+const Overlay = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Overlay
+    ref={ref}
+    className={cn('fixed inset-0 z-40 bg-rail/35', className)}
+    {...props}
+  />
+));
 Overlay.displayName = 'DialogOverlay';
 
 export const DialogContent = React.forwardRef<
@@ -28,7 +35,10 @@ export const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-3 top-3 rounded-sm p-1 text-ink-3 hover:bg-panel hover:text-ink" aria-label="Close">
+      <DialogPrimitive.Close
+        className="absolute right-3 top-3 rounded-sm p-1 text-ink-3 hover:bg-panel hover:text-ink"
+        aria-label="Close"
+      >
         <X className="size-4" />
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
@@ -36,15 +46,31 @@ export const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = 'DialogContent';
 
-export function DialogHeader({ title, description }: { title: string; description?: React.ReactNode }) {
+export function DialogHeader({
+  title,
+  description,
+}: {
+  title: string;
+  description?: React.ReactNode;
+}) {
   return (
     <div className="grid gap-1 pr-6">
-      <DialogPrimitive.Title className="text-base font-semibold text-ink">{title}</DialogPrimitive.Title>
-      {description ? <DialogPrimitive.Description className="text-sm text-ink-2">{description}</DialogPrimitive.Description> : <DialogPrimitive.Description className="sr-only">{title}</DialogPrimitive.Description>}
+      <DialogPrimitive.Title className="text-base font-semibold text-ink">
+        {title}
+      </DialogPrimitive.Title>
+      {description ? (
+        <DialogPrimitive.Description className="text-sm text-ink-2">
+          {description}
+        </DialogPrimitive.Description>
+      ) : (
+        <DialogPrimitive.Description className="sr-only">{title}</DialogPrimitive.Description>
+      )}
     </div>
   );
 }
 
 export function DialogFooter({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-wrap justify-end gap-2 border-t border-rule pt-4">{children}</div>;
+  return (
+    <div className="flex flex-wrap justify-end gap-2 border-t border-rule pt-4">{children}</div>
+  );
 }

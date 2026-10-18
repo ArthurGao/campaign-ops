@@ -3,3 +3,8 @@ dist
 coverage
 pnpm-lock.yaml
 *.md
+.impeccable
+.playwright-mcp
+test-results
+playwright-report
+frontend/public/_redirects

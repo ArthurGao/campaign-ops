@@ -12,7 +12,15 @@ export const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Trigger ref={ref} className={cn(fieldClass, 'flex h-8.5 items-center justify-between gap-2 text-left [&>span]:truncate', className)} {...props}>
+  <SelectPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      fieldClass,
+      'flex h-8.5 items-center justify-between gap-2 text-left [&>span]:truncate',
+      className,
+    )}
+    {...props}
+  >
     {children}
     <SelectPrimitive.Icon asChild>
       <ChevronDown className="size-4 shrink-0 text-ink-3" />

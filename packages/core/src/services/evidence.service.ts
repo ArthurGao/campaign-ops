@@ -1,15 +1,21 @@
 import { replaceById, stamp } from '../common/audit';
-import { IdService } from '../store/id.service';
+import { type IdService } from '../store/id.service';
 import type { Clock } from '../domain/clock';
 import type { Blocks, EvidenceSource, EvidenceStatus, Priority } from '../domain/enums';
 import { AppError, notFound } from '../domain/errors';
+import { isHttpUrl } from '../domain/rules/url';
 import type { Actor, EvidenceItem, Task } from '../domain/types';
 import type { BacklogReader } from '../integrations/agents/mock-audit.adapter';
-import { MemoryStore } from '../store/memory.store';
-import { TasksService } from './tasks.service';
+import { type MemoryStore } from '../store/memory.store';
+import { type TasksService } from './tasks.service';
 import type { ConvertEvidenceInput, CreateEvidenceInput, PatchEvidenceInput } from './inputs';
 
-export type EvidenceFilters = { source?: EvidenceSource; blocks?: Blocks; priority?: Priority; status?: EvidenceStatus };
+export type EvidenceFilters = {
+  source?: EvidenceSource;
+  blocks?: Blocks;
+  priority?: Priority;
+  status?: EvidenceStatus;
+};
 
 export class EvidenceService implements BacklogReader {
   constructor(
@@ -24,7 +30,9 @@ export class EvidenceService implements BacklogReader {
   }
 
   findings(): { id: string; finding: string }[] {
-    return this.items.filter((e) => e.status !== 'dismissed').map(({ id, finding }) => ({ id, finding }));
+    return this.items
+      .filter((e) => e.status !== 'dismissed')
+      .map(({ id, finding }) => ({ id, finding }));
   }
 
   list(f: EvidenceFilters = {}): EvidenceItem[] {
@@ -44,6 +52,15 @@ export class EvidenceService implements BacklogReader {
   }
 
   create(dto: CreateEvidenceInput, actor: Actor, originRunId?: string): EvidenceItem {
+    const badProof = dto.proof.find((pr) => pr.url && !isHttpUrl(pr.url));
+    if (badProof) {
+      throw new AppError(
+        'VALIDATION',
+        `Proof link "${badProof.label}" must be an http(s) URL.`,
+        undefined,
+        400,
+      );
+    }
     const at = this.clock.now().toISOString();
     const item: EvidenceItem = {
       id: this.ids.evidence(),
@@ -62,10 +79,18 @@ export class EvidenceService implements BacklogReader {
   patch(id: string, dto: PatchEvidenceInput, actor: Actor): EvidenceItem {
     const before = this.get(id);
     if (dto.status === 'dismissed' && !dto.reason?.trim()) {
-      throw new AppError('VALIDATION', 'Dismissing evidence needs a reason.', 'Record why it does not need action.');
+      throw new AppError(
+        'VALIDATION',
+        'Dismissing evidence needs a reason.',
+        'Record why it does not need action.',
+      );
     }
     if (dto.status === 'converted' && before.status !== 'converted') {
-      throw new AppError('INVALID_TRANSITION', 'Use "Convert to task" to convert evidence.', 'POST /evidence/:id/convert');
+      throw new AppError(
+        'INVALID_TRANSITION',
+        'Use "Convert to task" to convert evidence.',
+        'POST /evidence/:id/convert',
+      );
     }
     const next = {
       ...before,
@@ -74,11 +99,20 @@ export class EvidenceService implements BacklogReader {
       ...(dto.blocks ? { blocks: dto.blocks } : {}),
       ...(dto.suggestedOwner !== undefined ? { suggestedOwner: dto.suggestedOwner } : {}),
     };
-    const changed = (['status', 'priority', 'blocks', 'suggestedOwner'] as const).filter((k) => next[k] !== before[k]);
-    return replaceById(this.items, stamp(next, this.clock.now(), actor, 'updated', changed.join(', '), dto.reason));
+    const changed = (['status', 'priority', 'blocks', 'suggestedOwner'] as const).filter(
+      (k) => next[k] !== before[k],
+    );
+    return replaceById(
+      this.items,
+      stamp(next, this.clock.now(), actor, 'updated', changed.join(', '), dto.reason),
+    );
   }
 
-  convert(id: string, dto: ConvertEvidenceInput, actor: Actor): { evidence: EvidenceItem; task: Task } {
+  convert(
+    id: string,
+    dto: ConvertEvidenceInput,
+    actor: Actor,
+  ): { evidence: EvidenceItem; task: Task } {
     const before = this.get(id);
     if (before.status !== 'open') {
       throw new AppError(
@@ -103,7 +137,13 @@ export class EvidenceService implements BacklogReader {
     );
     const evidence = replaceById(
       this.items,
-      stamp({ ...before, status: 'converted', convertedTaskId: task.id }, this.clock.now(), actor, 'converted', task.id),
+      stamp(
+        { ...before, status: 'converted', convertedTaskId: task.id },
+        this.clock.now(),
+        actor,
+        'converted',
+        task.id,
+      ),
     );
     return { evidence, task };
   }

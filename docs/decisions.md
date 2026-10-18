@@ -81,3 +81,17 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
 - **D-30 Extra error codes** `VALIDATION` (400) and `NOT_FOUND` (404) besides the documented ones.
 - **D-31 Editing the statement of a confirmed fact sends it back to `pending`.** The confirmation
   covered the old wording.
+- **D-32 Spend-reducing ad changes skip the launch gates** (follows the source workflow: “必须马上停的情况 …
+  按事先授权暂停”). A task with `spendEffect: 'decrease'` (the Feedback pause suggestion) goes live
+  without the four ad gates; it still needs its approval (pre-approved scope or client). Replaces the
+  D-17 TODO.
+- **D-33 “Product facts confirmed” gate = every core product fact** (user decision 2026-10-18, source
+  workflow: date, price, seats and inclusions). Facts flagged `productCore` (FS-04, FS-11, FS-15 and
+  new FS-16 Seats) must all be publicly usable, plus whatever the ad cites. The demo therefore
+  confirms FS-04, FS-15 and FS-16 before the F5 ad goes live.
+- **D-34 The PM may confirm official-source facts, with an expiry** (user decision 2026-10-18, source
+  FS-09 “我 / [日期]，每月复查”). Entries flagged `official` (FS-09 visa) can be confirmed by the PM
+  only with `expiresAt`; product and other facts stay client-only (`assertMayConfirm`).
+- **D-35 Workflow screen.** `/workflow` shows the source workflow's ten steps with live status from
+  the API, the eight exception cases mapped to screens, and the six agent rules; every screen header
+  links to the steps it serves. Source link: https://claude.ai/artifact/TpdZz945Dm6MVEvLeBNLFN.

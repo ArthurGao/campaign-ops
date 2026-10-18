@@ -18,7 +18,10 @@ export function factSheetSeed(): FactEntry[] {
       source: 'Client product sheet v2 (PDF)',
       confirmedBy: APPROVER,
       confirmedAt: at(-20),
-      ...tracked(at(-21), [ev(at(-21), PM, 'created'), ev(at(-20), APPROVER, 'confirmed', 'Source: Client product sheet v2 (PDF)')]),
+      ...tracked(at(-21), [
+        ev(at(-21), PM, 'created'),
+        ev(at(-20), APPROVER, 'confirmed', 'Source: Client product sheet v2 (PDF)'),
+      ]),
     },
     {
       id: 'FS-03',
@@ -27,15 +30,21 @@ export function factSheetSeed(): FactEntry[] {
       statement: 'Departure: April 2027 [date TBC]',
       status: 'superseded',
       supersededBy: 'FS-04',
-      ...tracked(at(-21), [ev(at(-21), PM, 'created'), ev(at(-9), PM, 'superseded', 'Replaced by FS-04 after the client moved the window')]),
+      ...tracked(at(-21), [
+        ev(at(-21), PM, 'created'),
+        ev(at(-9), PM, 'superseded', 'Replaced by FS-04 after the client moved the window'),
+      ]),
     },
     {
       id: 'FS-04',
       page: 'external',
       label: 'Departure',
+      productCore: true,
       statement: 'Departure: March 2027 [date TBC]',
       status: 'pending',
-      ...tracked(at(-9), [ev(at(-9), PM, 'created', 'Client indicated March; awaiting written confirmation')]),
+      ...tracked(at(-9), [
+        ev(at(-9), PM, 'created', 'Client indicated March; awaiting written confirmation'),
+      ]),
     },
     {
       id: 'FS-07',
@@ -55,7 +64,9 @@ export function factSheetSeed(): FactEntry[] {
       id: 'FS-09',
       page: 'external',
       label: 'Entry requirements (NZ passport)',
-      statement: 'Entry requirements for NZ passport holders: [visa rule TBC — see official source]',
+      official: true,
+      statement:
+        'Entry requirements for NZ passport holders: [visa rule TBC — see official source]',
       status: 'confirmed_with_expiry',
       source: VISA_SOURCE,
       confirmedBy: APPROVER,
@@ -71,12 +82,17 @@ export function factSheetSeed(): FactEntry[] {
       id: 'FS-11',
       page: 'external',
       label: 'Inclusions',
-      statement: 'Inclusions: return flights from Auckland, hotels, English-speaking guide, most meals [details TBC]',
+      productCore: true,
+      statement:
+        'Inclusions: return flights from Auckland, hotels, English-speaking guide, most meals [details TBC]',
       status: 'confirmed',
       source: 'Client product sheet v2 (PDF)',
       confirmedBy: APPROVER,
       confirmedAt: at(-20),
-      ...tracked(at(-21), [ev(at(-21), PM, 'created'), ev(at(-20), APPROVER, 'confirmed', 'Source: Client product sheet v2 (PDF)')]),
+      ...tracked(at(-21), [
+        ev(at(-21), PM, 'created'),
+        ev(at(-20), APPROVER, 'confirmed', 'Source: Client product sheet v2 (PDF)'),
+      ]),
     },
     {
       id: 'FS-12',
@@ -91,9 +107,19 @@ export function factSheetSeed(): FactEntry[] {
       id: 'FS-15',
       page: 'external',
       label: 'Price',
+      productCore: true,
       statement: 'Price per person: [price TBC]',
       status: 'pending',
       ...tracked(at(-21), [ev(at(-21), PM, 'created', 'Client pricing not final')]),
+    },
+    {
+      id: 'FS-16',
+      page: 'external',
+      label: 'Seats',
+      productCore: true,
+      statement: 'Seats available: [seats TBC]',
+      status: 'pending',
+      ...tracked(at(-21), [ev(at(-21), PM, 'created', 'Group size not final')]),
     },
     // ---- internal page: never exposed to the Outbound agent, never cited publicly
     {
@@ -150,9 +176,29 @@ export function factSheetVersionsSeed(): FactSheetVersion[] {
       version: 'FS-v1.0',
       at: at(-21),
       actor: PM,
-      changes: ['FS-01', 'FS-03', 'FS-07', 'FS-09', 'FS-11', 'FS-12', 'FS-15', 'FS-20', 'FS-21', 'FS-22', 'FS-23', 'FS-24'].map(
-        (factId) => ({ factId, after: { status: factId === 'FS-12' || factId === 'FS-21' || factId === 'FS-23' || factId === 'FS-24' ? 'assumption' : 'pending' } }),
-      ),
+      changes: [
+        'FS-01',
+        'FS-03',
+        'FS-07',
+        'FS-09',
+        'FS-11',
+        'FS-12',
+        'FS-15',
+        'FS-16',
+        'FS-20',
+        'FS-21',
+        'FS-22',
+        'FS-23',
+        'FS-24',
+      ].map((factId) => ({
+        factId,
+        after: {
+          status:
+            factId === 'FS-12' || factId === 'FS-21' || factId === 'FS-23' || factId === 'FS-24'
+              ? 'assumption'
+              : 'pending',
+        },
+      })),
       affected: [],
     },
     {
@@ -160,9 +206,21 @@ export function factSheetVersionsSeed(): FactSheetVersion[] {
       at: at(-14),
       actor: APPROVER,
       changes: [
-        { factId: 'FS-01', before: { status: 'pending' }, after: { status: 'confirmed', source: 'Client product sheet v2 (PDF)' } },
-        { factId: 'FS-07', before: { status: 'pending' }, after: { status: 'confirmed', source: 'Client itinerary draft v3 (DOCX)' } },
-        { factId: 'FS-11', before: { status: 'pending' }, after: { status: 'confirmed', source: 'Client product sheet v2 (PDF)' } },
+        {
+          factId: 'FS-01',
+          before: { status: 'pending' },
+          after: { status: 'confirmed', source: 'Client product sheet v2 (PDF)' },
+        },
+        {
+          factId: 'FS-07',
+          before: { status: 'pending' },
+          after: { status: 'confirmed', source: 'Client itinerary draft v3 (DOCX)' },
+        },
+        {
+          factId: 'FS-11',
+          before: { status: 'pending' },
+          after: { status: 'confirmed', source: 'Client product sheet v2 (PDF)' },
+        },
       ],
       affected: [],
     },
@@ -176,7 +234,10 @@ export function factSheetVersionsSeed(): FactSheetVersion[] {
           before: { status: 'pending', statement: 'Departure: April 2027 [date TBC]' },
           after: { status: 'superseded', supersededBy: 'FS-04' },
         },
-        { factId: 'FS-04', after: { status: 'pending', statement: 'Departure: March 2027 [date TBC]' } },
+        {
+          factId: 'FS-04',
+          after: { status: 'pending', statement: 'Departure: March 2027 [date TBC]' },
+        },
       ],
       affected: [{ kind: 'task', id: 'TASK-021' }],
     },

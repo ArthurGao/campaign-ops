@@ -8,7 +8,10 @@ import type { ApiError } from '../client';
  */
 export function useApiMutation<TVars, TRes>(
   fn: (vars: TVars) => Promise<TRes>,
-  opts: { success?: string | ((res: TRes, vars: TVars) => string) } & Omit<UseMutationOptions<TRes, ApiError, TVars>, 'mutationFn'> = {},
+  opts: { success?: string | ((res: TRes, vars: TVars) => string) } & Omit<
+    UseMutationOptions<TRes, ApiError, TVars>,
+    'mutationFn'
+  > = {},
 ) {
   const qc = useQueryClient();
   const { success, onSuccess, ...rest } = opts;

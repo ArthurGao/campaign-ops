@@ -42,7 +42,8 @@ export async function createHarness(): Promise<Harness> {
 
   const as = (role: Role) => ({
     get: (url: string) => request(server).get(url).set('X-Role', role),
-    post: (url: string, body: object = {}) => request(server).post(url).set('X-Role', role).send(body),
+    post: (url: string, body: object = {}) =>
+      request(server).post(url).set('X-Role', role).send(body),
     patch: (url: string, body: object) => request(server).patch(url).set('X-Role', role).send(body),
   });
 
@@ -59,7 +60,9 @@ export async function createHarness(): Promise<Harness> {
     as,
     advance,
     async runAgent(agent, inputs, trigger) {
-      const res = await as('pm').post(`/agents/${agent}/runs`, { inputs, ...(trigger ? { trigger } : {}) }).expect(202);
+      const res = await as('pm')
+        .post(`/agents/${agent}/runs`, { inputs, ...(trigger ? { trigger } : {}) })
+        .expect(202);
       await advance(10_000);
       const run = await as('pm').get(`/agents/runs/${res.body.runId}`).expect(200);
       return run.body as AgentRun;

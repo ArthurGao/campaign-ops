@@ -2,7 +2,8 @@ import type { EvidenceItem } from '../domain/types';
 import { PM } from './actors';
 import { at, ev, tracked } from './time';
 
-const AUDIT_ACCEPT = (id: string) => ev(at(-10, '14:20'), PM, 'accepted from RUN-0003', `Created ${id}`);
+const AUDIT_ACCEPT = (id: string) =>
+  ev(at(-10, '14:20'), PM, 'accepted from RUN-0003', `Created ${id}`);
 
 export function evidenceSeed(): EvidenceItem[] {
   return [
@@ -10,7 +11,12 @@ export function evidenceSeed(): EvidenceItem[] {
       id: 'E-01',
       source: 'site',
       finding: "Enquiry form has no 'preferred travel month' field",
-      proof: [{ label: 'Form screenshot — 4 fields, no travel month', url: 'https://example.com/proof/e-01.png' }],
+      proof: [
+        {
+          label: 'Form screenshot — 4 fields, no travel month',
+          url: 'https://example.com/proof/e-01.png',
+        },
+      ],
       impact: 'Sales must ask again before quoting; slower first response',
       blocks: 'none',
       priority: 'P2',
@@ -39,7 +45,10 @@ export function evidenceSeed(): EvidenceItem[] {
       source: 'tracking',
       finding: 'Lead event fires twice on form submit',
       proof: [
-        { label: 'GTM preview log — 2 Lead events per submit', url: 'https://example.com/proof/e-03-gtm.png' },
+        {
+          label: 'GTM preview log — 2 Lead events per submit',
+          url: 'https://example.com/proof/e-03-gtm.png',
+        },
         { label: 'Network request log, 2 × /tr?ev=Lead' },
       ],
       impact: 'Platform-reported conversions roughly double; bidding optimises on bad data',
@@ -97,7 +106,12 @@ export function evidenceSeed(): EvidenceItem[] {
       id: 'E-07',
       source: 'site',
       finding: "China Tour page still shows last year's departures",
-      proof: [{ label: 'Page screenshot — 2026 departure table', url: 'https://example.com/proof/e-07.png' }],
+      proof: [
+        {
+          label: 'Page screenshot — 2026 departure table',
+          url: 'https://example.com/proof/e-07.png',
+        },
+      ],
       impact: 'Visitors see wrong dates; cannot send paid traffic to this page',
       blocks: 'traffic',
       priority: 'P0',
@@ -112,7 +126,8 @@ export function evidenceSeed(): EvidenceItem[] {
     {
       id: 'E-08',
       source: 'tracking',
-      finding: "Meta Pixel is installed but owned by another Business Manager — ownership unknown, ask client",
+      finding:
+        'Meta Pixel is installed but owned by another Business Manager — ownership unknown, ask client',
       proof: [{ label: 'Pixel helper: dataset owned by an unrecognised business ID' }],
       impact: 'Cannot confirm who controls conversion data or audiences',
       blocks: 'none',
@@ -134,7 +149,10 @@ export function evidenceSeed(): EvidenceItem[] {
       suggestedOwner: 'PM',
       needsApproval: false,
       status: 'dismissed',
-      ...tracked(at(-11), [ev(at(-11), PM, 'created'), ev(at(-11), PM, 'dismissed', undefined, 'TikTok trial starts after the first checkpoint')]),
+      ...tracked(at(-11), [
+        ev(at(-11), PM, 'created'),
+        ev(at(-11), PM, 'dismissed', undefined, 'TikTok trial starts after the first checkpoint'),
+      ]),
     },
   ];
 }

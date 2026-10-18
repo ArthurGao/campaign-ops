@@ -12,7 +12,14 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { SOURCE_MEDIUMS, STAGES, VALIDITIES, type SourceMedium, type Stage, type Validity } from '@campaign-ops/core';
+import {
+  SOURCE_MEDIUMS,
+  STAGES,
+  VALIDITIES,
+  type SourceMedium,
+  type Stage,
+  type Validity,
+} from '@campaign-ops/core';
 
 export class ContactDto {
   @IsString()

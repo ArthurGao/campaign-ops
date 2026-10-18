@@ -8,7 +8,9 @@ export const EXPIRY_WARNING_DAYS = 45;
 export function isPubliclyUsable(entry: FactEntry, now: Date): boolean {
   if (entry.page !== 'external') return false;
   if (entry.status === 'confirmed') return true;
-  return entry.status === 'confirmed_with_expiry' && !!entry.expiresAt && new Date(entry.expiresAt) > now;
+  return (
+    entry.status === 'confirmed_with_expiry' && !!entry.expiresAt && new Date(entry.expiresAt) > now
+  );
 }
 
 export function isExpiringSoon(entry: FactEntry, now: Date): boolean {
@@ -18,11 +20,19 @@ export function isExpiringSoon(entry: FactEntry, now: Date): boolean {
 }
 
 export function toView(entry: FactEntry, now: Date): FactView {
-  return { ...entry, publiclyUsable: isPubliclyUsable(entry, now), expiringSoon: isExpiringSoon(entry, now) };
+  return {
+    ...entry,
+    publiclyUsable: isPubliclyUsable(entry, now),
+    expiringSoon: isExpiringSoon(entry, now),
+  };
 }
 
 /** Fact refs that block public use: unknown ids, internal entries, or not (or no longer) confirmed. */
-export function unusableRefs(factRefs: readonly string[], facts: readonly FactEntry[], now: Date): string[] {
+export function unusableRefs(
+  factRefs: readonly string[],
+  facts: readonly FactEntry[],
+  now: Date,
+): string[] {
   const byId = new Map(facts.map((f) => [f.id, f]));
   return factRefs.filter((id) => {
     const entry = byId.get(id);
@@ -30,7 +40,11 @@ export function unusableRefs(factRefs: readonly string[], facts: readonly FactEn
   });
 }
 
-export function needsConfirmation(factRefs: readonly string[], facts: readonly FactEntry[], now: Date): boolean {
+export function needsConfirmation(
+  factRefs: readonly string[],
+  facts: readonly FactEntry[],
+  now: Date,
+): boolean {
   return unusableRefs(factRefs, facts, now).length > 0;
 }
 
@@ -61,6 +75,36 @@ export function assertConfirmable(entry: FactEntry, source: string | undefined):
       'Confirm the entry that replaced it instead.',
     );
   }
+}
+
+/**
+ * Clients confirm any entry. The PM may confirm an official-source entry (visa, entry rules) only
+ * with an expiry, because such rules change and must be re-checked (source workflow FS-09).
+ */
+export function assertMayConfirm(
+  entry: FactEntry,
+  actor: { role: string },
+  expiresAt: string | undefined,
+): void {
+  if (actor.role === 'client_approver' || actor.role === 'client_decision_maker') return;
+  if (actor.role === 'pm' && entry.official) {
+    if (!expiresAt) {
+      throw new AppError(
+        'VALIDATION',
+        `${entry.id} needs an expiry date when the PM confirms it.`,
+        'Official rules change: set the date to re-check by.',
+      );
+    }
+    return;
+  }
+  throw new AppError(
+    'FORBIDDEN',
+    `Your role cannot confirm ${entry.id}.`,
+    entry.official
+      ? 'Requires: client_approver or client_decision_maker or pm'
+      : 'Requires: client_approver or client_decision_maker',
+    403,
+  );
 }
 
 export function needsConfirmationError(ids: string[], what: string): AppError {

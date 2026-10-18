@@ -15,10 +15,16 @@ export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(ctx: ExecutionContext): boolean {
-    const roles = this.reflector.getAllAndOverride<Role[] | undefined>(ROLES_KEY, [ctx.getHandler(), ctx.getClass()]);
+    const roles = this.reflector.getAllAndOverride<Role[] | undefined>(ROLES_KEY, [
+      ctx.getHandler(),
+      ctx.getClass(),
+    ]);
     const actor = actorFromRequest(ctx.switchToHttp().getRequest<Request>());
     if (roles && !roles.includes(actor.role)) {
-      const route = ctx.getHandler().name.replace(/([A-Z])/g, ' $1').toLowerCase();
+      const route = ctx
+        .getHandler()
+        .name.replace(/([A-Z])/g, ' $1')
+        .toLowerCase();
       throw forbidden(route.trim(), roles);
     }
     return true;

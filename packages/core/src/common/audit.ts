@@ -1,12 +1,22 @@
 import type { Actor, Tracked } from '../domain/types';
 
 /** Append an audit event and bump updatedAt (backend rule 6: every mutation is recorded). */
-export function stamp<T extends Tracked>(entity: T, now: Date, actor: Actor, action: string, detail?: string, reason?: string): T {
+export function stamp<T extends Tracked>(
+  entity: T,
+  now: Date,
+  actor: Actor,
+  action: string,
+  detail?: string,
+  reason?: string,
+): T {
   const at = now.toISOString();
   return {
     ...entity,
     updatedAt: at,
-    events: [...entity.events, { at, actor, action, ...(detail ? { detail } : {}), ...(reason ? { reason } : {}) }],
+    events: [
+      ...entity.events,
+      { at, actor, action, ...(detail ? { detail } : {}), ...(reason ? { reason } : {}) },
+    ],
   };
 }
 

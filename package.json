@@ -2,20 +2,22 @@
   "name": "campaign-ops",
   "private": true,
   "version": "0.1.0",
-  "description": "CampaignOps — media promotion operations console (phase 1 clickable demo)",
+  "description": "CampaignOps \u2014 media promotion operations console (phase 1 clickable demo)",
   "packageManager": "pnpm@10.34.7",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter @campaign-ops/backend --filter @campaign-ops/frontend run dev",
+    "dev": "pnpm --filter @campaign-ops/frontend run dev",
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
     "typecheck": "pnpm -r run typecheck",
-    "sync-types": "pnpm --filter @campaign-ops/backend run sync-types",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "dev:full": "pnpm --parallel --filter @campaign-ops/backend --filter @campaign-ops/frontend run dev:http",
+    "build:frontend": "pnpm --filter @campaign-ops/frontend run build",
+    "e2e": "pnpm --filter @campaign-ops/frontend run e2e"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

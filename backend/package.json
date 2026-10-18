@@ -12,7 +12,8 @@
     "lint": "eslint src test --no-error-on-unmatched-pattern",
     "prebuild": "pnpm --filter @campaign-ops/core build",
     "predev": "pnpm --filter @campaign-ops/core build",
-    "prestart:dev": "pnpm --filter @campaign-ops/core build"
+    "prestart:dev": "pnpm --filter @campaign-ops/core build",
+    "dev:http": "pnpm run dev"
   },
   "dependencies": {
     "@campaign-ops/core": "workspace:*",

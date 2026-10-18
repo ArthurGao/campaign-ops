@@ -21,7 +21,8 @@ export function settingsSeed(): Settings {
         'Pause all ads if the Lead event stops firing for 24 hours',
         'Pause any ad the platform disapproves',
       ],
-      allowedAssetScope: 'Factory videos that passed QA, and captions citing only confirmed external Fact Sheet entries',
+      allowedAssetScope:
+        'Factory videos that passed QA, and captions citing only confirmed external Fact Sheet entries',
       pmMayApproveNonSubstantive: true,
       nonSubstantiveList: ['typos', 'punctuation', 'schedule time within the same day'],
       signedBy: DECIDER.name,
@@ -29,9 +30,18 @@ export function settingsSeed(): Settings {
     },
     people: {
       pm: PM.name,
-      approvers: { facts: APPROVER.name, content: APPROVER.name, site: APPROVER.name, budget: DECIDER.name },
+      approvers: {
+        facts: APPROVER.name,
+        content: APPROVER.name,
+        site: APPROVER.name,
+        budget: DECIDER.name,
+      },
       decisionMaker: DECIDER.name,
-      alertOwnerOutsideHours: { name: EXECUTOR.name, contact: '+64 21 000 0099', responseMinutes: 60 },
+      alertOwnerOutsideHours: {
+        name: EXECUTOR.name,
+        contact: '+64 21 000 0099',
+        responseMinutes: 60,
+      },
       executors: [EXECUTOR.name],
       sales: [SALES.name],
       landingPageDailyOwner: SALES.name,
@@ -40,7 +50,12 @@ export function settingsSeed(): Settings {
     prohibitedWords: ['guaranteed', 'cheapest', 'visa-free', 'no visa needed', 'last chance'],
     landingPage: {
       url: CHINA_TOUR_PAGE,
-      checks: { factsConfirmed: true, leadFiresOnce: false, sourceCaptured: true, reachesSales: true },
+      checks: {
+        factsConfirmed: true,
+        leadFiresOnce: false,
+        sourceCaptured: true,
+        reachesSales: true,
+      },
       status: 'not_ready',
     },
     factorySupportsIdempotency: false,

@@ -3,17 +3,45 @@ import { PM, SYSTEM } from './actors';
 import { at, ev, tracked } from './time';
 
 const MARKET = 'NZ English market; deliver in English; follow client brand guide';
-const FORBIDDEN = ['Prices or price ranges', 'Departure dates', 'Visa or passport claims', 'Real customer faces or names'];
-const REQUIREMENTS = ['Burned-in captions', 'Logo end card with URL in safe area', 'Licensed music with proof', 'No AI-generated people'];
+const FORBIDDEN = [
+  'Prices or price ranges',
+  'Departure dates',
+  'Visa or passport claims',
+  'Real customer faces or names',
+];
+const REQUIREMENTS = [
+  'Burned-in captions',
+  'Logo end card with URL in safe area',
+  'Licensed music with proof',
+  'No AI-generated people',
+];
 const LICENSE_0031 = 'https://example.com/licenses/music-vid-0031.pdf';
 
 const receiptV1: Receipt = {
   version: 'v1',
   deliveredAt: at(-11, '16:00'),
   assets: [
-    { assetId: 'VID-0031-4x5-v1', ratio: '4:5', durationSec: 30, url: 'https://factory.example/assets/VID-0031-4x5-v1.mp4', checksum: 'sha256:4f1c…a91e' },
-    { assetId: 'VID-0031-9x16-v1', ratio: '9:16', durationSec: 30, url: 'https://factory.example/assets/VID-0031-9x16-v1.mp4', checksum: 'sha256:7b20…0c4d' },
-    { assetId: 'VID-0031-16x9-v1', ratio: '16:9', durationSec: 30, url: 'https://factory.example/assets/VID-0031-16x9-v1.mp4', checksum: 'sha256:c93a…e512' },
+    {
+      assetId: 'VID-0031-4x5-v1',
+      ratio: '4:5',
+      durationSec: 30,
+      url: 'https://factory.example/assets/VID-0031-4x5-v1.mp4',
+      checksum: 'sha256:4f1c…a91e',
+    },
+    {
+      assetId: 'VID-0031-9x16-v1',
+      ratio: '9:16',
+      durationSec: 30,
+      url: 'https://factory.example/assets/VID-0031-9x16-v1.mp4',
+      checksum: 'sha256:7b20…0c4d',
+    },
+    {
+      assetId: 'VID-0031-16x9-v1',
+      ratio: '16:9',
+      durationSec: 30,
+      url: 'https://factory.example/assets/VID-0031-16x9-v1.mp4',
+      checksum: 'sha256:c93a…e512',
+    },
   ],
   factsUsed: ['FS-07', 'FS-11'],
   musicLicense: { status: 'licensed', proof: LICENSE_0031 },
@@ -28,7 +56,8 @@ export function factorySeed(): Brief[] {
       id: 'SOC-2027CT-003',
       taskId: 'TASK-011',
       campaign: 'China Tour 2027',
-      objective: 'Itinerary highlights: show the four cities and what is included, end on the enquiry link',
+      objective:
+        'Itinerary highlights: show the four cities and what is included, end on the enquiry link',
       marketLanguage: MARKET,
       factSheetVersion: 'FS-v1.1',
       allowedFacts: ['FS-07', 'FS-11'],
@@ -50,7 +79,13 @@ export function factorySeed(): Brief[] {
           version: 'v2',
           deliveredAt: at(-9, '12:00'),
           assets: [
-            { assetId: 'VID-0031-4x5-v2', ratio: '4:5', durationSec: 30, url: 'https://factory.example/assets/VID-0031-4x5-v2.mp4', checksum: 'sha256:2d88…7f30' },
+            {
+              assetId: 'VID-0031-4x5-v2',
+              ratio: '4:5',
+              durationSec: 30,
+              url: 'https://factory.example/assets/VID-0031-4x5-v2.mp4',
+              checksum: 'sha256:2d88…7f30',
+            },
           ],
           factsUsed: ['FS-07', 'FS-11'],
           musicLicense: { status: 'licensed', proof: LICENSE_0031 },
@@ -74,7 +109,13 @@ export function factorySeed(): Brief[] {
         ],
       },
       needsRereview: false,
-      returnNotes: [{ version: 1, note: '4:5 end card crops the link — re-render 4:5 only', at: at(-10, '09:00') }],
+      returnNotes: [
+        {
+          version: 1,
+          note: '4:5 end card crops the link — re-render 4:5 only',
+          at: at(-10, '09:00'),
+        },
+      ],
       ...tracked(at(-13, '12:00'), [
         ev(at(-13, '12:00'), PM, 'created', 'From TASK-011'),
         ev(at(-13, '12:05'), PM, 'sent', 'Duplicate check by task_id passed'),
@@ -88,7 +129,8 @@ export function factorySeed(): Brief[] {
       id: 'SOC-2027CT-004',
       taskId: 'TASK-012',
       campaign: 'China Tour 2027',
-      objective: 'Vertical teaser for the four cities; no dates until the departure fact is confirmed',
+      objective:
+        'Vertical teaser for the four cities; no dates until the departure fact is confirmed',
       marketLanguage: MARKET,
       factSheetVersion: 'FS-v1.3',
       allowedFacts: ['FS-07'],
@@ -134,10 +176,19 @@ export function factorySeed(): Brief[] {
           version: 'v1',
           deliveredAt: at(-1, '15:30'),
           assets: [
-            { assetId: 'VID-0033-1x1-v1', ratio: '1:1', durationSec: 20, url: 'https://factory.example/assets/VID-0033-1x1-v1.mp4', checksum: 'sha256:91be…44a2' },
+            {
+              assetId: 'VID-0033-1x1-v1',
+              ratio: '1:1',
+              durationSec: 20,
+              url: 'https://factory.example/assets/VID-0033-1x1-v1.mp4',
+              checksum: 'sha256:91be…44a2',
+            },
           ],
           factsUsed: ['FS-11', 'FS-15'],
-          musicLicense: { status: 'licensed', proof: 'https://example.com/licenses/music-vid-0033.pdf' },
+          musicLicense: {
+            status: 'licensed',
+            proof: 'https://example.com/licenses/music-vid-0033.pdf',
+          },
           creditsUsed: 8,
           renderAttempts: 1,
           issues: ['End card shows a price placeholder'],

@@ -1,14 +1,26 @@
 import { replaceById, stamp } from '../common/audit';
-import { IdService } from '../store/id.service';
+import { type IdService } from '../store/id.service';
 import type { Clock } from '../domain/clock';
 import type { SourceMedium, Stage, Validity } from '../domain/enums';
 import { notFound } from '../domain/errors';
-import { applyLeadPatch, deidentify, mergeLeads, mergeSuggestions, relatedLinks, toCsv } from '../domain/rules/leads';
+import {
+  applyLeadPatch,
+  deidentify,
+  mergeLeads,
+  mergeSuggestions,
+  relatedLinks,
+  toCsv,
+} from '../domain/rules/leads';
 import type { Actor, Lead, MergeSuggestion } from '../domain/types';
-import { MemoryStore } from '../store/memory.store';
+import { type MemoryStore } from '../store/memory.store';
 import type { CreateLeadInput, PatchLeadInput } from './inputs';
 
-export type LeadFilters = { validity?: Validity; stage?: Stage; medium?: SourceMedium; includeMerged?: boolean };
+export type LeadFilters = {
+  validity?: Validity;
+  stage?: Stage;
+  medium?: SourceMedium;
+  includeMerged?: boolean;
+};
 
 export class LeadsService {
   constructor(
@@ -64,7 +76,10 @@ export class LeadsService {
       lead.relatedLeadIds = related;
       for (const id of related) {
         const other = this.get(id);
-        replaceById(this.leads, { ...other, relatedLeadIds: [...new Set([...(other.relatedLeadIds ?? []), lead.id])] });
+        replaceById(this.leads, {
+          ...other,
+          relatedLeadIds: [...new Set([...(other.relatedLeadIds ?? []), lead.id])],
+        });
       }
     }
     this.leads.push(lead);
@@ -81,7 +96,17 @@ export class LeadsService {
       dto.order !== undefined ? 'order' : '',
       dto.firstResponseAt !== undefined ? 'first response' : '',
     ].filter(Boolean);
-    return replaceById(this.leads, stamp(next, this.clock.now(), actor, 'updated', changes.join(', '), dto.validityReason ?? dto.lostReason));
+    return replaceById(
+      this.leads,
+      stamp(
+        next,
+        this.clock.now(),
+        actor,
+        'updated',
+        changes.join(', '),
+        dto.validityReason ?? dto.lostReason,
+      ),
+    );
   }
 
   mergeSuggestions(): MergeSuggestion[] {

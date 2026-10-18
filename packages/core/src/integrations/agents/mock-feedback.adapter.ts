@@ -19,7 +19,9 @@ const num = (n: number) => n.toLocaleString('en-NZ');
 
 function parseScope(raw: unknown): FeedbackScope[] {
   if (!Array.isArray(raw) || raw.length === 0) return ['ads', 'funnel', 'reconciliation'];
-  return raw.filter((s): s is FeedbackScope => (FEEDBACK_SCOPES as readonly string[]).includes(String(s)));
+  return raw.filter((s): s is FeedbackScope =>
+    (FEEDBACK_SCOPES as readonly string[]).includes(String(s)),
+  );
 }
 
 /**
@@ -48,7 +50,8 @@ export class MockFeedbackAdapter implements AgentAdapter {
   }
 
   async run(inputs: Record<string, unknown>): Promise<AgentOutputDraft[]> {
-    if (typeof inputs.afterLaunchOf === 'string' && inputs.afterLaunchOf) return this.afterLaunch(inputs.afterLaunchOf);
+    if (typeof inputs.afterLaunchOf === 'string' && inputs.afterLaunchOf)
+      return this.afterLaunch(inputs.afterLaunchOf);
     const scope = parseScope(inputs.scope);
     const outputs: AgentOutputDraft[] = [];
     if (scope.includes('funnel')) outputs.push(this.funnel());
@@ -63,7 +66,13 @@ export class MockFeedbackAdapter implements AgentAdapter {
     const task = this.tasks.find(taskId);
     if (!task) throw new Error(`Task ${taskId} not found`);
     if (task.status !== 'live') {
-      return [{ type: 'observation', title: `${task.id} is ${task.status}`, body: 'Nothing launched to verify yet.' }];
+      return [
+        {
+          type: 'observation',
+          title: `${task.id} is ${task.status}`,
+          body: 'Nothing launched to verify yet.',
+        },
+      ];
     }
     return [
       {
@@ -110,7 +119,9 @@ export class MockFeedbackAdapter implements AgentAdapter {
     const zero = week.filter((r) => r.spendCents > 0 && r.crmValidLeads === 0);
     return {
       type: 'observation',
-      title: zero.length ? `Reconciliation: ${zero.map((r) => r.channel).join(', ')} spent with no valid leads` : 'Reconciliation, last full week',
+      title: zero.length
+        ? `Reconciliation: ${zero.map((r) => r.channel).join(', ')} spent with no valid leads`
+        : 'Reconciliation, last full week',
       body: [
         '| Channel | Platform-reported | CRM valid | Over-report | Paid CPL |',
         '|---|---|---|---|---|',
@@ -122,7 +133,9 @@ export class MockFeedbackAdapter implements AgentAdapter {
   }
 
   private ads(): AgentOutputDraft[] {
-    const existing = this.tasks.list().find((t) => t.type === 'ad_change' && t.title === PAUSE_TITLE);
+    const existing = this.tasks
+      .list()
+      .find((t) => t.type === 'ad_change' && t.title === PAUSE_TITLE);
     if (existing) {
       return [
         {
@@ -151,7 +164,9 @@ export class MockFeedbackAdapter implements AgentAdapter {
         approverRole: 'executor',
         evidence: [
           { label: `Ad set B spend, last 10 days: ${formatNzd(adSet.spendCentsLast10Days)}` },
-          { label: `CRM: ${valid} valid / ${invalid.length} invalid (${invalid.map((r) => r.id).join(', ')})` },
+          {
+            label: `CRM: ${valid} valid / ${invalid.length} invalid (${invalid.map((r) => r.id).join(', ')})`,
+          },
           { label: 'Pre-approved scope › pause condition 1' },
         ],
         proposal: {
@@ -161,6 +176,7 @@ export class MockFeedbackAdapter implements AgentAdapter {
             type: 'ad_change',
             title: PAUSE_TITLE,
             channel: 'meta_ads',
+            spendEffect: 'decrease',
             body: `Pause ad set B (campaign ${AD_SET_B}). Reason: ${formatNzd(adSet.spendCentsLast10Days)} in 10 days with 0 valid leads. Before: active · After: paused.`,
             factRefs: [],
           },
@@ -177,7 +193,11 @@ export class MockFeedbackAdapter implements AgentAdapter {
     for (const r of invalid) {
       const reason = String(r.validityReason ?? 'no reason');
       byReason.set(reason, [...(byReason.get(reason) ?? []), r.id as string]);
-      const key = r.attribution === 'unknown' ? 'unknown — not inferred' : [r.campaignId, r.adId, r.utmTerm, r.landingPageVersion].filter(Boolean).join(' / ') || 'organic';
+      const key =
+        r.attribution === 'unknown'
+          ? 'unknown — not inferred'
+          : [r.campaignId, r.adId, r.utmTerm, r.landingPageVersion].filter(Boolean).join(' / ') ||
+            'organic';
       byAd.set(key, (byAd.get(key) ?? 0) + 1);
     }
     const unknown = rows.filter((r) => r.attribution === 'unknown');
@@ -187,7 +207,9 @@ export class MockFeedbackAdapter implements AgentAdapter {
       body: [
         '| Reason | Leads |',
         '|---|---|',
-        ...[...byReason].map(([reason, ids]) => `| ${reason} | ${ids.length} (${ids.join(', ')}) |`),
+        ...[...byReason].map(
+          ([reason, ids]) => `| ${reason} | ${ids.length} (${ids.join(', ')}) |`,
+        ),
         '',
         '| Campaign / ad / term / landing page | Invalid |',
         '|---|---|',
@@ -200,15 +222,24 @@ export class MockFeedbackAdapter implements AgentAdapter {
 
   private landingAnomaly(): AgentOutputDraft {
     const s = this.settings.get();
-    const off = Object.entries(s.landingPage.checks).filter(([, ok]) => !ok).map(([k]) => k);
-    const liveAds = this.tasks.list().filter((t) => (t.type === 'ad_copy' || t.type === 'ad_change') && t.status === 'live');
-    const finding = liveAds.length ? 'Landing page not traffic-ready while ads are live' : 'Landing page not traffic-ready';
+    const off = Object.entries(s.landingPage.checks)
+      .filter(([, ok]) => !ok)
+      .map(([k]) => k);
+    const liveAds = this.tasks
+      .list()
+      .filter((t) => (t.type === 'ad_copy' || t.type === 'ad_change') && t.status === 'live');
+    const finding = liveAds.length
+      ? 'Landing page not traffic-ready while ads are live'
+      : 'Landing page not traffic-ready';
     return {
       type: 'evidence',
       title: finding,
       body: `Landing page is \`not_ready\` (failing: ${off.join(', ')}).${liveAds.length ? ` Live ads: ${liveAds.map((t) => t.id).join(', ')}.` : ''} Act now; this does not wait for the checkpoint.`,
       immediate: liveAds.length > 0,
-      evidence: [{ label: `Settings › Landing page: ${4 - off.length} of 4 checks` }, ...liveAds.map((t) => ({ label: `${t.id} status: live` }))],
+      evidence: [
+        { label: `Settings › Landing page: ${4 - off.length} of 4 checks` },
+        ...liveAds.map((t) => ({ label: `${t.id} status: live` })),
+      ],
       proposal: {
         kind: 'evidence',
         evidence: {

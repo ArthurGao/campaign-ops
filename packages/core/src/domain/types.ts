@@ -31,7 +31,13 @@ import type {
 } from './enums';
 
 export type Actor = { role: Role; name: string };
-export type AuditEvent = { at: string; actor: Actor; action: string; detail?: string; reason?: string };
+export type AuditEvent = {
+  at: string;
+  actor: Actor;
+  action: string;
+  detail?: string;
+  reason?: string;
+};
 
 /** Every entity carries timestamps and its own history list. */
 export type Tracked = { createdAt: string; updatedAt: string; events: AuditEvent[] };
@@ -54,6 +60,10 @@ export type FactEntry = Tracked & {
   purpose?: string; // internal page only
   supersededBy?: string;
   rejectedNote?: string;
+  /** Core product fact (date, price, seats, inclusions): every one must be usable before any ad launches. */
+  productCore?: boolean;
+  /** Verified from an official source (visa, entry rules): the PM may confirm it, with an expiry. */
+  official?: boolean;
 };
 
 export type FactChange = { factId: string; before?: Partial<FactEntry>; after: Partial<FactEntry> };
@@ -95,7 +105,13 @@ export type EvidenceItem = Tracked & {
 // ---------------------------------------------------------------- Tasks
 
 export type QAChecklistItem = { item: string; ok: boolean };
-export type QARecord = { by: Actor; at: string; passed: boolean; notes?: string; checklist: QAChecklistItem[] };
+export type QARecord = {
+  by: Actor;
+  at: string;
+  passed: boolean;
+  notes?: string;
+  checklist: QAChecklistItem[];
+};
 
 export type NonSubstantiveAuth = { authorisedBy: string; scopeRef: string };
 export type PreApprovedAuth = { scopeRef: string; authorisedBy: string };
@@ -142,6 +158,8 @@ export type Task = Tracked & {
   linkedBriefId?: string;
   originRunId?: string;
   originEvidenceId?: string;
+  /** D-32: 'decrease' (pause, cut) changes go live without the launch gates. */
+  spendEffect?: 'increase' | 'decrease';
 };
 
 // ---------------------------------------------------------------- Agents
@@ -151,16 +169,44 @@ export type OutputProposal =
       kind: 'evidence';
       evidence: Pick<
         EvidenceItem,
-        'source' | 'finding' | 'proof' | 'impact' | 'blocks' | 'priority' | 'suggestedOwner' | 'needsApproval'
+        | 'source'
+        | 'finding'
+        | 'proof'
+        | 'impact'
+        | 'blocks'
+        | 'priority'
+        | 'suggestedOwner'
+        | 'needsApproval'
       >;
     }
   | {
       kind: 'task';
-      task: { type: TaskType; title: string; channel?: Channel; body?: string; factRefs: string[]; taskId?: string };
+      task: {
+        type: TaskType;
+        title: string;
+        channel?: Channel;
+        body?: string;
+        factRefs: string[];
+        taskId?: string;
+        spendEffect?: 'increase' | 'decrease';
+      };
       scopeRef?: string;
     }
-  | { kind: 'needs_confirmation'; factIds: string[]; title: string; type: TaskType; channel?: Channel; taskId?: string }
-  | { kind: 'verification'; target: 'task' | 'package'; targetId: string; result: 'match' | 'mismatch'; diff?: string[] };
+  | {
+      kind: 'needs_confirmation';
+      factIds: string[];
+      title: string;
+      type: TaskType;
+      channel?: Channel;
+      taskId?: string;
+    }
+  | {
+      kind: 'verification';
+      target: 'task' | 'package';
+      targetId: string;
+      result: 'match' | 'mismatch';
+      diff?: string[];
+    };
 
 export type OutputDecision = {
   status: DecisionStatus;
@@ -214,7 +260,13 @@ export type AgentCard = {
 
 export type Deliverable = { channel: string; ratio: Ratio };
 
-export type ReceiptAsset = { assetId: string; ratio: string; durationSec: number; url: string; checksum: string };
+export type ReceiptAsset = {
+  assetId: string;
+  ratio: string;
+  durationSec: number;
+  url: string;
+  checksum: string;
+};
 
 export type Receipt = {
   version: string; // 'v1'
@@ -252,7 +304,10 @@ export type Brief = Tracked & {
   returnNotes: { version: number; note: string; at: string }[];
 };
 
-export type BriefDraft = Omit<Brief, keyof Tracked | 'id' | 'status' | 'version' | 'receipts' | 'needsRereview' | 'returnNotes'>;
+export type BriefDraft = Omit<
+  Brief,
+  keyof Tracked | 'id' | 'status' | 'version' | 'receipts' | 'needsRereview' | 'returnNotes'
+>;
 
 // ---------------------------------------------------------------- Publish packages
 
@@ -304,7 +359,11 @@ export type PublishPackage = Tracked & {
   verificationNote?: string;
 };
 
-export type PublishLogRow = PublishLogEntry & { packageId: string; channel: string; assetId?: string };
+export type PublishLogRow = PublishLogEntry & {
+  packageId: string;
+  channel: string;
+  assetId?: string;
+};
 
 // ---------------------------------------------------------------- Leads
 
@@ -313,7 +372,12 @@ export type Lead = Tracked & {
   receivedAt: string;
   contact: { name: string; email?: string; phone?: string };
   enquiry: { tour: string; travelDate?: string; people?: number; notes?: string };
-  source: { utmSource?: string; utmMedium?: SourceMedium; utmCampaign?: string; channelLabel: string };
+  source: {
+    utmSource?: string;
+    utmMedium?: SourceMedium;
+    utmCampaign?: string;
+    channelLabel: string;
+  };
   adDetail: {
     campaignId?: string;
     adId?: string;
@@ -337,7 +401,13 @@ export type Lead = Tracked & {
   relatedLeadIds?: string[];
 };
 
-export type MergeSuggestion = { leadId: string; intoId: string; matchedOn: ('email' | 'phone')[]; tour: string; travelDate?: string };
+export type MergeSuggestion = {
+  leadId: string;
+  intoId: string;
+  matchedOn: ('email' | 'phone')[];
+  tour: string;
+  travelDate?: string;
+};
 
 // ---------------------------------------------------------------- Reconciliation
 
@@ -366,7 +436,13 @@ export type ReconResponse = {
   summary: { byChannel: ReconChannelSummary[]; totals: Omit<ReconChannelSummary, 'channel'> };
 };
 
-export type FunnelWeek = { weekStart: string; impressions: number; visits: number; validLeads: number; deposits: number };
+export type FunnelWeek = {
+  weekStart: string;
+  impressions: number;
+  visits: number;
+  validLeads: number;
+  deposits: number;
+};
 
 // ---------------------------------------------------------------- Settings
 
@@ -417,7 +493,13 @@ export type AdGates = {
 // ---------------------------------------------------------------- Dashboard
 
 export type OpsStatus = {
-  tracking: { ga4: boolean; gtm: boolean; metaPixel: boolean; utmCaptured: boolean; crmConnected: boolean };
+  tracking: {
+    ga4: boolean;
+    gtm: boolean;
+    metaPixel: boolean;
+    utmCaptured: boolean;
+    crmConnected: boolean;
+  };
   lastTestEnquiry?: { at: string; responseMinutes: number };
   hoursThisWeek: number;
   hoursCap: number;
@@ -425,7 +507,11 @@ export type OpsStatus = {
 
 export type DashboardResponse = {
   threeQuestions: {
-    canSell: { usable: number; total: number; pending: { id: string; label: string; status: FactStatus }[] };
+    canSell: {
+      usable: number;
+      total: number;
+      pending: { id: string; label: string; status: FactStatus }[];
+    };
     canCatch: {
       landingPageStatus: LandingPageStatus;
       checks: LandingPageChecks;
@@ -443,4 +529,8 @@ export type DashboardResponse = {
   factSheetVersion: string;
 };
 
-export type DecisionResult = { createdType: OutputDecision['createdType']; createdId?: string; run: AgentRun };
+export type DecisionResult = {
+  createdType: OutputDecision['createdType'];
+  createdId?: string;
+  run: AgentRun;
+};

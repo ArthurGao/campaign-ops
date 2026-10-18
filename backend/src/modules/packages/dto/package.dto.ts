@@ -1,12 +1,22 @@
 import { Type } from 'class-transformer';
-import { Equals, IsBoolean, IsIn, IsISO8601, IsNotEmpty, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import {
+  Equals,
+  IsBoolean,
+  IsIn,
+  IsISO8601,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
 
 export class PackageAssetDto {
   @IsString()
   @IsNotEmpty()
   assetId: string;
 
-  @IsUrl({ require_tld: false })
+  @IsUrl({ require_tld: false, protocols: ['http', 'https'], require_protocol: true })
   url: string;
 
   @IsString()
@@ -55,7 +65,7 @@ export class RequiredNoteDto {
 }
 
 export class PublishedDto {
-  @IsString()
+  @IsUrl({ protocols: ['http', 'https'], require_protocol: true })
   postUrl: string;
 
   @IsOptional()

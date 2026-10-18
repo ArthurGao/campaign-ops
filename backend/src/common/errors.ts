@@ -23,7 +23,10 @@ export class AppExceptionFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
       const body = exception.getResponse();
-      const raw = typeof body === 'object' && body && 'message' in body ? (body as { message: unknown }).message : exception.message;
+      const raw =
+        typeof body === 'object' && body && 'message' in body
+          ? (body as { message: unknown }).message
+          : exception.message;
       const message = Array.isArray(raw) ? raw.join('; ') : String(raw);
       res.status(status).json({ code: status === 404 ? 'NOT_FOUND' : 'VALIDATION', message });
       return;

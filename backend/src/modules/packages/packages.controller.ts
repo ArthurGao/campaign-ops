@@ -4,7 +4,13 @@ import { CurrentActor } from '../../common/actor.decorator';
 import { Roles } from '../../common/roles.guard';
 import { PACKAGE_STATUSES, type PackageStatus } from '@campaign-ops/core';
 import type { Actor } from '@campaign-ops/core';
-import { NoteDto, PatchPackageDto, PublishedDto, RequiredNoteDto, VerifyPackageDto } from './dto/package.dto';
+import {
+  NoteDto,
+  PatchPackageDto,
+  PublishedDto,
+  RequiredNoteDto,
+  VerifyPackageDto,
+} from './dto/package.dto';
 import { PackagesService } from '@campaign-ops/core';
 
 @ApiTags('packages')

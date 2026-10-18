@@ -28,7 +28,11 @@ export function catchAppError(fn: () => unknown): AppError {
   throw new Error('expected an AppError, nothing was thrown');
 }
 
-export function expectCode(fn: () => unknown, code: ErrorCode, status = code === 'FORBIDDEN' ? 403 : 409): AppError {
+export function expectCode(
+  fn: () => unknown,
+  code: ErrorCode,
+  status = code === 'FORBIDDEN' ? 403 : 409,
+): AppError {
   const err = catchAppError(fn);
   expect({ code: err.code, status: err.status }).toEqual({ code, status });
   return err;
@@ -40,4 +44,12 @@ export function withTask(seed: Seed, id: string, patch: Partial<Task>): Task {
   const t = find(seed.tasks, id);
   Object.assign(t, patch);
   return t;
+}
+
+/** Confirm the core product facts (date, price, seats; inclusions is seeded confirmed) so the product ad gate passes. */
+export function confirmCoreProductFacts(seed: Seed): void {
+  for (const f of seed.facts) {
+    if (f.productCore && f.status !== 'confirmed')
+      Object.assign(f, { status: 'confirmed', source: 'Client email' });
+  }
 }

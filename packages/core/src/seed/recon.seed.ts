@@ -57,13 +57,37 @@ export function funnelSeed(): FunnelWeek[] {
   ];
 }
 
-export type AdSetReport = { campaignId: string; name: string; channel: 'meta_ads' | 'google_search'; spendCentsLast10Days: number; status: 'active' | 'paused' };
+export type AdSetReport = {
+  campaignId: string;
+  name: string;
+  channel: 'meta_ads' | 'google_search';
+  spendCentsLast10Days: number;
+  status: 'active' | 'paused';
+};
 
 /** Mock ad-platform report for the last 10 days (Feedback agent input). */
 export function adSetsSeed(): AdSetReport[] {
   return [
-    { campaignId: 'META-CT27-A', name: 'Meta ad set A', channel: 'meta_ads', spendCentsLast10Days: 21_300, status: 'active' },
-    { campaignId: 'META-CT27-B', name: 'Meta ad set B', channel: 'meta_ads', spendCentsLast10Days: 18_640, status: 'active' },
-    { campaignId: 'GS-CT27-NB', name: 'Google Search non-brand', channel: 'google_search', spendCentsLast10Days: 24_500, status: 'active' },
+    {
+      campaignId: 'META-CT27-A',
+      name: 'Meta ad set A',
+      channel: 'meta_ads',
+      spendCentsLast10Days: 21_300,
+      status: 'active',
+    },
+    {
+      campaignId: 'META-CT27-B',
+      name: 'Meta ad set B',
+      channel: 'meta_ads',
+      spendCentsLast10Days: 18_640,
+      status: 'active',
+    },
+    {
+      campaignId: 'GS-CT27-NB',
+      name: 'Google Search non-brand',
+      channel: 'google_search',
+      spendCentsLast10Days: 24_500,
+      status: 'active',
+    },
   ];
 }

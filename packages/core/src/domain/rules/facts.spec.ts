@@ -1,6 +1,7 @@
 import { SEED_NOW, catchAppError, find, freshSeed } from '../../testing/fixtures';
 import {
   assertConfirmable,
+  assertMayConfirm,
   bumpFactSheetVersion,
   externalOnly,
   isExpiringSoon,
@@ -43,7 +44,11 @@ describe('facts rules', () => {
   });
 
   it('lists unusable refs: pending, unknown ids and internal entries', () => {
-    expect(unusableRefs(['FS-07', 'FS-04', 'FS-99', 'FS-20'], seed.facts, SEED_NOW)).toEqual(['FS-04', 'FS-99', 'FS-20']);
+    expect(unusableRefs(['FS-07', 'FS-04', 'FS-99', 'FS-20'], seed.facts, SEED_NOW)).toEqual([
+      'FS-04',
+      'FS-99',
+      'FS-20',
+    ]);
     expect(needsConfirmation(['FS-07', 'FS-11'], seed.facts, SEED_NOW)).toBe(false);
     expect(needsConfirmation(['FS-07', 'FS-04'], seed.facts, SEED_NOW)).toBe(true);
   });
@@ -66,11 +71,40 @@ describe('facts rules', () => {
     });
 
     it('refuses superseded entries', () => {
-      expect(catchAppError(() => assertConfirmable(fact('FS-03'), 'Email')).code).toBe('INVALID_TRANSITION');
+      expect(catchAppError(() => assertConfirmable(fact('FS-03'), 'Email')).code).toBe(
+        'INVALID_TRANSITION',
+      );
     });
 
     it('accepts a pending entry with a source', () => {
       expect(() => assertConfirmable(fact('FS-04'), 'Client email 16 Oct')).not.toThrow();
     });
+  });
+});
+
+describe('who may confirm (source workflow: PM confirms official-source facts with an expiry)', () => {
+  const seed = freshSeed();
+  const fact = (id: string) => find(seed.facts, id);
+  const pm = { role: 'pm' as const, name: 'PM' };
+  const client = { role: 'client_approver' as const, name: 'Client' };
+
+  it('clients may confirm any entry', () => {
+    expect(() => assertMayConfirm(fact('FS-04'), client, undefined)).not.toThrow();
+    expect(() => assertMayConfirm(fact('FS-09'), client, undefined)).not.toThrow();
+  });
+
+  it('the PM may confirm an official-source entry only with an expiry date', () => {
+    expect(fact('FS-09').official).toBe(true);
+    expect(() => assertMayConfirm(fact('FS-09'), pm, '2026-12-01T00:00:00.000Z')).not.toThrow();
+    expect(catchAppError(() => assertMayConfirm(fact('FS-09'), pm, undefined)).code).toBe(
+      'VALIDATION',
+    );
+  });
+
+  it('the PM may not confirm product facts (date, price, seats, inclusions)', () => {
+    const err = catchAppError(() =>
+      assertMayConfirm(fact('FS-04'), pm, '2026-12-01T00:00:00.000Z'),
+    );
+    expect({ code: err.code, status: err.status }).toEqual({ code: 'FORBIDDEN', status: 403 });
   });
 });

@@ -37,6 +37,12 @@
   --color-bad-soft: #fbe6e3;
   --color-internal: #59636d;
   --color-internal-soft: #e7eaed;
+  --color-ok-strong: #145a38;
+  --color-progress: #1d4f74;
+  --color-progress-soft: #e4eef6;
+  --color-chart-previous: #9fb3c3;
+  --color-rail-alert: #f2b8b2;
+  --color-rail-alert-ink: #5c1410;
 
   --radius-sm: 3px;
   --radius-md: 4px;
@@ -79,7 +85,9 @@
     @apply bg-ground text-ink font-sans;
     font-size: 0.9375rem;
     line-height: 1.45;
-    font-feature-settings: 'tnum' 1, 'cv11' 1;
+    font-feature-settings:
+      'tnum' 1,
+      'cv11' 1;
   }
 
   ::selection {
@@ -94,6 +102,16 @@
 
   a {
     text-underline-offset: 3px;
+  }
+
+  /*
+   * Scroll containers anchor their absolutely positioned descendants (sr-only labels inside chips
+   * and buttons); otherwise those escape the scroller and widen the whole page.
+   */
+  .overflow-x-auto,
+  .overflow-y-auto,
+  .overflow-auto {
+    position: relative;
   }
 
   :focus-visible {

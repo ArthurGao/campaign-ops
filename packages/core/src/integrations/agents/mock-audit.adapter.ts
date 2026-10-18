@@ -7,7 +7,9 @@ export type BacklogReader = { findings(): { id: string; finding: string }[] };
 
 function parseScope(raw: unknown): AuditScope[] {
   if (!Array.isArray(raw) || raw.length === 0) return [...AUDIT_SCOPES];
-  return raw.filter((s): s is AuditScope => (AUDIT_SCOPES as readonly string[]).includes(String(s)));
+  return raw.filter((s): s is AuditScope =>
+    (AUDIT_SCOPES as readonly string[]).includes(String(s)),
+  );
 }
 
 /**
@@ -76,7 +78,10 @@ export class MockAuditAdapter implements AgentAdapter {
     if (scope.includes('geo')) {
       GEO_QUESTIONS.forEach((q, i) => {
         const rows = q.results
-          .map((r) => `| ${r.platform} | ${r.mentioned ? 'yes' : 'no'} | ${r.accurate === null ? 'n/a' : r.accurate ? 'yes' : 'no'} | ${r.cited} |`)
+          .map(
+            (r) =>
+              `| ${r.platform} | ${r.mentioned ? 'yes' : 'no'} | ${r.accurate === null ? 'n/a' : r.accurate ? 'yes' : 'no'} | ${r.cited} |`,
+          )
           .join('\n');
         outputs.push({
           type: 'observation',

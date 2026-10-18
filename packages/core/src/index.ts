@@ -11,6 +11,7 @@ export * from './domain/rules/recon';
 export * from './domain/rules/money';
 export * from './domain/rules/utm';
 export * from './domain/rules/versions';
+export * from './domain/rules/url';
 export * from './services/inputs';
 export { HUMAN_REVIEW_ITEM, BRIEF_QA_CHECKLIST, FactoryService } from './services/factory.service';
 export { AgentsService, RUN_DELAYS } from './services/agents.service';

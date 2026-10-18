@@ -2,9 +2,24 @@ import { formatNzd } from '@campaign-ops/core';
 
 const TZ = 'Pacific/Auckland';
 
-const dayFmt = new Intl.DateTimeFormat('en-NZ', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short' });
-const dayYearFmt = new Intl.DateTimeFormat('en-NZ', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric' });
-const timeFmt = new Intl.DateTimeFormat('en-NZ', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+const dayFmt = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: TZ,
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+});
+const dayYearFmt = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: TZ,
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+const timeFmt = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: TZ,
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
 const tzNameFmt = new Intl.DateTimeFormat('en-NZ', { timeZone: TZ, timeZoneName: 'short' });
 
 /** 'Thu 15 Oct' in Pacific/Auckland. */
@@ -30,7 +45,9 @@ export function fmtTime(iso?: string): string {
 
 /** 'NZDT' / 'NZST' for an instant. */
 export function tzName(iso: string): string {
-  return tzNameFmt.formatToParts(new Date(iso)).find((p) => p.type === 'timeZoneName')?.value ?? 'NZ';
+  return (
+    tzNameFmt.formatToParts(new Date(iso)).find((p) => p.type === 'timeZoneName')?.value ?? 'NZ'
+  );
 }
 
 const DAY = 86_400_000;
@@ -58,9 +75,20 @@ export function minutesText(min: number): string {
   return m ? `${h} h ${m} min` : `${h} h`;
 }
 
-/** 'awaiting_approval' → 'Awaiting approval'. */
+const ACRONYMS: Record<string, string> = {
+  qa: 'QA',
+  seo: 'SEO',
+  geo: 'GEO',
+  ai: 'AI',
+  utm: 'UTM',
+  crm: 'CRM',
+  pm: 'PM',
+};
+
+/** 'awaiting_approval' → 'Awaiting approval', 'qa_passed' → 'QA passed'. */
 export function humanize(value: string): string {
-  const s = value.replace(/_/g, ' ');
+  const words = value.split('_').map((w) => ACRONYMS[w.toLowerCase()] ?? w);
+  const s = words.join(' ');
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 

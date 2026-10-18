@@ -1,4 +1,4 @@
-import { MemoryStore } from './memory.store';
+import { type MemoryStore } from './memory.store';
 
 /** Human-readable ids with the plan's prefixes and zero-padding; never UUIDs. */
 export class IdService {

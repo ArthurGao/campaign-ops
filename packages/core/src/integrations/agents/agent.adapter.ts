@@ -58,4 +58,3 @@ export interface ResultsReader {
   /** De-identified CRM export (R9): no names, emails, phones, click ids. */
   crmExport(): DeidentifiedRow[];
 }
-

@@ -12,7 +12,7 @@ const buttonVariants = cva(
         secondary: 'border border-rule bg-surface text-ink hover:border-ink-3 hover:bg-ground',
         ghost: 'text-ink-2 hover:bg-panel hover:text-ink',
         danger: 'border border-bad/30 bg-surface text-bad hover:bg-bad-soft',
-        approve: 'bg-ok text-white hover:bg-[#145a38]',
+        approve: 'bg-ok text-white hover:bg-ok-strong',
         link: 'text-accent underline-offset-4 hover:underline px-0 h-auto',
       },
       size: {
@@ -25,13 +25,17 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, loading = false, disabled, children, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
@@ -41,12 +45,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         {...props}
       >
-        {loading ? <span className="size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden /> : null}
+        {loading ? (
+          <span
+            className="size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent"
+            aria-hidden
+          />
+        ) : null}
         {children}
       </Comp>
     );
   },
 );
 Button.displayName = 'Button';
-
-export { buttonVariants };

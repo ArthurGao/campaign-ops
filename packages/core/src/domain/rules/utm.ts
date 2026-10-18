@@ -14,7 +14,10 @@ export function renderUtm(
 export function utmForChannel(channel: string): { source: string; medium: string } {
   const source = channel.split('_')[0];
   const paid = channel.includes('ads') || channel === 'google_search';
-  return { source: source === 'google' ? 'google' : source, medium: paid ? 'paid' : 'organic_social' };
+  return {
+    source: source === 'google' ? 'google' : source,
+    medium: paid ? 'paid' : 'organic_social',
+  };
 }
 
 /** Task channel → publish package channel. */

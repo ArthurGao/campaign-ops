@@ -5,7 +5,7 @@ import { deriveLandingPageStatus } from '../domain/rules/gates';
 import { renderUtm } from '../domain/rules/utm';
 import type { Actor, Settings } from '../domain/types';
 import type { SettingsReader } from '../integrations/agents/agent.adapter';
-import { MemoryStore } from '../store/memory.store';
+import { type MemoryStore } from '../store/memory.store';
 import { defined, type PatchSettingsInput } from './inputs';
 
 export class SettingsService implements SettingsReader {
@@ -28,27 +28,45 @@ export class SettingsService implements SettingsReader {
       dto.landingPage !== undefined ||
       dto.factorySupportsIdempotency !== undefined ||
       (dto.people !== undefined && Object.keys(dto.people).some((k) => k !== 'approvers'));
-    if (needsClient && !client) throw forbidden('change the pre-approved scope or approvers', CLIENT_ROLES);
+    if (needsClient && !client)
+      throw forbidden('change the pre-approved scope or approvers', CLIENT_ROLES);
     if (needsPm && actor.role !== 'pm') throw forbidden('change these settings', ['pm']);
     if (dto.utmTemplate !== undefined && !dto.utmTemplate.includes('{base}')) {
-      throw new AppError('VALIDATION', 'The UTM template must start from {base}.', 'Example: {base}?utm_source={source}&…', 400);
+      throw new AppError(
+        'VALIDATION',
+        'The UTM template must start from {base}.',
+        'Example: {base}?utm_source={source}&…',
+        400,
+      );
     }
     if (dto.preApprovedScope?.budgetCapCentsByChannel) {
-      const bad = Object.entries(dto.preApprovedScope.budgetCapCentsByChannel).filter(([, v]) => !Number.isInteger(v) || v < 0);
-      if (bad.length) throw new AppError('VALIDATION', `Budget caps must be whole cents ≥ 0: ${bad.map(([k]) => k).join(', ')}`, undefined, 400);
+      const bad = Object.entries(dto.preApprovedScope.budgetCapCentsByChannel).filter(
+        ([, v]) => !Number.isInteger(v) || v < 0,
+      );
+      if (bad.length)
+        throw new AppError(
+          'VALIDATION',
+          `Budget caps must be whole cents ≥ 0: ${bad.map(([k]) => k).join(', ')}`,
+          undefined,
+          400,
+        );
     }
 
     const s = this.get();
     const changed: string[] = [];
     const next: Settings = structuredClone(s);
     if (dto.preApprovedScope) {
-      Object.assign(next.preApprovedScope, defined(dto.preApprovedScope), { signedBy: actor.name, signedAt: this.clock.now().toISOString() });
+      Object.assign(next.preApprovedScope, defined(dto.preApprovedScope), {
+        signedBy: actor.name,
+        signedAt: this.clock.now().toISOString(),
+      });
       changed.push('pre-approved scope');
     }
     if (dto.people) {
       const { alertOwnerOutsideHours, ...rest } = dto.people;
       Object.assign(next.people, defined(rest));
-      if (alertOwnerOutsideHours) next.people.alertOwnerOutsideHours = { ...alertOwnerOutsideHours };
+      if (alertOwnerOutsideHours)
+        next.people.alertOwnerOutsideHours = { ...alertOwnerOutsideHours };
       changed.push('people');
     }
     if (dto.utmTemplate !== undefined) {
@@ -61,7 +79,8 @@ export class SettingsService implements SettingsReader {
     }
     if (dto.landingPage) {
       if (dto.landingPage.url) next.landingPage.url = dto.landingPage.url;
-      if (dto.landingPage.checks) Object.assign(next.landingPage.checks, defined(dto.landingPage.checks));
+      if (dto.landingPage.checks)
+        Object.assign(next.landingPage.checks, defined(dto.landingPage.checks));
       next.landingPage.status = deriveLandingPageStatus(next.landingPage.checks);
       changed.push(`landing page (${next.landingPage.status})`);
     }
@@ -69,7 +88,10 @@ export class SettingsService implements SettingsReader {
       next.factorySupportsIdempotency = dto.factorySupportsIdempotency;
       changed.push('factory idempotency');
     }
-    next.events = [...s.events, { at: this.clock.now().toISOString(), actor, action: 'updated', detail: changed.join(', ') }];
+    next.events = [
+      ...s.events,
+      { at: this.clock.now().toISOString(), actor, action: 'updated', detail: changed.join(', ') },
+    ];
     this.store.data.settings = next;
     return next;
   }

@@ -1,10 +1,5 @@
 import { SEED_NOW } from '../domain/clock';
-import {
-  AGENT_IDS,
-  PACKAGE_STATUSES,
-  TASK_STATUSES,
-  TASK_TYPES,
-} from '../domain/enums';
+import { AGENT_IDS, PACKAGE_STATUSES, TASK_STATUSES, TASK_TYPES } from '../domain/enums';
 import { needsConfirmation } from '../domain/rules/facts';
 import { buildSeed } from './index';
 
@@ -63,13 +58,28 @@ describe('seed', () => {
   describe('evidence', () => {
     it('has ≥ 8 items across sources with exactly 2 blocking', () => {
       expect(seed.evidence.length).toBeGreaterThanOrEqual(8);
-      expect(new Set(seed.evidence.map((e) => e.source))).toEqual(new Set(['site', 'tracking', 'channels', 'seo', 'geo', 'sales']));
-      expect(seed.evidence.filter((e) => e.blocks !== 'none').map((e) => e.id)).toEqual(['E-03', 'E-07']);
+      expect(new Set(seed.evidence.map((e) => e.source))).toEqual(
+        new Set(['site', 'tracking', 'channels', 'seo', 'geo', 'sales']),
+      );
+      expect(seed.evidence.filter((e) => e.blocks !== 'none').map((e) => e.id)).toEqual([
+        'E-03',
+        'E-07',
+      ]);
     });
 
     it('has the two headline example items', () => {
-      expect(byId(seed.evidence, 'E-03')).toMatchObject({ source: 'tracking', blocks: 'ads', priority: 'P0', isExample: true });
-      expect(byId(seed.evidence, 'E-07')).toMatchObject({ source: 'site', blocks: 'traffic', priority: 'P0', isExample: true });
+      expect(byId(seed.evidence, 'E-03')).toMatchObject({
+        source: 'tracking',
+        blocks: 'ads',
+        priority: 'P0',
+        isExample: true,
+      });
+      expect(byId(seed.evidence, 'E-07')).toMatchObject({
+        source: 'site',
+        blocks: 'traffic',
+        priority: 'P0',
+        isExample: true,
+      });
     });
   });
 
@@ -87,20 +97,37 @@ describe('seed', () => {
         blockedReason: 'needs_confirmation: FS-04',
         needsConfirmation: true,
       });
-      expect(byId(seed.tasks, 'TASK-018')).toMatchObject({ type: 'site_change', status: 'awaiting_approval' });
-      expect(byId(seed.tasks, 'TASK-030')).toMatchObject({ type: 'ad_copy', channel: 'google_search', status: 'approved' });
-      expect(byId(seed.tasks, 'TASK-011')).toMatchObject({ type: 'video_brief', status: 'approved', linkedBriefId: 'SOC-2027CT-003' });
+      expect(byId(seed.tasks, 'TASK-018')).toMatchObject({
+        type: 'site_change',
+        status: 'awaiting_approval',
+      });
+      expect(byId(seed.tasks, 'TASK-030')).toMatchObject({
+        type: 'ad_copy',
+        channel: 'google_search',
+        status: 'approved',
+      });
+      expect(byId(seed.tasks, 'TASK-011')).toMatchObject({
+        type: 'video_brief',
+        status: 'approved',
+        linkedBriefId: 'SOC-2027CT-003',
+      });
     });
 
     it('stores needsConfirmation consistent with the fact sheet at seed time', () => {
       for (const t of seed.tasks) {
-        expect([t.id, t.needsConfirmation]).toEqual([t.id, needsConfirmation(t.factRefs, seed.facts, SEED_NOW)]);
+        expect([t.id, t.needsConfirmation]).toEqual([
+          t.id,
+          needsConfirmation(t.factRefs, seed.facts, SEED_NOW),
+        ]);
       }
     });
 
     it('never references an internal fact', () => {
       const internalIds = new Set(seed.facts.filter((f) => f.page === 'internal').map((f) => f.id));
-      const refs = [...seed.tasks.flatMap((t) => t.factRefs), ...seed.packages.flatMap((p) => p.factRefs)];
+      const refs = [
+        ...seed.tasks.flatMap((t) => t.factRefs),
+        ...seed.packages.flatMap((p) => p.factRefs),
+      ];
       expect(refs.filter((r) => internalIds.has(r))).toEqual([]);
     });
   });
@@ -108,7 +135,9 @@ describe('seed', () => {
   describe('agent runs', () => {
     it('has one completed run per agent with 3–6 outputs, one failed and one queued', () => {
       for (const agent of AGENT_IDS) {
-        const counts = seed.runs.filter((r) => r.agent === agent && r.status === 'completed').map((r) => r.outputs.length);
+        const counts = seed.runs
+          .filter((r) => r.agent === agent && r.status === 'completed')
+          .map((r) => r.outputs.length);
         expect([agent, counts.some((n) => n >= 3 && n <= 6)]).toEqual([agent, true]);
       }
       expect(seed.runs.filter((r) => r.status === 'failed').map((r) => r.id)).toEqual(['RUN-0010']);
@@ -117,18 +146,27 @@ describe('seed', () => {
 
     it('has the headline runs', () => {
       expect(byId(seed.runs, 'RUN-0003')).toMatchObject({ agent: 'audit', status: 'completed' });
-      expect(byId(seed.runs, 'RUN-0007').outputs.filter((o) => o.type === 'needs_confirmation')).toHaveLength(1);
-      expect(byId(seed.runs, 'RUN-0009').outputs.find((o) => o.type === 'suggestion')).toMatchObject({
+      expect(
+        byId(seed.runs, 'RUN-0007').outputs.filter((o) => o.type === 'needs_confirmation'),
+      ).toHaveLength(1);
+      expect(
+        byId(seed.runs, 'RUN-0009').outputs.find((o) => o.type === 'suggestion'),
+      ).toMatchObject({
         title: 'Pause Meta ad set B',
         inScope: true,
       });
-      expect(byId(seed.runs, 'RUN-0010')).toMatchObject({ agent: 'audit', error: 'No URL provided' });
+      expect(byId(seed.runs, 'RUN-0010')).toMatchObject({
+        agent: 'audit',
+        error: 'No URL provided',
+      });
       expect(byId(seed.runs, 'RUN-0011')).toMatchObject({ agent: 'feedback' });
     });
 
     it('records createdId for every accepted output that created a record, and it exists', () => {
       const ids = new Set([...seed.evidence, ...seed.tasks, ...seed.packages].map((x) => x.id));
-      const created = seed.runs.flatMap((r) => r.outputs).flatMap((o) => (o.decision?.createdId ? [o.decision.createdId] : []));
+      const created = seed.runs
+        .flatMap((r) => r.outputs)
+        .flatMap((o) => (o.decision?.createdId ? [o.decision.createdId] : []));
       expect(created.length).toBeGreaterThan(5);
       expect(created.filter((id) => !ids.has(id))).toEqual([]);
     });
@@ -139,7 +177,11 @@ describe('seed', () => {
       const soc3 = byId(seed.briefs, 'SOC-2027CT-003');
       const v1 = soc3.receipts[0];
       expect(v1.version).toBe('v1');
-      expect(v1.assets.map((a) => a.assetId)).toEqual(['VID-0031-4x5-v1', 'VID-0031-9x16-v1', 'VID-0031-16x9-v1']);
+      expect(v1.assets.map((a) => a.assetId)).toEqual([
+        'VID-0031-4x5-v1',
+        'VID-0031-9x16-v1',
+        'VID-0031-16x9-v1',
+      ]);
       expect(v1.factsUsed).toEqual(['FS-07', 'FS-11']);
       expect(v1.creditsUsed).toBe(12);
       expect(soc3.costCap.maxCredits).toBe(20);
@@ -176,9 +218,13 @@ describe('seed', () => {
 
     it('only uses assets that passed QA or come from older factory jobs', () => {
       const unpassed = new Set(
-        seed.briefs.filter((b) => b.status !== 'qa_passed').flatMap((b) => b.receipts.flatMap((r) => r.assets.map((a) => a.assetId))),
+        seed.briefs
+          .filter((b) => b.status !== 'qa_passed')
+          .flatMap((b) => b.receipts.flatMap((r) => r.assets.map((a) => a.assetId))),
       );
-      expect(seed.packages.filter((p) => p.asset && unpassed.has(p.asset.assetId)).map((p) => p.id)).toEqual([]);
+      expect(
+        seed.packages.filter((p) => p.asset && unpassed.has(p.asset.assetId)).map((p) => p.id),
+      ).toEqual([]);
     });
   });
 
@@ -188,7 +234,14 @@ describe('seed', () => {
     it('has ≥ 12 visible leads mixing the required sources', () => {
       expect(visible.length).toBeGreaterThanOrEqual(12);
       const mediums = new Set(visible.map((l) => l.source.utmMedium));
-      for (const m of ['paid_social', 'organic_search', 'organic_social', 'lead_ads', 'phone', 'dm']) {
+      for (const m of [
+        'paid_social',
+        'organic_search',
+        'organic_social',
+        'lead_ads',
+        'phone',
+        'dm',
+      ]) {
         expect([m, mediums.has(m as never)]).toEqual([m, true]);
       }
     });
@@ -197,11 +250,20 @@ describe('seed', () => {
       expect(byId(seed.leads, 'L-0019').mergedInto).toBe('L-0014');
       expect(byId(seed.leads, 'L-0014').mergedFrom).toEqual(['L-0019']);
       expect(byId(seed.leads, 'L-0015')).toMatchObject({ everValid: true, stage: 'lost' });
-      expect(byId(seed.leads, 'L-0012')).toMatchObject({ validity: { value: 'valid' }, stage: 'deposit_paid', order: { people: 2 } });
-      expect(byId(seed.leads, 'L-0013').validity).toMatchObject({ value: 'invalid', reason: 'wants independent travel' });
+      expect(byId(seed.leads, 'L-0012')).toMatchObject({
+        validity: { value: 'valid' },
+        stage: 'deposit_paid',
+        order: { people: 2 },
+      });
+      expect(byId(seed.leads, 'L-0013').validity).toMatchObject({
+        value: 'invalid',
+        reason: 'wants independent travel',
+      });
       expect(byId(seed.leads, 'L-0016').relatedLeadIds).toEqual(['L-0017']);
       expect(byId(seed.leads, 'L-0018').adDetail.resolution).toBe('matched_from_platform');
-      expect(visible.some((l) => l.source.utmMedium === 'phone' && l.adDetail.resolution === 'unknown')).toBe(true);
+      expect(
+        visible.some((l) => l.source.utmMedium === 'phone' && l.adDetail.resolution === 'unknown'),
+      ).toBe(true);
     });
   });
 
@@ -210,15 +272,23 @@ describe('seed', () => {
       expect(new Set(seed.recon.map((r) => r.weekStart)).size).toBe(3);
       expect(seed.recon).toHaveLength(18);
       const week2 = [...new Set(seed.recon.map((r) => r.weekStart))][1];
-      expect(seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads')).toMatchObject({ crmValidLeads: 0 });
-      expect(seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads')!.spendCents).toBeGreaterThan(0);
+      expect(
+        seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads'),
+      ).toMatchObject({ crmValidLeads: 0 });
+      expect(
+        seed.recon.find((r) => r.weekStart === week2 && r.channel === 'meta_ads')!.spendCents,
+      ).toBeGreaterThan(0);
     });
   });
 
   describe('settings', () => {
     it('allows non-substantive PM approval, names an alert owner, and has 3 of 4 landing checks on', () => {
       expect(seed.settings.preApprovedScope.pmMayApproveNonSubstantive).toBe(true);
-      expect(seed.settings.preApprovedScope.nonSubstantiveList).toEqual(['typos', 'punctuation', 'schedule time within the same day']);
+      expect(seed.settings.preApprovedScope.nonSubstantiveList).toEqual([
+        'typos',
+        'punctuation',
+        'schedule time within the same day',
+      ]);
       expect(seed.settings.people.alertOwnerOutsideHours.name).not.toBe('');
       expect(Object.values(seed.settings.landingPage.checks).filter(Boolean)).toHaveLength(3);
       expect(seed.settings.landingPage.status).toBe('not_ready');
@@ -233,11 +303,17 @@ describe('seed', () => {
       const pkgs = new Set(seed.packages.map((p) => p.id));
       const missing = [
         ...seed.tasks.flatMap((t) => t.factRefs.filter((f) => !facts.has(f))),
-        ...seed.tasks.flatMap((t) => (t.linkedBriefId && !briefs.has(t.linkedBriefId) ? [t.linkedBriefId] : [])),
-        ...seed.tasks.flatMap((t) => (t.linkedPackageId && !pkgs.has(t.linkedPackageId) ? [t.linkedPackageId] : [])),
+        ...seed.tasks.flatMap((t) =>
+          t.linkedBriefId && !briefs.has(t.linkedBriefId) ? [t.linkedBriefId] : [],
+        ),
+        ...seed.tasks.flatMap((t) =>
+          t.linkedPackageId && !pkgs.has(t.linkedPackageId) ? [t.linkedPackageId] : [],
+        ),
         ...seed.packages.flatMap((p) => (tasks.has(p.sourceTaskId) ? [] : [p.sourceTaskId])),
         ...seed.briefs.flatMap((b) => (tasks.has(b.taskId) ? [] : [b.taskId])),
-        ...seed.evidence.flatMap((e) => (e.convertedTaskId && !tasks.has(e.convertedTaskId) ? [e.convertedTaskId] : [])),
+        ...seed.evidence.flatMap((e) =>
+          e.convertedTaskId && !tasks.has(e.convertedTaskId) ? [e.convertedTaskId] : [],
+        ),
       ];
       expect(missing).toEqual([]);
     });

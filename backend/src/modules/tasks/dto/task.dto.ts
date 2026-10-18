@@ -11,7 +11,14 @@ import {
   Matches,
   ValidateNested,
 } from 'class-validator';
-import { CHANNELS, TASK_STATUSES, TASK_TYPES, type Channel, type TaskStatus, type TaskType } from '@campaign-ops/core';
+import {
+  CHANNELS,
+  TASK_STATUSES,
+  TASK_TYPES,
+  type Channel,
+  type TaskStatus,
+  type TaskType,
+} from '@campaign-ops/core';
 
 const FS_ID = /^FS-\d{2,}$/;
 

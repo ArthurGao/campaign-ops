@@ -12,4 +12,3 @@ export interface FactoryClient {
   readonly supportsIdempotency: boolean;
   submit(brief: Brief, callbacks: FactoryCallbacks): void;
 }
-

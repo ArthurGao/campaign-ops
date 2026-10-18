@@ -2,7 +2,14 @@ import { Body, Controller, Get, Header, Param, Patch, Post, Query } from '@nestj
 import { ApiHeader, ApiProduces, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CurrentActor } from '../../common/actor.decorator';
 import { Roles } from '../../common/roles.guard';
-import { SOURCE_MEDIUMS, STAGES, VALIDITIES, type SourceMedium, type Stage, type Validity } from '@campaign-ops/core';
+import {
+  SOURCE_MEDIUMS,
+  STAGES,
+  VALIDITIES,
+  type SourceMedium,
+  type Stage,
+  type Validity,
+} from '@campaign-ops/core';
 import type { Actor } from '@campaign-ops/core';
 import { CreateLeadDto, MergeLeadDto, PatchLeadDto } from './dto/lead.dto';
 import { LeadsService } from '@campaign-ops/core';
@@ -17,7 +24,11 @@ export class LeadsController {
   @ApiQuery({ name: 'validity', enum: VALIDITIES, required: false })
   @ApiQuery({ name: 'stage', enum: STAGES, required: false })
   @ApiQuery({ name: 'medium', enum: SOURCE_MEDIUMS, required: false })
-  list(@Query('validity') validity?: Validity, @Query('stage') stage?: Stage, @Query('medium') medium?: SourceMedium) {
+  list(
+    @Query('validity') validity?: Validity,
+    @Query('stage') stage?: Stage,
+    @Query('medium') medium?: SourceMedium,
+  ) {
     return this.leads.list({ validity, stage, medium });
   }
 

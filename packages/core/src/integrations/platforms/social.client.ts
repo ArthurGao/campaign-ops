@@ -2,4 +2,3 @@
 export interface SocialPlatformClient {
   fetchLivePost(postUrl: string): Promise<string | undefined>;
 }
-

@@ -1,4 +1,10 @@
-import { approverRolesFor, CLIENT_ROLES, type Role, type Task, type TaskStatus } from '@campaign-ops/core';
+import {
+  approverRolesFor,
+  CLIENT_ROLES,
+  type Role,
+  type Task,
+  type TaskStatus,
+} from '@campaign-ops/core';
 
 /** Endpoint-level permissions, mirrored from docs/04-api.md. The API remains the authority. */
 export const PERMISSIONS = {
@@ -18,6 +24,7 @@ export const PERMISSIONS = {
   'package.verify': ['pm'],
   'package.takeDown': ['pm'],
   'lead.edit': ['sales'],
+  'lead.merge': ['sales'],
   'lead.create': ['sales', 'pm'],
   'settings.scope': CLIENT_ROLES,
   'settings.general': ['pm'],
@@ -52,7 +59,9 @@ export function transitionRoles(task: Task, to: TaskStatus): readonly Role[] {
     case 'blocked->draft':
       return ['pm'];
     case 'awaiting_approval->approved':
-      return task.pendingNonSubstantive ? [...approverRolesFor(task), 'pm'] : approverRolesFor(task);
+      return task.pendingNonSubstantive
+        ? [...approverRolesFor(task), 'pm']
+        : approverRolesFor(task);
     case 'awaiting_approval->draft':
       return approverRolesFor(task);
     case 'approved->live':

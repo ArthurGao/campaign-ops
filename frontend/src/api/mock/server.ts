@@ -42,26 +42,46 @@ export class MockServer {
     const inner = opts.scheduler ?? new TimerScheduler();
     // Agent runs and factory jobs change state from timers: save after each one settles.
     const scheduler: Scheduler = {
-      schedule: (ms, task) => inner.schedule(ms, () => (task(), setTimeout(() => this.persist(), 0))),
+      schedule: (ms, task) =>
+        inner.schedule(ms, () => (task(), setTimeout(() => this.persist(), 0))),
       cancelAll: () => inner.cancelAll(),
     };
     this.core = createCore({ ...opts, clock: opts.clock ?? new DemoClock(), scheduler });
     this.restore();
   }
 
-  async handle(method: string, url: string, body: unknown, role: string | undefined, actorName?: string): Promise<MockResponse> {
+  async handle(
+    method: string,
+    url: string,
+    body: unknown,
+    role: string | undefined,
+    actorName?: string,
+  ): Promise<MockResponse> {
     if (this.latencyMs) await new Promise((r) => setTimeout(r, this.latencyMs));
     const res = this.dispatch(method.toUpperCase(), url, body, role, actorName);
     if (method.toUpperCase() !== 'GET') this.persist();
     // Serialise like HTTP would, so callers never hold references into the store.
-    return res.text ? res : { ...res, body: res.body === undefined ? undefined : JSON.parse(JSON.stringify(res.body)) };
+    return res.text
+      ? res
+      : { ...res, body: res.body === undefined ? undefined : JSON.parse(JSON.stringify(res.body)) };
   }
 
-  private dispatch(method: string, url: string, body: unknown, roleHeader: string | undefined, actorName?: string): MockResponse {
+  private dispatch(
+    method: string,
+    url: string,
+    body: unknown,
+    roleHeader: string | undefined,
+    actorName?: string,
+  ): MockResponse {
     try {
       const role = (roleHeader ?? 'pm') as Role;
       if (!ROLES.includes(role)) {
-        throw new AppError('VALIDATION', `Unknown role "${roleHeader}".`, `X-Role must be one of ${ROLES.join(', ')}.`, 400);
+        throw new AppError(
+          'VALIDATION',
+          `Unknown role "${roleHeader}".`,
+          `X-Role must be one of ${ROLES.join(', ')}.`,
+          400,
+        );
       }
       const actor = { role, name: actorName?.trim() || DEFAULT_ACTOR_NAMES[role] };
       const u = new URL(url, 'http://mock.local');
@@ -71,19 +91,40 @@ export class MockServer {
         const params = matchPattern(route.pattern, path);
         if (!params) continue;
         if (route.roles && !route.roles.includes(role)) {
-          throw new AppError('FORBIDDEN', 'Your role cannot do this.', `Requires: ${route.roles.join(' or ')}`, 403);
+          throw new AppError(
+            'FORBIDDEN',
+            'Your role cannot do this.',
+            `Requires: ${route.roles.join(' or ')}`,
+            403,
+          );
         }
-        const result = route.handler(this.core, { params, query: u.searchParams, body: (body ?? {}) as Record<string, unknown>, actor });
+        const result = route.handler(this.core, {
+          params,
+          query: u.searchParams,
+          body: (body ?? {}) as Record<string, unknown>,
+          actor,
+        });
         if (path === '/settings/reset-demo') this.storage?.removeItem(STORAGE_KEY);
         return { status: route.status ?? 200, body: result, text: route.text };
       }
       throw new AppError('NOT_FOUND', `${method} ${path} is not an API endpoint.`, undefined, 404);
     } catch (e) {
       if (e instanceof AppError) {
-        return { status: e.status, body: { code: e.code, message: e.message, ...(e.hint ? { hint: e.hint } : {}), ...e.extra } };
+        return {
+          status: e.status,
+          body: {
+            code: e.code,
+            message: e.message,
+            ...(e.hint ? { hint: e.hint } : {}),
+            ...e.extra,
+          },
+        };
       }
       console.error('[mock-api]', e);
-      return { status: 500, body: { code: 'INTERNAL', message: e instanceof Error ? e.message : 'Unexpected error.' } };
+      return {
+        status: 500,
+        body: { code: 'INTERNAL', message: e instanceof Error ? e.message : 'Unexpected error.' },
+      };
     }
   }
 
@@ -91,7 +132,11 @@ export class MockServer {
   persist(): void {
     if (!this.storage) return;
     const clock = this.core.clock;
-    const saved: Saved = { seedVersion: SEED_VERSION, resetAt: clock instanceof DemoClock ? clock.resetAt : Date.now(), data: this.core.store.data };
+    const saved: Saved = {
+      seedVersion: SEED_VERSION,
+      resetAt: clock instanceof DemoClock ? clock.resetAt : Date.now(),
+      data: this.core.store.data,
+    };
     try {
       this.storage.setItem(STORAGE_KEY, JSON.stringify(saved));
     } catch {
@@ -111,11 +156,17 @@ export class MockServer {
       const at = this.core.clock.now().toISOString();
       for (const r of this.core.store.data.runs) {
         if ((r.status === 'queued' || r.status === 'running') && !SEEDED_RUNS.has(r.id)) {
-          Object.assign(r, { status: 'failed', finishedAt: at, error: 'Interrupted by a page reload. Run it again.' });
+          Object.assign(r, {
+            status: 'failed',
+            finishedAt: at,
+            error: 'Interrupted by a page reload. Run it again.',
+          });
         }
       }
       const seededBriefs = new Set(['SOC-2027CT-003', 'SOC-2027CT-004', 'SOC-2027CT-005']);
-      this.core.factory.resumeInFlight(this.core.store.data.briefs.filter((b) => !seededBriefs.has(b.id)).map((b) => b.id));
+      this.core.factory.resumeInFlight(
+        this.core.store.data.briefs.filter((b) => !seededBriefs.has(b.id)).map((b) => b.id),
+      );
     } catch {
       this.storage?.removeItem(STORAGE_KEY);
     }

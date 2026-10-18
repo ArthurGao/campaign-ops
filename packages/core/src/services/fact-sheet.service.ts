@@ -1,15 +1,36 @@
 import { replaceById, stamp } from '../common/audit';
-import { IdService } from '../store/id.service';
+import { type IdService } from '../store/id.service';
 import type { Clock } from '../domain/clock';
 import type { FactPage } from '../domain/enums';
 import { AppError, notFound } from '../domain/errors';
-import { assertConfirmable, bumpFactSheetVersion, externalOnly, needsConfirmation, toView } from '../domain/rules/facts';
-import type { Actor, FactChange, FactEntry, FactSheetVersion, FactUsages, FactView } from '../domain/types';
+import {
+  assertConfirmable,
+  assertMayConfirm,
+  bumpFactSheetVersion,
+  externalOnly,
+  needsConfirmation,
+  toView,
+} from '../domain/rules/facts';
+import type {
+  Actor,
+  FactChange,
+  FactEntry,
+  FactSheetVersion,
+  FactUsages,
+  FactView,
+} from '../domain/types';
 import type { ExternalFactReader } from '../integrations/agents/agent.adapter';
-import { MemoryStore } from '../store/memory.store';
+import { type MemoryStore } from '../store/memory.store';
 import type { ConfirmFactInput, CreateFactInput, PatchFactInput } from './inputs';
 
-const CONTENT_KEYS = ['label', 'statement', 'source', 'expiresAt', 'publicNote', 'purpose'] as const;
+const CONTENT_KEYS = [
+  'label',
+  'statement',
+  'source',
+  'expiresAt',
+  'publicNote',
+  'purpose',
+] as const;
 
 export class FactSheetService implements ExternalFactReader {
   constructor(
@@ -53,7 +74,9 @@ export class FactSheetService implements ExternalFactReader {
     const { tasks, briefs, packages } = this.store.data;
     return {
       tasks: tasks.filter((t) => t.factRefs.includes(id)),
-      briefs: briefs.filter((b) => b.allowedFacts.includes(id) || b.receipts.some((r) => r.factsUsed.includes(id))),
+      briefs: briefs.filter(
+        (b) => b.allowedFacts.includes(id) || b.receipts.some((r) => r.factsUsed.includes(id)),
+      ),
       packages: packages.filter((p) => p.factRefs.includes(id)),
     };
   }
@@ -73,7 +96,10 @@ export class FactSheetService implements ExternalFactReader {
       events: [{ at: now, actor, action: 'created' }],
     };
     this.facts.push(entry);
-    this.commit([{ factId: entry.id, after: { status: 'pending', statement: entry.statement } }], actor);
+    this.commit(
+      [{ factId: entry.id, after: { status: 'pending', statement: entry.statement } }],
+      actor,
+    );
     return entry;
   }
 
@@ -89,12 +115,16 @@ export class FactSheetService implements ExternalFactReader {
     }
     if (!Object.keys(after).length) return before;
     // A confirmation covers the wording that was confirmed; new wording needs a new confirmation.
-    if (after.statement !== undefined && (before.status === 'confirmed' || before.status === 'confirmed_with_expiry')) {
+    if (
+      after.statement !== undefined &&
+      (before.status === 'confirmed' || before.status === 'confirmed_with_expiry')
+    ) {
       after.status = 'pending';
       prev.status = before.status;
     }
     let next: FactEntry = { ...before, ...after };
-    if (after.status === 'pending') next = { ...next, confirmedBy: undefined, confirmedAt: undefined };
+    if (after.status === 'pending')
+      next = { ...next, confirmedBy: undefined, confirmedAt: undefined };
     next = stamp(next, this.clock.now(), actor, 'edited', Object.keys(after).join(', '));
     replaceById(this.facts, next);
     this.commit([{ factId: id, before: prev, after }], actor);
@@ -103,10 +133,15 @@ export class FactSheetService implements ExternalFactReader {
 
   confirm(id: string, dto: ConfirmFactInput, actor: Actor): FactEntry {
     const before = this.get(id);
+    assertMayConfirm(before, actor, dto.expiresAt);
     assertConfirmable(before, dto.source);
     const now = this.clock.now();
     if (dto.expiresAt && new Date(dto.expiresAt) <= now) {
-      throw new AppError('VALIDATION', 'The expiry date is already past.', 'Pick a future date, or confirm without expiry.');
+      throw new AppError(
+        'VALIDATION',
+        'The expiry date is already past.',
+        'Pick a future date, or confirm without expiry.',
+      );
     }
     const status = dto.expiresAt ? 'confirmed_with_expiry' : 'confirmed';
     let next: FactEntry = {
@@ -122,7 +157,17 @@ export class FactSheetService implements ExternalFactReader {
     next = stamp(next, now, actor, status, `Source: ${next.source}`);
     replaceById(this.facts, next);
     this.commit(
-      [{ factId: id, before: { status: before.status, source: before.source }, after: { status, source: next.source, ...(dto.expiresAt ? { expiresAt: dto.expiresAt } : {}) } }],
+      [
+        {
+          factId: id,
+          before: { status: before.status, source: before.source },
+          after: {
+            status,
+            source: next.source,
+            ...(dto.expiresAt ? { expiresAt: dto.expiresAt } : {}),
+          },
+        },
+      ],
       actor,
     );
     return next;
@@ -130,10 +175,19 @@ export class FactSheetService implements ExternalFactReader {
 
   reject(id: string, note: string, actor: Actor): FactEntry {
     const before = this.get(id);
-    let next: FactEntry = { ...before, status: 'rejected', rejectedNote: note, confirmedBy: undefined, confirmedAt: undefined };
+    let next: FactEntry = {
+      ...before,
+      status: 'rejected',
+      rejectedNote: note,
+      confirmedBy: undefined,
+      confirmedAt: undefined,
+    };
     next = stamp(next, this.clock.now(), actor, 'rejected', undefined, note);
     replaceById(this.facts, next);
-    this.commit([{ factId: id, before: { status: before.status }, after: { status: 'rejected' } }], actor);
+    this.commit(
+      [{ factId: id, before: { status: before.status }, after: { status: 'rejected' } }],
+      actor,
+    );
     return next;
   }
 
@@ -148,12 +202,20 @@ export class FactSheetService implements ExternalFactReader {
     tasks.forEach((t, i) => {
       const hit = t.factRefs.some((r) => ids.has(r));
       if (hit) affected.push({ kind: 'task', id: t.id });
-      tasks[i] = { ...t, needsRereview: t.needsRereview || hit, needsConfirmation: needsConfirmation(t.factRefs, this.facts, now) };
+      tasks[i] = {
+        ...t,
+        needsRereview: t.needsRereview || hit,
+        needsConfirmation: needsConfirmation(t.factRefs, this.facts, now),
+      };
     });
     packages.forEach((p, i) => {
       const hit = p.factRefs.some((r) => ids.has(r));
       if (hit) affected.push({ kind: 'package', id: p.id });
-      packages[i] = { ...p, needsRereview: p.needsRereview || hit, needsConfirmation: needsConfirmation(p.factRefs, this.facts, now) };
+      packages[i] = {
+        ...p,
+        needsRereview: p.needsRereview || hit,
+        needsConfirmation: needsConfirmation(p.factRefs, this.facts, now),
+      };
     });
     briefs.forEach((b, i) => {
       const hit = b.allowedFacts.some((r) => ids.has(r));

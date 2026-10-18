@@ -3,6 +3,7 @@ import { AppError, forbidden, invalidTransition } from '../errors';
 import type { Actor, FactEntry, PackageAsset, PublishPackage, Settings } from '../types';
 import { needsConfirmationError, unusableRefs } from './facts';
 import { scopeAllows, scopeNotAuthorised } from './tasks';
+import { isHttpUrl } from './url';
 import { assetVersion, bumpVersionLabel } from './versions';
 
 export type PackageContext = { now: Date; facts: readonly FactEntry[]; settings: Settings };
@@ -35,21 +36,38 @@ export function versionsMatchApproval(pkg: PublishPackage): boolean {
   );
 }
 
-export function approvePackage(pkg: PublishPackage, actor: Actor, ctx: PackageContext, note?: string): PublishPackage {
+export function approvePackage(
+  pkg: PublishPackage,
+  actor: Actor,
+  ctx: PackageContext,
+  note?: string,
+): PublishPackage {
   if (pkg.status !== 'awaiting_approval') {
-    throw invalidTransition(pkg.status, 'approved', 'Only packages awaiting approval can be approved.');
+    throw invalidTransition(
+      pkg.status,
+      'approved',
+      'Only packages awaiting approval can be approved.',
+    );
   }
   let nonSubstantive: PublishPackage['approval']['nonSubstantive'];
   if (actor.role === 'pm') {
     const pending = pkg.pendingNonSubstantive;
     if (!pending) throw forbidden('approve this package', CLIENT_ROLES);
     if (!scopeAllows(ctx.settings, pending.scopeRef)) throw scopeNotAuthorised(pending.scopeRef);
-    nonSubstantive = { authorisedBy: ctx.settings.preApprovedScope.signedBy, scopeRef: pending.scopeRef };
+    nonSubstantive = {
+      authorisedBy: ctx.settings.preApprovedScope.signedBy,
+      scopeRef: pending.scopeRef,
+    };
   } else {
     requireRole(actor, CLIENT_ROLES, 'approve this package');
   }
   requireUsableFacts(pkg, ctx);
-  if (!pkg.qa.passed) throw new AppError('QA_REQUIRED', `${pkg.id} has not passed QA.`, 'Record QA on the source task first.');
+  if (!pkg.qa.passed)
+    throw new AppError(
+      'QA_REQUIRED',
+      `${pkg.id} has not passed QA.`,
+      'Record QA on the source task first.',
+    );
   return {
     ...pkg,
     status: 'approved',
@@ -67,17 +85,41 @@ export function approvePackage(pkg: PublishPackage, actor: Actor, ctx: PackageCo
   };
 }
 
-export function rejectPackage(pkg: PublishPackage, actor: Actor, note: string | undefined, now: Date): PublishPackage {
+export function rejectPackage(
+  pkg: PublishPackage,
+  actor: Actor,
+  note: string | undefined,
+  now: Date,
+): PublishPackage {
   requireRole(actor, CLIENT_ROLES, 'reject this package');
-  if (pkg.status !== 'awaiting_approval') throw invalidTransition(pkg.status, 'rejected', 'Only packages awaiting approval can be rejected.');
-  if (!note?.trim()) throw new AppError('VALIDATION', 'A rejection needs a note.', 'Say what must change before it comes back.');
+  if (pkg.status !== 'awaiting_approval')
+    throw invalidTransition(
+      pkg.status,
+      'rejected',
+      'Only packages awaiting approval can be rejected.',
+    );
+  if (!note?.trim())
+    throw new AppError(
+      'VALIDATION',
+      'A rejection needs a note.',
+      'Say what must change before it comes back.',
+    );
   return { ...pkg, approval: { approver: actor, status: 'rejected', at: now.toISOString(), note } };
 }
 
-export function schedulePackage(pkg: PublishPackage, actor: Actor, all: readonly PublishPackage[], ctx: PackageContext): PublishPackage {
+export function schedulePackage(
+  pkg: PublishPackage,
+  actor: Actor,
+  all: readonly PublishPackage[],
+  ctx: PackageContext,
+): PublishPackage {
   requireRole(actor, ['executor'], 'schedule a package');
   if (pkg.status !== 'approved') {
-    throw new AppError('APPROVAL_REQUIRED', `${pkg.id} is ${pkg.status.replace('_', ' ')}, not approved.`, 'The client approver must approve this version first.');
+    throw new AppError(
+      'APPROVAL_REQUIRED',
+      `${pkg.id} is ${pkg.status.replace('_', ' ')}, not approved.`,
+      'The client approver must approve this version first.',
+    );
   }
   if (!versionsMatchApproval(pkg)) {
     throw new AppError(
@@ -103,11 +145,29 @@ export function schedulePackage(pkg: PublishPackage, actor: Actor, all: readonly
   };
 }
 
-export function markPublished(pkg: PublishPackage, actor: Actor, postUrl: string, at: string): PublishPackage {
+export function markPublished(
+  pkg: PublishPackage,
+  actor: Actor,
+  postUrl: string,
+  at: string,
+): PublishPackage {
   requireRole(actor, ['executor'], 'mark a package published');
-  if (pkg.status !== 'scheduled') throw invalidTransition(pkg.status, 'published', 'Schedule the package first.');
-  if (!postUrl.trim()) throw new AppError('VALIDATION', 'A post URL is required.', 'Paste the live post link.');
-  return { ...pkg, status: 'published', publishLog: [...pkg.publishLog, { at, actor, action: 'published', postUrl }] };
+  if (pkg.status !== 'scheduled')
+    throw invalidTransition(pkg.status, 'published', 'Schedule the package first.');
+  if (!postUrl.trim())
+    throw new AppError('VALIDATION', 'A post URL is required.', 'Paste the live post link.');
+  if (!isHttpUrl(postUrl)) {
+    throw new AppError(
+      'VALIDATION',
+      'The post URL must start with http:// or https://.',
+      'Paste the link of the live post.',
+    );
+  }
+  return {
+    ...pkg,
+    status: 'published',
+    publishLog: [...pkg.publishLog, { at, actor, action: 'published', postUrl }],
+  };
 }
 
 /** I-P4: verified / mismatch require a published entry; mismatch requires a note. */
@@ -120,25 +180,51 @@ export function recordVerification(
 ): PublishPackage {
   requireRole(actor, ['pm'], 'record a verification');
   if (!hasPublished(pkg)) {
-    throw new AppError('INVALID_TRANSITION', `${pkg.id} has not been published.`, 'Verification compares the live post with the approved version.');
+    throw new AppError(
+      'INVALID_TRANSITION',
+      `${pkg.id} has not been published.`,
+      'Verification compares the live post with the approved version.',
+    );
   }
   if (result === 'mismatch' && !note?.trim()) {
-    throw new AppError('VALIDATION', 'A mismatch needs a note describing the difference.', 'Paste the diff between live and approved.');
+    throw new AppError(
+      'VALIDATION',
+      'A mismatch needs a note describing the difference.',
+      'Paste the diff between live and approved.',
+    );
   }
   return {
     ...pkg,
     status: result,
     verificationNote: note,
-    publishLog: [...pkg.publishLog, { at: now.toISOString(), actor, action: result, ...(note ? { note } : {}) }],
+    publishLog: [
+      ...pkg.publishLog,
+      { at: now.toISOString(), actor, action: result, ...(note ? { note } : {}) },
+    ],
   };
 }
 
-export function takeDown(pkg: PublishPackage, actor: Actor, note: string | undefined, now: Date): PublishPackage {
+export function takeDown(
+  pkg: PublishPackage,
+  actor: Actor,
+  note: string | undefined,
+  now: Date,
+): PublishPackage {
   requireRole(actor, ['pm'], 'take a post down');
-  if (!hasPublished(pkg)) throw new AppError('INVALID_TRANSITION', `${pkg.id} is not live.`, 'Only published posts can be taken down.');
+  if (!hasPublished(pkg))
+    throw new AppError(
+      'INVALID_TRANSITION',
+      `${pkg.id} is not live.`,
+      'Only published posts can be taken down.',
+    );
   if (pkg.takenDown) throw new AppError('INVALID_TRANSITION', `${pkg.id} is already taken down.`);
-  if (!note?.trim()) throw new AppError('VALIDATION', 'Taking a post down needs a note.', 'Record why.');
-  return { ...pkg, takenDown: true, publishLog: [...pkg.publishLog, { at: now.toISOString(), actor, action: 'taken_down', note }] };
+  if (!note?.trim())
+    throw new AppError('VALIDATION', 'Taking a post down needs a note.', 'Record why.');
+  return {
+    ...pkg,
+    takenDown: true,
+    publishLog: [...pkg.publishLog, { at: now.toISOString(), actor, action: 'taken_down', note }],
+  };
 }
 
 export type PackageEdit = {
@@ -150,7 +236,12 @@ export type PackageEdit = {
 };
 
 /** I-P3: caption / asset edits bump that version and reset approval (non-substantive: D-19). */
-export function applyPackageEdit(pkg: PublishPackage, edit: PackageEdit, actor: Actor, ctx: PackageContext): PublishPackage {
+export function applyPackageEdit(
+  pkg: PublishPackage,
+  edit: PackageEdit,
+  actor: Actor,
+  ctx: PackageContext,
+): PublishPackage {
   requireRole(actor, ['pm'], 'edit a package');
   const at = ctx.now.toISOString();
   const captionChanged = edit.captionText !== undefined && edit.captionText !== pkg.caption.text;
@@ -161,7 +252,9 @@ export function applyPackageEdit(pkg: PublishPackage, edit: PackageEdit, actor: 
     throw new AppError(
       'INVALID_TRANSITION',
       `${pkg.id} is ${pkg.status}; it can no longer be edited.`,
-      pkg.status === 'scheduled' ? 'Ask the executor to unschedule it first.' : 'Create a new package.',
+      pkg.status === 'scheduled'
+        ? 'Ask the executor to unschedule it first.'
+        : 'Create a new package.',
     );
   }
   if (edit.nonSubstantive && !scopeAllows(ctx.settings, edit.nonSubstantive.scopeRef)) {
@@ -174,7 +267,10 @@ export function applyPackageEdit(pkg: PublishPackage, edit: PackageEdit, actor: 
     next = { ...next, caption, captionHistory: [...pkg.captionHistory, { ...caption, at }] };
   }
   if (assetChanged) {
-    const version = edit.asset!.version ?? assetVersion(edit.asset!.assetId) ?? bumpVersionLabel(pkg.asset?.version ?? 'v0');
+    const version =
+      edit.asset!.version ??
+      assetVersion(edit.asset!.assetId) ??
+      bumpVersionLabel(pkg.asset?.version ?? 'v0');
     const asset = { ...edit.asset!, version };
     next = { ...next, asset, assetHistory: [...pkg.assetHistory, { ...asset, at }] };
   }
@@ -186,7 +282,9 @@ export function applyPackageEdit(pkg: PublishPackage, edit: PackageEdit, actor: 
       ...next,
       status: 'awaiting_approval',
       approval: { status: 'pending' },
-      pendingNonSubstantive: edit.nonSubstantive ? { scopeRef: edit.nonSubstantive.scopeRef, markedBy: actor, at } : undefined,
+      pendingNonSubstantive: edit.nonSubstantive
+        ? { scopeRef: edit.nonSubstantive.scopeRef, markedBy: actor, at }
+        : undefined,
     };
   }
   return next;

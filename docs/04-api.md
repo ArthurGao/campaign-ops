@@ -14,7 +14,7 @@ Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH
 - `GET /fact-sheet/:id/usages` → `{ tasks: Task[], briefs: Brief[], packages: PublishPackage[] }`
 - `POST /fact-sheet` (pm) → create entry → bumps version
 - `PATCH /fact-sheet/:id` (pm) → edit statement/source/expiry → bumps version, flags usages `needsRereview`
-- `POST /fact-sheet/:id/confirm` (client roles) `{ source, expiresAt?, publicNote? }` → status `confirmed` / `confirmed_with_expiry`; 409 if `source` empty
+- `POST /fact-sheet/:id/confirm` (client roles; pm only for `official` entries and only with `expiresAt` — D-34) `{ source, expiresAt?, publicNote? }` → status `confirmed` / `confirmed_with_expiry`; 409 if `source` empty
 - `POST /fact-sheet/:id/reject` (client roles) `{ note }`
 
 ## Evidence

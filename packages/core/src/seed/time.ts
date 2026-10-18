@@ -13,7 +13,13 @@ export function at(days: number, time = '10:00'): string {
   return new Date(SEED_NOW.getTime() + offsetMs).toISOString();
 }
 
-export function ev(when: string, actor: Actor, action: string, detail?: string, reason?: string): AuditEvent {
+export function ev(
+  when: string,
+  actor: Actor,
+  action: string,
+  detail?: string,
+  reason?: string,
+): AuditEvent {
   return { at: when, actor, action, ...(detail ? { detail } : {}), ...(reason ? { reason } : {}) };
 }
 

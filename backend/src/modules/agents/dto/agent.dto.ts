@@ -1,5 +1,10 @@
 import { IsIn, IsObject, IsOptional, IsString } from 'class-validator';
-import { DECISION_STATUSES, RUN_TRIGGERS, type DecisionStatus, type RunTrigger } from '@campaign-ops/core';
+import {
+  DECISION_STATUSES,
+  RUN_TRIGGERS,
+  type DecisionStatus,
+  type RunTrigger,
+} from '@campaign-ops/core';
 
 export class StartRunDto {
   @IsOptional()

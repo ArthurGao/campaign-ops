@@ -21,12 +21,34 @@ function qa(daysAgo: number, passed = true, notes?: string): QARecord {
   };
 }
 
-function approved(daysAgo: number, version: number, approver = APPROVER, note?: string): ApprovalRecord {
-  return { approver, at: at(daysAgo, '11:30'), status: 'approved', approvedVersion: version, ...(note ? { note } : {}) };
+function approved(
+  daysAgo: number,
+  version: number,
+  approver = APPROVER,
+  note?: string,
+): ApprovalRecord {
+  return {
+    approver,
+    at: at(daysAgo, '11:30'),
+    status: 'approved',
+    approvedVersion: version,
+    ...(note ? { note } : {}),
+  };
 }
 
-type TaskInit = Omit<Task, 'needsConfirmation' | 'needsRereview' | 'version' | 'owner' | 'factRefs' | keyof ReturnType<typeof tracked>> &
-  Partial<Pick<Task, 'needsConfirmation' | 'needsRereview' | 'version' | 'owner' | 'factRefs'>> & { created: number; history?: Task['events'] };
+type TaskInit = Omit<
+  Task,
+  | 'needsConfirmation'
+  | 'needsRereview'
+  | 'version'
+  | 'owner'
+  | 'factRefs'
+  | keyof ReturnType<typeof tracked>
+> &
+  Partial<Pick<Task, 'needsConfirmation' | 'needsRereview' | 'version' | 'owner' | 'factRefs'>> & {
+    created: number;
+    history?: Task['events'];
+  };
 
 function task(init: TaskInit): Task {
   const { created, history, ...rest } = init;
@@ -76,7 +98,7 @@ export function tasksSeed(): Task[] {
     task({
       id: 'TASK-013',
       type: 'video_brief',
-      title: "Inclusions explainer — 1:1",
+      title: 'Inclusions explainer — 1:1',
       status: 'approved',
       factRefs: ['FS-11'],
       body: "Square explainer of what's included [← FS-11]. Price must not appear.",
@@ -96,7 +118,13 @@ export function tasksSeed(): Task[] {
       qa: qa(-11),
       approval: approved(-11, 1),
       originEvidenceId: 'E-02',
-      verification: { result: 'match', runId: 'RUN-0006', outputId: 'RUN-0006-O1', at: at(-8), by: PM },
+      verification: {
+        result: 'match',
+        runId: 'RUN-0006',
+        outputId: 'RUN-0006-O1',
+        at: at(-8),
+        by: PM,
+      },
       created: -12,
       history: [
         ev(at(-12), PM, 'created', 'From E-02'),
@@ -138,7 +166,13 @@ export function tasksSeed(): Task[] {
       created: -9,
       history: [
         ev(at(-9), PM, 'created', 'From E-07'),
-        ev(at(-4), PM, 'edited', 'v1 → v2', 'Removed the April departure wording (FS-03 superseded)'),
+        ev(
+          at(-4),
+          PM,
+          'edited',
+          'v1 → v2',
+          'Removed the April departure wording (FS-03 superseded)',
+        ),
         ev(at(-3, '15:00'), PM, 'qa → awaiting_approval', 'QA passed'),
       ],
     }),
@@ -149,7 +183,7 @@ export function tasksSeed(): Task[] {
       status: 'draft',
       factRefs: ['FS-01', 'FS-07'],
       pageUrl: CHINA_TOUR_PAGE,
-      body: 'Q: Is there a guided China tour from Auckland? A: Yes — China Tour 2027 is a guided small-group tour from New Zealand [← FS-01] visiting Beijing, Xi\'an, Guilin and Shanghai [← FS-07].',
+      body: "Q: Is there a guided China tour from Auckland? A: Yes — China Tour 2027 is a guided small-group tour from New Zealand [← FS-01] visiting Beijing, Xi'an, Guilin and Shanghai [← FS-07].",
       originEvidenceId: 'E-05',
       created: -8,
     }),
@@ -192,7 +226,10 @@ export function tasksSeed(): Task[] {
       body: "Four cities, one guided tour: Beijing, Xi'an, Guilin, Shanghai [← FS-07]. Guaranteed small groups and an English-speaking guide [← FS-11]. Link in bio.",
       originRunId: 'RUN-0005',
       created: -6,
-      history: [ev(at(-6), PM, 'accepted from RUN-0005', 'draft output RUN-0005-O1'), ev(at(-2), PM, 'draft → qa')],
+      history: [
+        ev(at(-6), PM, 'accepted from RUN-0005', 'draft output RUN-0005-O1'),
+        ev(at(-2), PM, 'draft → qa'),
+      ],
     }),
     task({
       id: 'TASK-024',
@@ -218,7 +255,7 @@ export function tasksSeed(): Task[] {
       channel: 'instagram',
       status: 'approved',
       factRefs: ['FS-07'],
-      body: "Four cities in 30 seconds [← FS-07]. Which one would you visit first? Link in bio.",
+      body: 'Four cities in 30 seconds [← FS-07]. Which one would you visit first? Link in bio.',
       qa: qa(-3),
       approval: approved(-2, 1),
       linkedPackageId: 'PUB-2027CT-011',
@@ -257,7 +294,13 @@ export function tasksSeed(): Task[] {
       qa: qa(-13),
       approval: approved(-12, 1),
       linkedPackageId: 'PUB-2027CT-007',
-      verification: { result: 'match', runId: 'RUN-0006', outputId: 'RUN-0006-O2', at: at(-8), by: PM },
+      verification: {
+        result: 'match',
+        runId: 'RUN-0006',
+        outputId: 'RUN-0006-O2',
+        at: at(-8),
+        by: PM,
+      },
       created: -14,
     }),
     task({
@@ -300,7 +343,12 @@ export function tasksSeed(): Task[] {
         ev(at(-21), PM, 'created'),
         ev(at(-19, '11:30'), APPROVER, 'approved', 'v1'),
         ev(at(-18), EXECUTOR, 'approved → live', 'All four ad gates passed at the time'),
-        ev(at(-10, '14:20'), SYSTEM, 'gate regressed', 'Landing page check "Lead fires once" failed (E-03)'),
+        ev(
+          at(-10, '14:20'),
+          SYSTEM,
+          'gate regressed',
+          'Landing page check "Lead fires once" failed (E-03)',
+        ),
       ],
     }),
     task({
@@ -311,9 +359,18 @@ export function tasksSeed(): Task[] {
       status: 'awaiting_approval',
       factRefs: [],
       body: 'Raise the Google Search daily cap from [cap TBC] to [cap TBC] for two weeks. Outside the pre-approved scope: needs the client decision maker.',
-      qa: { ...qa(-1), checklist: [{ item: 'Change record complete (before / after / dates)', ok: true }, { item: 'Scope check: outside pre-approved scope', ok: true }] },
+      qa: {
+        ...qa(-1),
+        checklist: [
+          { item: 'Change record complete (before / after / dates)', ok: true },
+          { item: 'Scope check: outside pre-approved scope', ok: true },
+        ],
+      },
       created: -2,
-      history: [ev(at(-2), PM, 'created'), ev(at(-1, '15:00'), PM, 'qa → awaiting_approval', `Needs ${DECIDER.name} (decision maker)`)],
+      history: [
+        ev(at(-2), PM, 'created'),
+        ev(at(-1, '15:00'), PM, 'qa → awaiting_approval', `Needs ${DECIDER.name} (decision maker)`),
+      ],
     }),
   ];
 }

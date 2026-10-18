@@ -10,7 +10,12 @@ export function actorFromRequest(req: Request): Actor {
   const header = req.header('x-role');
   const role = (header ?? 'pm') as Role;
   if (!ROLES.includes(role)) {
-    throw new AppError('VALIDATION', `Unknown role "${header}".`, `X-Role must be one of ${ROLES.join(', ')}.`, 400);
+    throw new AppError(
+      'VALIDATION',
+      `Unknown role "${header}".`,
+      `X-Role must be one of ${ROLES.join(', ')}.`,
+      400,
+    );
   }
   const name = req.header('x-actor-name')?.trim() || DEFAULT_ACTOR_NAMES[role];
   return { role, name };
