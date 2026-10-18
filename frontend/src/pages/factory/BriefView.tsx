@@ -12,6 +12,7 @@ import { JsonPeek } from '@/components/shared/JsonPeek';
 import { Facts, Section } from '@/components/shared/Layout';
 import { StatusChip } from '@/components/shared/StatusChip';
 import { VersionBadge } from '@/components/shared/VersionBadge';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fmtDateTime, humanize } from '@/lib/format';
 import { cn } from '@/lib/utils';
@@ -75,6 +76,7 @@ export function BriefView({ brief }: { brief: Brief }) {
         <h2 className="font-mono text-lg font-semibold">{brief.id}</h2>
         <StatusChip status={brief.status} pulse={inFlight} />
         <VersionBadge>brief v{brief.version}</VersionBadge>
+        <SourceRef id={brief.id} />
         <Link
           to={`/tasks?task=${brief.taskId}`}
           className="font-mono text-sm text-accent hover:underline"

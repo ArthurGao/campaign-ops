@@ -95,3 +95,13 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
 - **D-35 Workflow screen.** `/workflow` shows the source workflow's ten steps with live status from
   the API, the eight exception cases mapped to screens, and the six agent rules; every screen header
   links to the steps it serves. Source link: https://claude.ai/artifact/TpdZz945Dm6MVEvLeBNLFN.
+- **D-36 Two-way links with the source workflow (user decision 2026-10-18).** One map,
+  `frontend/src/lib/source-map.json`, pairs each place in the artifact (steps, agents, exceptions,
+  rules, sections, record ids, glossary terms) with app screens. The app uses it for "Source plan"
+  links (Workflow steps, exceptions, rules; records the source mentions). `frontend/scripts/source-links.mjs`
+  turns the same map into one marked block (`<!-- campaignops-links:start/end -->`) appended to the
+  artifact: a search box over the plan and the app, links under each step / agent / exception / rule /
+  section, record ids linked into the app, and `#anchor` handling that opens what hides the target.
+  The artifact's own content is not edited. `docs/source/workflow.html` is the verbatim copy the tests
+  check against; re-read the live artifact and refresh that copy before regenerating. Deep links
+  use URL fragments (`/agents#agent-outbound`, `/settings#scope`) resolved by `useHashTarget`.

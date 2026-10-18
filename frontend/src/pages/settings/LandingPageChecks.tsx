@@ -25,7 +25,7 @@ export function LandingPageChecks({ settings }: { settings: Settings }) {
   const perm = can(role, 'settings.general');
   const lp = settings.landingPage;
   return (
-    <Section title="Landing page" actions={<StatusChip status={lp.status} />}>
+    <Section title="Landing page" id="landing" actions={<StatusChip status={lp.status} />}>
       <div className="grid gap-3 rounded-md border border-rule bg-surface p-4">
         <p className="break-all font-mono text-xs text-ink-2">{lp.url}</p>
         <GateStrip

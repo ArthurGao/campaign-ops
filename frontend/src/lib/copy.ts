@@ -93,6 +93,8 @@ export const copy = {
   workflow: {
     sourceUrl: 'https://claude.ai/artifact/TpdZz945Dm6MVEvLeBNLFN',
     sourceLabel: 'Source workflow (Chinese)',
+    sourceShort: 'Source plan',
+    sourceHelp: (what: string) => `Open ${what} in the source workflow (Chinese)`,
     groups: { kickoff: 'Once, at kickoff', task: 'Every task', weekly: 'Weekly loop' },
     loop: 'Changes outside the pre-approved scope go back to step 4, new tasks to step 5, and every two weeks the plan returns to step 2.',
     gate: 'Client approval',

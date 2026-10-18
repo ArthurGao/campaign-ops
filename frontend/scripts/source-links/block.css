@@ -1,0 +1,162 @@
+/* CampaignOps links (generated block). Uses the page's own tokens so light/dark follow it. */
+.co-search {
+  margin-top: 24px;
+}
+.co-field {
+  position: relative;
+}
+.co-search label {
+  display: block;
+  font-size: 13px;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+.co-search input {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+}
+.co-search input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+.co-results {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 6px 0 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+}
+.co-results[hidden] {
+  display: none;
+}
+.co-group {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink3);
+  padding: 8px 8px 4px;
+}
+.co-opt {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.co-opt[aria-selected='true'],
+.co-opt:hover {
+  background: var(--paper);
+}
+.co-opt .co-k {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink3);
+  min-width: 5.5em;
+}
+.co-opt .co-t {
+  flex: 1;
+  min-width: 0;
+}
+.co-opt .co-go {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink3);
+}
+.co-opt.app .co-t {
+  color: var(--focus);
+}
+.co-empty {
+  padding: 10px 8px;
+  font-size: 14px;
+  color: var(--ink3);
+}
+.co-note {
+  font-size: 12px;
+  color: var(--ink3);
+  margin: 6px 0 0;
+}
+.co-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line2);
+  font-size: 13px;
+  color: var(--ink3);
+}
+.sub + .co-row {
+  margin: -12px 0 18px;
+  padding-top: 0;
+  border-top: 0;
+}
+.co-app {
+  color: var(--focus);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  white-space: nowrap;
+}
+.co-app::after {
+  content: ' ↗';
+  font-size: 11px;
+}
+.co-app:hover {
+  border-bottom-width: 2px;
+}
+.co-ref {
+  color: inherit;
+  text-decoration: underline dotted var(--focus);
+  text-underline-offset: 3px;
+}
+.co-ref:hover {
+  color: var(--focus);
+}
+td.co-cell {
+  white-space: nowrap;
+  padding-left: 12px !important;
+}
+.co-flash {
+  animation: co-flash 1.6s ease-out;
+}
+@keyframes co-flash {
+  from {
+    box-shadow: 0 0 0 3px var(--focus);
+  }
+  to {
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-flash {
+    animation: none;
+    outline: 2px solid var(--focus);
+  }
+}
+@media print {
+  .co-search {
+    display: none;
+  }
+  .co-app::after {
+    content: '';
+  }
+}

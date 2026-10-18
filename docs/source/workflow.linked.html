@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>China Tour 2027 推广工作流</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7F8; --card:#FFFFFF; --ink:#1E2A3E; --ink2:#4D5A6E; --ink3:#7C8798;
+  --line:#D9DFE6; --line2:#BCC5D0;
+  --pm:#4A4FA3; --pm-bg:#ECEDF8;
+  --ag:#1F7A68; --ag-bg:#E3F2EE;
+  --vf:#A86A1C; --vf-bg:#F7EEDF;
+  --cl:#9C3D62; --cl-bg:#F7E8EE;
+  --tl:#5F6670; --tl-bg:#EDEFF1;
+  --seal:#B8322A; --seal-bg:#FBEAE8;
+  --focus:#2F6FD1;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121821; --card:#1A222D; --ink:#E6EBF1; --ink2:#B3BDCA; --ink3:#8691A1;
+    --line:#2C3644; --line2:#3D4A5B;
+    --pm:#A9ADF0; --pm-bg:#262A4D; --ag:#7FD3BF; --ag-bg:#163A33;
+    --vf:#E5B46E; --vf-bg:#3A2D17; --cl:#EBA0BE; --cl-bg:#40202D;
+    --tl:#B7BEC8; --tl-bg:#2A313B; --seal:#F07D72; --seal-bg:#3F1E1B; --focus:#7FB0FF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121821; --card:#1A222D; --ink:#E6EBF1; --ink2:#B3BDCA; --ink3:#8691A1;
+  --line:#2C3644; --line2:#3D4A5B;
+  --pm:#A9ADF0; --pm-bg:#262A4D; --ag:#7FD3BF; --ag-bg:#163A33;
+  --vf:#E5B46E; --vf-bg:#3A2D17; --cl:#EBA0BE; --cl-bg:#40202D;
+  --tl:#B7BEC8; --tl-bg:#2A313B; --seal:#F07D72; --seal-bg:#3F1E1B; --focus:#7FB0FF;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:40px 20px 72px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,40px);line-height:1.25;margin:0 0 12px;letter-spacing:.01em}
+.lede{color:var(--ink2);margin:0 0 8px;max-width:38em}
+.hint{color:var(--ink3);font-size:14px;margin:0}
+h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:56px 0 6px}
+.sub{color:var(--ink2);font-size:14px;margin:0 0 20px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;line-height:1;padding:5px 9px;border-radius:999px;font-weight:500;white-space:nowrap;border:0}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-pm{background:var(--pm-bg);color:var(--pm)} .t-ag{background:var(--ag-bg);color:var(--ag)}
+.t-vf{background:var(--vf-bg);color:var(--vf)} .t-cl{background:var(--cl-bg);color:var(--cl)}
+.t-tl{background:var(--tl-bg);color:var(--tl)}
+button.tag{cursor:pointer}
+button.tag:hover{filter:brightness(.95)}
+.seal-legend{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2)}
+
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:640px){.agents{grid-template-columns:1fr}}
+.acard{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:border-color .15s}
+.acard:hover{border-color:var(--line2)}
+.acard[aria-pressed="true"]{border-color:var(--ag);box-shadow:inset 0 0 0 1px var(--ag)}
+.acard .nm{font-family:var(--serif);font-weight:600;font-size:18px;display:block}
+.acard .en{font-size:12px;color:var(--ink3);display:block;margin-bottom:8px}
+.acard .one{font-size:14px;color:var(--ink2);display:block}
+.adetail{margin-top:12px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.panel h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:0 0 4px}
+.panel .meta{font-size:13px;color:var(--ink3);margin:0 0 16px}
+.kv{display:grid;grid-template-columns:7em 1fr;gap:10px 16px;margin:0}
+.kv dt{font-size:13px;color:var(--ink3);padding-top:2px}
+.kv dd{margin:0;font-size:15px}
+@media (max-width:520px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:10px}}
+ul.pts{margin:0;padding-left:1.1em}
+ul.pts li{margin:2px 0}
+.warn{margin-top:16px;padding:12px 14px;border-left:3px solid var(--seal);background:var(--seal-bg);border-radius:0}
+.warn b{color:var(--seal);font-weight:500;display:block;font-size:13px;margin-bottom:2px}
+.warn ul{margin:0;padding-left:1.1em;font-size:14px}
+.close{float:right;background:none;border:0;cursor:pointer;color:var(--ink3);font-size:13px;padding:2px 4px}
+
+.route{position:relative;list-style:none;margin:0;padding:0}
+.route::before{content:"";position:absolute;left:19px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.stop{position:relative;padding-left:52px;margin-bottom:10px}
+.dot{position:absolute;left:10px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--card);border:2px solid var(--line2);display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--ink3)}
+.stop.r-pm .dot{border-color:var(--pm);color:var(--pm)}
+.stop.r-ag .dot{border-color:var(--ag);color:var(--ag)}
+.stop.r-vf .dot{border-color:var(--vf);color:var(--vf)}
+.stop.r-cl .dot{border-color:var(--cl);color:var(--cl)}
+.stop.r-tl .dot{border-color:var(--tl);color:var(--tl)}
+.stop.gate .dot{border-radius:3px;background:var(--seal);border-color:var(--seal);color:#fff;transform:rotate(-6deg)}
+.shead{width:100%;display:flex;align-items:flex-start;gap:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+.shead:hover{border-color:var(--line2)}
+.stop.gate .shead{border-color:var(--seal)}
+.stop.dim .shead{opacity:.45}
+.stop.hl .shead{border-color:var(--ag);box-shadow:inset 0 0 0 1px var(--ag)}
+.stitle{flex:1;min-width:0}
+.stitle b{display:block;font-weight:500;font-size:16px}
+.stitle span{display:block;font-size:13px;color:var(--ink2)}
+.roles{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:45%}
+.chev{flex:none;width:18px;height:18px;margin-top:3px;color:var(--ink3);transition:transform .2s}
+.shead[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.sbody{margin-top:8px}
+.sbody[hidden]{display:none}
+.stamp{display:inline-block;font-family:var(--serif);font-weight:700;font-size:12px;color:var(--seal);border:1.5px solid var(--seal);padding:0 5px;border-radius:3px;transform:rotate(-4deg);margin-left:6px;vertical-align:2px}
+.loop{font-size:14px;color:var(--ink2);padding-left:52px;margin-top:4px}
+
+details.box{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.box summary{cursor:pointer;padding:14px 16px;font-weight:500;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.box summary::-webkit-details-marker{display:none}
+details.box summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--ink3);border-bottom:2px solid var(--ink3);transform:rotate(45deg);transition:transform .2s;flex:none}
+details.box[open] summary::after{transform:rotate(-135deg)}
+details.box .in{padding:0 16px 16px}
+.extable{width:100%;border-collapse:collapse;font-size:14px}
+.extable td{padding:8px 0;border-top:1px solid var(--line);vertical-align:top}
+.extable td:first-child{width:42%;padding-right:12px;color:var(--ink)}
+.extable td:last-child{color:var(--ink2)}
+footer{margin-top:48px;font-size:13px;color:var(--ink3)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 4px}
+table.dt{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}
+table.dt.wide{min-width:880px}
+table.dt th{text-align:left;font-weight:500;color:var(--ink3);font-size:12px;padding:8px 10px 8px 0;border-bottom:1px solid var(--line2);vertical-align:bottom}
+table.dt td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+table.dt td:first-child{color:var(--ink);font-weight:500}
+h4{font-family:var(--serif);font-weight:600;font-size:16px;margin:20px 0 8px}
+h4:first-child{margin-top:0}
+.box p{margin:0 0 10px;color:var(--ink2);font-size:15px}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.55;margin:0 0 12px}
+pre code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--ink)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.cols{grid-template-columns:1fr}}
+.ok b{color:var(--ag)} .stop2 b{color:var(--seal)}
+.instr{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--paper)}
+.instr dt{font-weight:500;font-size:14px;color:var(--ink);margin-top:10px}
+.instr dt:first-child{margin-top:0}
+.instr dd{margin:2px 0 0;font-size:14px;color:var(--ink2)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.btn{font:inherit;font-size:14px;padding:7px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--ink3)}
+.summary{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.summary{grid-template-columns:1fr}}
+.sblock{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.sblock h3{font-family:var(--serif);font-weight:600;font-size:16px;margin:0 0 6px}
+.sblock ul{margin:0;padding-left:1.1em;font-size:14px;color:var(--ink2)}
+.stop.branch .shead,.stop.branch .dot{border-style:dashed}
+.grp{position:relative;padding-left:52px;margin:18px 0 8px;font-size:12px;letter-spacing:.08em;color:var(--ink3);text-transform:uppercase}
+.grp::before{content:"";position:absolute;left:14px;top:9px;width:12px;height:2px;background:var(--line2)}
+@media print{body{background:#fff;color:#000}.tools,.close,.chev{display:none!important}.wrap{max-width:none;padding:0}.tw{overflow:visible}table.dt.wide{min-width:0}details.box summary::after{display:none}.panel,.shead,.sblock,tr{break-inside:avoid}}
+.toc{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:20px;font-size:14px}
+.toc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2)}
+.toc a:hover{color:var(--ink)}
+@media print{.toc{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>China Tour 2027 推广工作流</h1>
+    <p class="lede">接手这个项目，我会先确认三件事：产品能不能卖、咨询接不接得住、效果测不测得到，然后再开始引流。三个 Agent 分别负责查现状、出东西、看结果；花钱和对外发布的事，都要客户点头才做。</p>
+    <p class="hint">步骤和 Agent 都可以点开看细节。</p>
+    <div class="legend" aria-label="角色图例">
+      <span class="tag t-pm">PM</span><span class="tag t-ag">Agent</span><span class="tag t-vf">视频工厂</span><span class="tag t-cl">客户 / 销售</span><span class="tag t-tl">工具 / 执行人</span>
+      <span class="seal-legend"><span class="stamp" style="margin:0">审批</span>需要客户批准</span>
+    </div>
+    <div class="tools"><button type="button" class="btn" id="expandAll" aria-pressed="false">全部展开</button><button type="button" class="btn" onclick="window.print()">打印 / 保存 PDF</button></div>
+    <div class="summary" aria-label="方案摘要">
+      <div class="sblock"><h3>先搞清楚三件事</h3><ul><li>产品哪些信息已经定了，可以对外说</li><li>咨询从官网到销售有没有断，多久有人回</li><li>追踪和来源记录能不能用，现在的基线是多少</li></ul></div>
+      <div class="sblock"><h3>第一周做到哪</h3><ul><li>只做一个核心页面、一条咨询链路、一批视频任务，其他排队</li><li>第一天把能测的链路测一遍，记下哪里通、哪里断、哪里卡住</li><li>周末交出证据和待办表、确认过的 Fact Sheet、基线和第一批简报</li></ul></div>
+      <div class="sblock"><h3>时间</h3><ul><li>每周 16 小时左右，第一周排了 15 小时</li><li>沟通约 4.5 小时，核对 AI 产出约 3 小时，留 2.5 小时应付意外</li><li>修复什么时候完成，要看权限、审批和执行的人</li></ul></div>
+      <div class="sblock"><h3>先不做</h3><ul><li>广告等到第 3 周、条件都满足再上</li><li>X、TikTok 广告、批量 AI 写文章、整站改版</li><li>自动化等流程跑顺了再说</li></ul></div>
+    </div>
+    <nav class="toc" aria-label="目录">
+      <a href="#h-terms">名词解释</a>
+      <a href="#h-agents">三个 Agent</a>
+      <a href="#h-flow">十个步骤</a>
+      <a href="#h-sec4">工作流细节和样例（题目四）</a>
+      <a href="#h-more">出问题和统一规则</a>
+      <a href="#h-start">已知条件和第一天（题目一、二）</a>
+      <a href="#h-domains">五个领域（题目三）</a>
+      <a href="#h-time">16 小时怎么花（题目五）</a>
+      <a href="#h-quality">做得好不好（题目六）</a>
+      <a href="#h-q7">现场追问（题目七）</a>
+    </nav>
+  </header>
+
+    <section aria-labelledby="h-terms" id="terms-sec">
+    <h2 id="h-terms">名词解释</h2>
+    <p class="sub">后文反复用到的表格和术语，先在这里说明。</p>
+
+    <details class="box">
+      <summary>Fact Sheet：所有信息只认这一张表</summary>
+      <div class="in">
+        <p>一行一条事实，分对外页和内部页。出稿 Agent 和所有对外内容只能引用对外页的条目。下面的值是示意，不是真实信息。</p>
+        <h4>对外页</h4>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>编号</th><th>事实</th><th>状态</th><th>来源</th><th>确认人 / 日期</th><th>能不能对外</th></tr></thead>
+          <tbody>
+            <tr><td>FS-04</td><td>团期：2027 年 3 月 [日期]</td><td>待确认</td><td>客户简报</td><td>—</td><td>不能</td></tr>
+            <tr><td>FS-07</td><td>行程城市：[按行程单]</td><td>已确认</td><td>客户行程单 v2</td><td>客户产品负责人 / [日期]</td><td>能</td></tr>
+            <tr><td>FS-09</td><td>新西兰护照赴华入境要求</td><td>已确认，有时效</td><td>官方网站链接，[查证日期]</td><td>我 / [日期]，每月复查</td><td>能，必须注明“以出发时官方信息为准”</td></tr>
+            <tr><td>FS-12</td><td>主要客户是 50 岁以上</td><td>假设</td><td>等销售访谈验证</td><td>—</td><td>不能，只用于内部判断</td></tr>
+            <tr><td>FS-15</td><td>价格</td><td>待确认</td><td>—</td><td>—</td><td>不能</td></tr>
+          </tbody>
+        </table></div>
+        <h4>内部页：预算和目标，只有我和回流 Agent 看，不给出稿 Agent</h4>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>编号</th><th>内容</th><th>状态</th><th>来源</th><th>确认人 / 日期</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td>FS-20</td><td>广告预算：总额和各渠道上限</td><td>待确认</td><td>启动会</td><td>客户决策人</td><td>没定之前广告不上</td></tr>
+            <tr><td>FS-21</td><td>销售目标：这一季要卖出 [N] 个位子</td><td>假设</td><td>启动会确认</td><td>—</td><td>倒推需要多少有效咨询</td></tr>
+            <tr><td>FS-22</td><td>销售每周跟得过来的咨询量</td><td>待确认</td><td>和销售聊</td><td>—</td><td>买线索的上限</td></tr>
+            <tr><td>FS-23</td><td>有效咨询到订单的成交率</td><td>假设 [r]</td><td>上一季数据</td><td>—</td><td>样本够了再换成实际值</td></tr>
+            <tr><td>FS-24</td><td>平均每单人数</td><td>假设 [p]</td><td>上一季数据</td><td>—</td><td>席位数换算成订单数要用</td></tr>
+          </tbody>
+        </table></div>
+        <p>整张表有版本号。任何一条变了，版本加一（比如 FS-v1.2 变成 FS-v1.3），引用了这条的内容都要重新审。</p>
+        <h4>为什么放在同一个文件里，但分成两页</h4>
+        <p>预算和目标不会出现在任何对外内容里，但决定了方案怎么做。放在同一个文件里，所有待确认的事都在一处；分成两页，是为了出稿 Agent 只拿到对外页，看不到内部数字。</p>
+        <ul class="pts">
+          <li>用销售目标倒推：所需有效咨询数 ≈ 目标席位数 [N] ÷ 平均每单人数 [p] ÷ 有效咨询到订单的成交率 [r]。这几个数没确认前都算假设，不填编造的数字。算出来再和现有渠道大概能带来的量比一比，就知道缺口多大、要不要花钱买</li>
+          <li>销售接得住的量是上限：缺口再大，每周买来的咨询也不超过销售跟得过来的量</li>
+          <li>预算决定广告做不做、先投哪个渠道</li>
+          <li>第 4 周复盘时看样本量和销售周期：样本够了就用实际成交率替换假设值重算缺口，不够就保留假设，不下确定结论</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>证据和待办表：所有检查结果都写进这里</summary>
+      <div class="in">
+        <p>诊断 Agent 和我查到的每个问题都记一行：发现了什么、证据、影响、卡不卡后面的事、建议谁处理、要不要审批。系统盘点和链路测试的结果也写在这里。我核过、排好序，再变成任务。</p>
+        <h4>两行示意（格式示意，不是诊断结果）</h4>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>编号</th><th>发现</th><th>证据</th><th>影响</th><th>卡不卡</th><th>建议谁处理</th><th>要批吗</th></tr></thead>
+          <tbody>
+            <tr><td>E-03</td><td>表单提交后 Lead 触发了两次</td><td>network requests 截图链接</td><td>可能让广告后台的转化重复计数</td><td>卡广告</td><td>网站执行人改 GTM</td><td>要</td></tr>
+            <tr><td>E-07</td><td>China Tour 页面还写着去年的团期</td><td>URL 和截图，[检查日期]</td><td>客户会看到过期信息</td><td>卡引流</td><td>Fact Sheet 确认后，出稿 Agent 起草改动</td><td>要</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>CRM：每个咨询从进来到下单的记录</summary>
+      <div class="in">
+                <p>CRM 记的是每一个咨询客户，以及他从第一次咨询到下单的全过程。这个项目里，它是判断“推广到底带来多少生意”的唯一依据。</p>
+        <p>客户现在如果没有 CRM，不用为这个项目专门上一套。先用一张共享表格（Google Sheets 或 Excel）当简易 CRM，字段按下面定好，以后换正式 CRM 时可以直接导入。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>列</th><th>记什么</th></tr></thead>
+          <tbody>
+            <tr><td>线索 ID、咨询日期</td><td>比如 L-0001；用来去重和对账</td></tr>
+            <tr><td>姓名、邮箱、电话</td><td>联系客户。同一联系人合并资料；同一次出行需求的重复提交合并成一条，保留接触记录；不同出行需求（比如不同团期）各记一条</td></tr>
+            <tr><td>咨询内容</td><td>想去哪个团、出行时间、人数</td></tr>
+            <tr><td>来源</td><td>utm_source、utm_medium、utm_campaign；没有的写“电话”“私信”“邮件”</td></tr>
+            <tr><td>click ID</td><td>gclid、fbclid，有就记，以后回传广告平台要用</td></tr>
+            <tr><td>广告明细</td><td>能拿到就记：是哪条广告（campaign / ad ID）、utm_content（哪个素材）、utm_term（哪个关键词）、landing page 版本。表单里拿不到的，从广告后台导出来对上。对不上的写“未知”，不让 Agent 猜。诊断线索质量时就靠这几列</td></tr>
+            <tr><td>自填来源</td><td>表单里“从哪知道我们的”</td></tr>
+            <tr><td>第一次回复时间</td><td>算销售回复速度</td></tr>
+            <tr><td>负责销售</td><td>谁在跟</td></tr>
+            <tr><td>有效性</td><td>待判断 / 有效 / 无效，附判定日期和原因</td></tr>
+            <tr><td>销售阶段</td><td>新线索 / 已联系 / 已报价 / 已付订金 / 流失</td></tr>
+            <tr><td>原因</td><td>无效或流失的原因，比如预算不够、时间不合适、担心体力。曾经有效后来流失的，有效性仍是“有效”，只改阶段</td></tr>
+            <tr><td>订单</td><td>付订金后填：哪个团、几个人、金额</td></tr>
+          </tbody>
+        </table></div>
+        <h4>两行示意（省略联系方式）</h4>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>ID</th><th>日期</th><th>咨询内容</th><th>来源</th><th>自填来源</th><th>第一次回复</th><th>有效性 / 阶段</th><th>原因</th><th>订单</th></tr></thead>
+          <tbody>
+            <tr><td>L-0012</td><td>[日期]</td><td>3 月团，2 人</td><td>facebook / paid_social / china_tour_2027</td><td>朋友推荐</td><td>2 小时后</td><td>有效 / 已付订金</td><td>—</td><td>[团名]，2 人，[金额]</td></tr>
+            <tr><td>L-0013</td><td>[日期]</td><td>只问价格</td><td>google / organic</td><td>搜索</td><td>第二天</td><td>无效 / —</td><td>只想自由行</td><td>—</td></tr>
+          </tbody>
+        </table></div>
+        <p>每周对账时统计有效性为“有效”的行，后来流失的也算曾经有效；L-0013 这样的行不算有效咨询，但它的原因会进下一轮简报。</p>
+        <ul class="pts">
+          <li>怎么进表：官网表单和 Lead Ads 用 Zapier 或表单工具自带功能自动写入；电话、私信、邮件由销售手动加一行</li>
+          <li>权限：只有销售和我能改；回流 Agent 只拿去掉姓名、邮箱、电话的导出</li>
+          <li>不存护照号、信用卡号，这些在正式预订时用专门的系统处理</li>
+          <li>表格的局限：没有跟进提醒；把合格线索回传广告平台要手动导出、上传 offline conversions。线索多到表格管不过来，或者需要自动提醒和自动回传时，再换正式 CRM（比如 HubSpot）</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>其他术语</summary>
+      <div class="in"><div class="tw"><table class="dt">
+        <thead><tr><th>术语</th><th>含义</th></tr></thead>
+        <tbody>
+          <tr><td>任务看板</td><td>管理任务的工具（比如 Trello、Notion），按待办、进行中、等审批、完成分列。项目状态就记在这里</td></tr>
+          <tr><td>下周计划</td><td>每周一从看板里定下这周做哪几件事、谁负责、依赖什么、卡在哪</td></tr>
+          <tr><td>发布包</td><td>不是压缩文件，是一条记录（表格的一行或看板上的一张卡片），把发一条帖子要的东西放在一起：视频链接和版本、配文、UTM 链接、账号、发布时间、引用的 Fact Sheet 编号、验收结果。视频文件放在网盘，这里只放链接。客户批的就是这个包</td></tr>
+          <tr><td>landing page</td><td>广告或帖子点进来后看到的官网页面，这里主要是 China Tour 页面</td></tr>
+          <tr><td>引流 / 承接</td><td>引流是把人带到官网（社媒、广告、SEO、GEO）；承接是官网接住他们，让他们咨询，并把咨询记下来送到销售手里</td></tr>
+          <tr><td>可引流</td><td>landing page 的一个状态：信息确认过、表单能用、Lead 只触发一次、来源能进 CRM。标了“可引流”，社媒和广告才能把链接指过去</td></tr>
+          <tr><td>P0 / P1 / P2</td><td>官网问题的等级。P0 是咨询或测量直接断了，P1 是会让咨询变少，P2 是小问题</td></tr>
+          <tr><td>UTM</td><td>加在指向官网的链接后面的来源标签，比如 utm_source=facebook。GA4 和 CRM 靠它分清咨询从哪来</td></tr>
+          <tr><td>Lead 事件</td><td>有人提交咨询表单时，官网告诉广告平台和 GA4 的那个信号</td></tr>
+          <tr><td>有效咨询</td><td>和销售约好标准的咨询，比如说清楚了出行时间和人数，不是所有填了表的都算</td></tr>
+          <tr><td>CPL</td><td>每条有效咨询花了多少广告费，按付费渠道分开算，算法见“怎么判断做得好不好”</td></tr>
+          <tr><td>organic</td><td>不花钱带来的，比如免费帖子、自然搜索结果</td></tr>
+        </tbody>
+      </table></div></div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-agents">
+    <h2 id="h-agents">三个 Agent</h2>
+    <p class="sub">按“能看什么、能动什么、出错后果多大”来分，不按渠道分。点一个，下面流程里它负责的步骤会亮起来。十个步骤详见下一节。</p>
+    <div class="agents" id="agents"></div>
+    <div class="adetail" id="adetail" aria-live="polite"></div>
+  </section>
+
+<section aria-labelledby="h-flow">
+    <h2 id="h-flow">十个步骤</h2>
+    <p class="sub">分三组：前四步接手时做一次；中间四步每个任务都走，官网改动、SEO、GEO、社媒、广告都一样，只有视频任务多经过一次视频工厂；最后两步每周循环。</p>
+    <ol class="route" id="route"></ol>
+    <p class="loop">↻ 超出预批范围的调整回第 4 步，新任务回第 5 步，每两周回第 2 步复查。</p>
+  </section>
+
+<section aria-labelledby="h-sec4">
+    <h2 id="h-sec4">工作流细节和样例</h2>
+    <p class="sub">题目第四部分：分工、各阶段要求、我什么时候介入、哪些要自动化，以及指令和交接样例。</p>
+
+    <details class="box">
+      <summary>六个阶段：需要什么、交出什么、用什么、谁接手</summary>
+      <div class="in">
+        <p>项目状态只有一份。Agent 读授权的数据或客户导出的数据，交结果、给建议状态；我维护主状态；执行人登记实际做了什么；客户负责批。</p>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>阶段</th><th>谁做</th><th>需要什么</th><th>交出什么</th><th>工具</th><th>权限</th><th>怎样算完成</th><th>下一步交给谁</th></tr></thead>
+          <tbody>
+            <tr><td>客户简报</td><td>我</td><td>客户简报</td><td>Fact Sheet v0、问题清单、看板</td><td>项目看板（比如 Notion、Linear）、共享表格</td><td>项目空间可编辑</td><td>每条信息都标了状态和来源</td><td>诊断 Agent 开查；客户回答问题</td></tr>
+            <tr><td>查现状</td><td>诊断 Agent</td><td>官网、固定问题、GSC 和 GA4</td><td>证据和待办表、GEO 基线</td><td>浏览器、Pixel Helper、Screaming Frog、PageSpeed、GSC、AI 搜索</td><td>只读</td><td>每条发现都有能复查的证据</td><td>我核实</td></tr>
+            <tr><td>排优先级</td><td>我</td><td>证据表、客户回复</td><td>有负责人和依赖的任务</td><td>项目看板</td><td>可编辑</td><td>卡点标出来了，每件事都有人负责</td><td>客户确认事实和预算</td></tr>
+            <tr><td>准备执行</td><td>出稿 Agent、视频工厂</td><td>确认过的 Fact Sheet、规格</td><td>草稿、简报、素材、回执、验收结果</td><td>写草稿；视频工厂；对照 Fact Sheet</td><td>只读，只出草稿</td><td>每条事实都对得上编号；规格对</td><td>我复核后交客户</td></tr>
+            <tr><td>批准和上线</td><td>客户、执行人</td><td>发布包、改动草稿</td><td>批准记录、线上内容、日志</td><td>Meta Business Suite、YouTube Studio、GTM、网站后台、广告后台</td><td>客户批；执行人有编辑权限</td><td>线上内容和批的版本一致</td><td>出稿 Agent 核对；销售接咨询</td></tr>
+            <tr><td>看效果</td><td>销售、回流 Agent</td><td>CRM、GA4、广告后台</td><td>线索状态、对账表、调整建议</td><td>CRM（比如 HubSpot，没有就先用共享表格）、GA4、Looker Studio</td><td>销售可改 CRM；Agent 只读</td><td>数字和 CRM 对得上；建议有证据</td><td>我决定下一轮</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>Agent、代码、软件、人各干什么</summary>
+      <div class="in"><div class="tw"><table class="dt">
+        <thead><tr><th>用什么</th><th>负责哪块</th><th>具体干什么</th></tr></thead>
+        <tbody>
+          <tr><td>AI Agent</td><td>诊断、出稿、回流</td><td>读资料、归纳、写草稿、对事实、找异常、提建议</td></tr>
+          <tr><td>普通代码和模板</td><td>生成 UTM、发布前查重</td><td>规则固定、结果必须一模一样的事</td></tr>
+          <tr><td>现成软件</td><td>GTM、GA4、GSC、CRM、排期工具、广告平台规则、Zapier</td><td>追踪事件、统计、同步线索、定时发布、花费上限和自动暂停</td></tr>
+          <tr><td>现成的视频工厂</td><td>做视频</td><td>按简报出多比例素材</td></tr>
+          <tr><td>人</td><td>确认事实、审批、上线、判断线索、做决定</td><td>所有对外、花钱、需要有人担责的事</td></tr>
+        </tbody>
+      </table></div></div>
+    </details>
+
+    <details class="box">
+      <summary>我什么时候必须出手，什么时候放手</summary>
+      <div class="in">
+        <div class="cols">
+          <div class="stop2"><h4>必须我来</h4><ul class="pts">
+            <li>对外发布或花钱之前</li>
+            <li>涉及签证、价格、团期、余位的内容</li>
+            <li>Agent 标了“要确认”停下来的时候</li>
+            <li>超出批过范围的调整</li>
+            <li>事实变了、线上和批的不一致、追踪断了、重试次数用完</li>
+            <li>销售说的和数据对不上</li>
+          </ul></div>
+          <div class="ok"><h4>放手让它跑</h4><ul class="pts">
+            <li>诊断 Agent 的只读检查</li>
+            <li>出稿 Agent 在确认过的事实范围内起草和初步验收</li>
+            <li>视频工厂在额度内生产和重试</li>
+            <li>已批排期的按时发布</li>
+            <li>平台规则触发的自动暂停，事后看报告</li>
+            <li>回流 Agent 每周两次检查，没异常就看周报</li>
+          </ul></div>
+        </div>
+        <h4>怎么协调三方</h4>
+        <p>启动会上请客户批一个预批范围：预算上限、什么情况暂停、能用的素材和信息范围、哪些非实质小改可以由我批。范围内我直接安排，只有超出范围才再找客户。此外客户主要在两个地方见到我：确认事实和预算、批具体版本；另外每周一次集中审批，加一页周报。执行人只接批过的任务卡，Agent 只接我派的活。三方不直接互相派活，免得绕过审批。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>哪些手动，哪些自动</summary>
+      <div class="in">
+        <div class="tw"><table class="dt">
+          <thead><tr><th>事情</th><th>前四周</th><th>什么时候自动化</th><th>为什么</th></tr></thead>
+          <tbody>
+            <tr><td>三个 Agent</td><td>手动调用，固定指令</td><td>稳定跑过三次以上、验收标准清楚</td><td>先确认指令和产出靠得住</td></tr>
+            <tr><td>回流 Agent 的检查</td><td>每周两次，手动导数据</td><td>数据格式稳定后用 connector 定时拉，再考虑增加检查频率</td><td>频率高了才值得自动化</td></tr>
+            <tr><td>Lead Ads 线索进 CRM</td><td>广告上线前一周接好并测试</td><td>一开始就自动</td><td>CRM 自带集成或 Zapier 现成可用，手动容易漏</td></tr>
+            <tr><td>生成 UTM</td><td>表格模板</td><td>不用再加</td><td>模板够用</td></tr>
+            <tr><td>视频派单</td><td>按工厂现有方式</td><td>跟着工厂走</td><td>不重建</td></tr>
+            <tr><td>发布</td><td>scheduling tool 加人工确认</td><td>审批顺了以后按批好的排期自动发</td><td>发错的代价大</td></tr>
+            <tr><td>广告调整</td><td>人来做</td><td>不自动化</td><td>涉及花钱</td></tr>
+          </tbody>
+        </table></div>
+        <h4>怎么避免重复造轮子</h4>
+        <p>先把客户和 Magic Engine 已有的系统列出来（网站后台、GTM、CRM、排期工具、视频工厂），只在它们之间缺衔接的地方用 Agent 或集成工具补上。追踪、发布、视频都不另外开发一套。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>指令样例：出稿 Agent</summary>
+      <div class="in"><dl class="instr">
+        <dt>你的角色</dt><dd>你是 China Tour 2027 项目的出稿 Agent，所有对外内容在发布前都由你起草和核对。</dd>
+        <dt>你会收到</dt><dd>任务卡（任务 ID、类型、渠道）、Fact Sheet 和版本号、品牌规范、渠道规格。如果是验收任务，还会附上视频回执和简报。</dd>
+        <dt>你要做的（按任务类型做一种）</dt><dd><ul class="pts"><li>起草：按渠道规格写文字，每条事实后面标上 Fact Sheet 编号</li><li>验收：回执里的比例、时长、checksum 和简报是否一致；facts_used 是否都在 allowed_facts 里</li><li>上线核对：线上内容和批准版本逐项对比，列出不一样的地方</li></ul></dd>
+        <dt>你不能做的</dt><dd><ul class="pts"><li>只用 Fact Sheet 里标为“已确认”的条目</li><li>需要价格、团期、余位、签证这类没确认的信息时，标“需确认”然后停下，不要自己补</li><li>不改 UTM 链接；不发布、不排期、不派单</li><li>只用这次任务给的资料，不用之前任务或对话里的信息</li></ul></dd>
+        <dt>你交回来什么</dt><dd>任务 ID、状态（草稿完成 / 验收通过 / 验收退回 / 需确认 / 核对不一致）、内容或问题清单、引用的 Fact Sheet 编号、Fact Sheet 版本号。</dd>
+        <dt>怎样算合格</dt><dd>我能把每条事实对到 Fact Sheet；拿不准的地方都标出来了；状态和内容对得上。</dd>
+      </dl></div>
+    </details>
+
+    <details class="box">
+      <summary>Agent 的一次输入和输出（示意）</summary>
+      <div class="in">
+        <h4>出稿 Agent：起草一条 Facebook 配文</h4>
+        <p>输入</p>
+<pre><code>任务卡：TASK-021，类型：起草，渠道：facebook_feed
+Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认；FS-11 包含项目：已确认）
+规格：正文 80 词以内，必须写出发日期，结尾放链接
+链接：{UTM 模板生成的链接}</code></pre>
+        <p>输出</p>
+<pre><code>状态：需确认
+草稿：[行程亮点 ← FS-07] …… [包含项目 ← FS-11] …… 了解详情：{链接}
+引用：FS-07、FS-11（Fact Sheet FS-v1.3）
+需确认：规格要求写出发日期，但 FS-04 还是“待确认”，没有写进去</code></pre>
+        <p>重点在最后一行：遇到没确认的信息，它不自己编，而是标出来交回给我。配文正文由它写，这里只用占位符表示。</p>
+        <h4>回流 Agent：一条调整建议</h4>
+<pre><code>建议 ID：ADS-007
+建议：暂停 Meta 广告组 B
+证据：近 10 天花费已到约定金额 [X]，归到该组的有效咨询为 0；
+      同期该组 3 条线索，销售都标了“无效：只想自由行”
+是否在批准范围内：是（暂停是已批准的动作）
+谁来批：PM
+注意：样本少，先按止损线暂停，两周后复查，样本还不够就不下结论</code></pre>
+        <p>我审过后交给投放执行人操作并登记，回流 Agent 在下一次例行检查时核对后台是不是真的停了；调整较大的话增加一次核对。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>交接样例一：我给视频工厂派单，工厂交回执</summary>
+      <div class="in">
+        <h4>简报（我 → 视频工厂）</h4>
+<pre><code>{
+  "task_id": "SOC-2027CT-003",
+  "idempotency_key": "SOC-2027CT-003-v1",
+  "campaign": "china_tour_2027",
+  "objective": "引导用户访问 China Tour 2027 页面并咨询",
+  "market_language": "面向新西兰英语市场，交付语言为英语，遵循客户品牌规范",
+  "fact_sheet_version": "FS-v1.2",
+  "allowed_facts": ["FS-07 行程城市", "FS-11 包含项目"],
+  "forbidden": ["allowed_facts 以外的团期、价格、余位、签证说法", "竞争对手名称", "未授权的音乐和素材"],
+  "deliverables": [
+    {"channel": "facebook_instagram_feed", "ratio": "4:5"},
+    {"channel": "reels_tiktok_shorts", "ratio": "9:16"},
+    {"channel": "youtube", "ratio": "16:9"}
+  ],
+  "requirements": ["burned-in captions", "结尾引导到官网", "按工厂现有模板的平台规格"],
+  "deadline": "2026-10-27",
+  "cost_cap": {"max_rerenders": 2, "max_credits": "本任务额度上限（按工厂计费单位，由 PM 填）"},
+  "approver": "客户市场负责人",
+  "status": "submitted"
+}</code></pre>
+        <h4>回执（视频工厂 → 我）</h4>
+<pre><code>{
+  "task_id": "SOC-2027CT-003",
+  "status": "delivered",
+  "version": "v1",
+  "assets": [
+    {"asset_id": "VID-0031-4x5-v1", "ratio": "4:5", "checksum": "…"},
+    {"asset_id": "VID-0031-9x16-v1", "ratio": "9:16", "checksum": "…"},
+    {"asset_id": "VID-0031-16x9-v1", "ratio": "16:9", "checksum": "…"}
+  ],
+  "facts_used": ["FS-07", "FS-11"],
+  "music_license": {"status": "licensed", "proof": "授权凭证链接或编号"},
+  "credits_used": "实际消耗（按工厂计费单位）",
+  "render_attempts": 1,
+  "issues": []
+}</code></pre>
+        <h4>状态和验收</h4>
+        <p>状态：submitted → accepted → in_production → delivered → qa_passed 或 qa_returned。</p>
+        <p>防重复：派单前我先在派单登记表里按 task_id 查一遍；只有确认工厂接口支持 idempotency key，才靠它防止重复生产和收费。</p>
+        <p>验收：facts_used 要在 allowed_facts 范围内，但这是工厂自己报的，所以还要看成片的字幕、旁白和关键画面，确认没多说什么；音乐授权要有凭证；credits_used 不能超过 max_credits。验收不过就附问题清单退回，出 v2，不覆盖 v1；信息不够时工厂退回给我，不自己补。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>交接样例二：发布包从验收、批准到发布</summary>
+      <div class="in">
+<pre><code>{
+  "package_id": "PUB-2027CT-012",
+  "source_task": "SOC-2027CT-003",
+  "channel": "facebook_feed",
+  "asset": {"asset_id": "VID-0031-4x5-v2", "checksum": "…"},
+  "caption_version": "CAP-012-v1",
+  "facts_used": ["FS-07", "FS-11"],
+  "fact_sheet_version": "FS-v1.2",
+  "link": "UTM 模板生成（utm_campaign=china_tour_2027）",
+  "account": "客户 Facebook 主页",
+  "scheduled_at": "2026-11-03 19:00 NZDT",
+  "qa": {"by": "出稿 Agent + PM", "result": "passed"},
+  "approval": {"approver": "客户市场负责人", "status": "pending", "approved_version": null},
+  "executor": "排期执行人",
+  "status": "awaiting_approval"
+}</code></pre>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>状态</th><th>谁来改</th><th>条件</th></tr></thead>
+          <tbody>
+            <tr><td>awaiting_approval</td><td>我</td><td>验收通过后提交</td></tr>
+            <tr><td>approved</td><td>客户</td><td>填 approved_version，必须和当前素材、配文版本一致</td></tr>
+            <tr><td>scheduled</td><td>执行人登记</td><td>发之前查日志，同一素材在同一渠道没发过</td></tr>
+            <tr><td>published</td><td>执行人登记操作回执</td><td>填帖子链接和实际发布时间</td></tr>
+            <tr><td>verified / mismatch</td><td>出稿 Agent 交核对结果，我更新状态</td><td>线上内容和 approved_version 的对比结果</td></tr>
+          </tbody>
+        </table></div>
+        <h4>怎么验收</h4>
+        <p>执行人只能发状态是 approved 的发布包；内容一改就是新版本，回到 awaiting_approval，客户授权的非实质小改由我批，仍记新版本和授权依据；出现 mismatch 我来处理，下线并按批的版本恢复。</p>
+      </div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-more">
+    <h2 id="h-more">出问题时，和统一规则</h2>
+    <p class="sub">这两部分贯穿所有步骤。</p>
+    <details class="box">
+      <summary>出了问题怎么回到我这里</summary>
+      <div class="in"><table class="extable" id="extable"></table></div>
+    </details>
+    <details class="box">
+      <summary>三个 Agent 共同遵守的规则</summary>
+      <div class="in" id="controls"></div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-start" id="start-sec">
+    <h2 id="h-start">已知条件和第一天怎么开始</h2>
+    <p class="sub">题目一、二部分。第一天我不写营销方案，先弄清楚产品能不能卖、咨询接不接得住、效果测不测得到。</p>
+
+    <details class="box">
+      <summary>题目给的条件，我怎么处理</summary>
+      <div class="in">
+        <div class="tw"><table class="dt">
+          <thead><tr><th>条件</th><th>我的处理</th></tr></thead>
+          <tbody>
+            <tr><td>价格、余位、班期、行程、销售目标、预算都还没定</td><td>Fact Sheet 里先标“待确认”。产品信息没定，写了具体内容的东西都不能发；预算没定只影响广告；销售目标可以先拿一个假设往前走。</td></tr>
+            <tr><td>有官网，但没给网址</td><td>不瞎猜诊断结果。拿到网址后按下面的清单查，每个问题都留截图或链接。</td></tr>
+            <tr><td>视频工厂、Remotion 模板、素材都是现成的</td><td>我只管派单、收货、验收和处理出错，不碰制作。</td></tr>
+            <tr><td>各系统接没接通还不知道</td><td>第一天先盘点一遍。没接通的先手动顶上，不为这个另外开发。</td></tr>
+            <tr><td>护照、赴华政策、团期、包含项目都要查证</td><td>政策只记官方来源和查的日期，对外一律写“以出发时官方信息为准”。推广期间定期再查，有变化就按“事实变了”处理。</td></tr>
+            <tr><td>可以用 AI，但责任在我</td><td>AI 负责查、写草稿、做分析。事实、钱、对外操作，都要我核过、客户批过。</td></tr>
+          </tbody>
+        </table></div>
+        <h4>系统盘点</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>系统</th><th>要问清楚什么</th><th>没接通怎么办</th></tr></thead>
+          <tbody>
+            <tr><td>Search Console</td><td>验证过没有、在谁的账号下、能不能给我只读</td><td>让客户用自己的账号验证；这期间先用公开工具查</td></tr>
+            <tr><td>GA4 和 GTM</td><td>装没装、ID 是多少、归谁、谁能改</td><td>先把咨询事件配好，这是最小链路的一部分</td></tr>
+            <tr><td>Meta 和 Google 广告账户</td><td>Business Manager 和 Pixel 归谁、怎么付款、以前投过什么</td><td>广告先放着；归属不清的先理清，换过代理商的经常卡在这</td></tr>
+            <tr><td>CRM</td><td>咨询记在哪、能不能记来源和状态</td><td>先用一张共享表格（Google Sheets 或 Excel）当简易 CRM，字段见前面“名词解释”，以后可以直接导入正式 CRM</td></tr>
+            <tr><td>发布工具和社媒账号</td><td>账号归谁、谁是管理员、用什么排期</td><td>用平台自带的排期手动发</td></tr>
+            <tr><td>视频工厂</td><td>怎么接单、回执有哪些字段、额度多少</td><td>按工厂现在的方式来，不另搭</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>时间线：前 30 分钟、第一天、第一周、之后四周</summary>
+      <div class="in">
+        <h4>前 30 分钟</h4>
+        <ul class="pts">
+          <li>先花 10 分钟建一张 Fact Sheet（每条标已确认、待确认或假设）和一张任务看板</li>
+          <li>再花 10 分钟给客户发问题清单，按急不急排好，约两天内开启动会</li>
+          <li>最后 10 分钟把只读检查派给诊断 Agent，它跑它的，我等客户回复</li>
+        </ul>
+        <h4>第一天收工前（大概 3.5 小时）</h4>
+        <ul class="pts">
+          <li>把诊断结果核一遍，整理成一张证据和待办表</li>
+          <li>在能访问的范围内把咨询链路测一遍，记下哪里通、哪里断、哪里卡。修好要多久，看权限、审批和执行人</li>
+          <li>定好下周计划：做哪几件事、谁负责、卡在哪</li>
+        </ul>
+        <h4>第一周</h4>
+        <ul class="pts">
+          <li>先划范围：一个核心页面、一条咨询链路、一批视频任务，其余排队</li>
+          <li>开启动会，把产品信息、审批人、权限、预算、什么算有效咨询定下来</li>
+          <li>和销售聊一聊，把从咨询到订金的过程和过去的数据理一遍，当作基线</li>
+          <li>客户给了 GTM 和网站权限后，让网站执行人修好第一天发现的追踪问题（比如 Lead 不触发或触发两次、表单没记下来源）；修完让诊断 Agent 用同样的方法再测一遍，确认真的好了</li>
+          <li>按确认过的事实整理 China Tour 页面要改的地方，交客户批</li>
+          <li>第一次发带链接的内容之前，定好 UTM 命名规则</li>
+          <li>给视频工厂派第一批单：1–2 份简报，每份出一条视频的三个比例（16:9 给 YouTube，9:16 给 Reels 和 Shorts，4:5 给 Facebook Feed），第二周发 organic 帖子用。只用已经确认的信息（比如行程城市、包含项目）；团期和价格没定，就不出现在视频里</li>
+          <li>周末给客户发一页周报：做了什么、卡在哪、下周做什么</li>
+        </ul>
+        <h4>之后四周</h4>
+        <p>每周都做的事不再重复写：周一定计划、一周一次集中审批、周末一页周报、留 1.5 小时缓冲。</p>
+
+        <h4>第 2 周：把承接做好，发第一批内容</h4>
+        <p>目标：landing page 可以引流，第一批内容按流程完整走一遍。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>领域</th><th>做什么</th></tr></thead>
+          <tbody>
+            <tr><td>官网</td><td>修好 China Tour 页面上最严重的两级问题并上线：P0 是咨询或测量直接断了（比如表单坏了、团期过时），P1 是会让咨询变少（比如入口不显眼、常问的问题没答案），P2 的小问题先放着；追踪复测通过后，标成“可引流”</td></tr>
+            <tr><td>社媒</td><td>验收第一批视频；出稿 Agent 写配文、整理发布包；客户批后在 Facebook、Instagram、YouTube 按排期发；发完核对、写日志</td></tr>
+            <tr><td>SEO</td><td>诊断做完、排好序；挡住 indexing 的技术问题进官网改动队列</td></tr>
+            <tr><td>GEO</td><td>复核第一周的 20 条观察；找出 AI 说错的地方和出处</td></tr>
+            <tr><td>广告</td><td>准备四个条件：预算书面批准、告警和暂停负责人、搜索广告文案初稿、回流 Agent 的检查项、每天看 landing page 的人</td></tr>
+            <tr><td>销售和 CRM</td><td>简易 CRM 表格建好，官网表单接进去（Lead Ads 等广告上线前一周再接）；和销售约好回复时限和状态怎么填</td></tr>
+          </tbody>
+        </table></div>
+        <p>交付：可引流的 landing page、第一批帖子和发布日志、SEO 问题清单、广告上线前检查表。<br>卡住时：页面没批，帖子先不放链接或往后推；预算没批，广告准备停在待批。</p>
+
+        <h4>第 3 周：小预算试投，准备第二批内容</h4>
+        <p>目标：付费渠道开始带来能衡量的咨询。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>领域</th><th>做什么</th></tr></thead>
+          <tbody>
+            <tr><td>广告</td><td>Google 搜索（非品牌词）和 Meta 小预算上线；回流 Agent 每周两次检查，指定的人每天看 landing page；核对后台和变更记录是否一致</td></tr>
+            <tr><td>社媒</td><td>看第一批帖子带来的访问和私信咨询；写第二批简报，团期和价格确认了就用上</td></tr>
+            <tr><td>SEO</td><td>第一批技术修复上线，请求重新 indexing；China Tour 页面补上常见问题的回答，和 GEO 合成一个改动</td></tr>
+            <tr><td>GEO</td><td>AI 说错的地方，改官网或请客户联系来源；补齐 Google Business Profile 等第三方资料</td></tr>
+            <tr><td>官网</td><td>转为维护；盯 landing page 到咨询的 conversion rate</td></tr>
+            <tr><td>销售和 CRM</td><td>第一次每周 15 分钟对线索：哪些有效、哪些无效、为什么</td></tr>
+          </tbody>
+        </table></div>
+        <p>交付：上线的广告和变更记录、第二批简报、GEO 第一轮动作清单。<br>卡住时：广告条件没满足就不上，时间放到 organic 和承接；视频晚了，搜索广告照样先上。</p>
+
+        <h4>第 4 周：第一次完整复盘</h4>
+        <p>目标：用数据决定接下来的 16 小时和预算怎么分。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>领域</th><th>做什么</th></tr></thead>
+          <tbody>
+            <tr><td>复盘</td><td>按曝光 → 访问 → 有效咨询 → 预订一层层看，找断点；平台数据和 CRM 对账，记下高估多少；按付费渠道算 CPL</td></tr>
+            <tr><td>销售</td><td>和销售一起看线索质量和无效原因；样本够了就用实际成交率替换 Fact Sheet 里的假设重算缺口，不够就保留假设</td></tr>
+            <tr><td>广告</td><td>按回流 Agent 的建议做第一次调整：没效果的停，好的在批准范围内加一点；合格线索回传平台</td></tr>
+            <tr><td>社媒</td><td>第二批视频验收、审批、发布</td></tr>
+            <tr><td>SEO 和 GEO</td><td>看 indexing 和 impressions 有没有开始变；AI 说错的地方改过来没有</td></tr>
+          </tbody>
+        </table></div>
+        <p>交付：一页复盘报告，写清每个渠道带来多少有效咨询、花了多少、下一步加码什么、停什么。<br>卡住时：数据不到两周，只做小调整，大的结论放到第 5 周。</p>
+
+        <h4>第 5 周：有效的加码，没用的停掉</h4>
+        <p>目标：把时间和预算集中到已经证明有效的渠道。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>领域</th><th>做什么</th></tr></thead>
+          <tbody>
+            <tr><td>广告</td><td>按复盘结论调整各渠道预算；超出批准范围的找客户批</td></tr>
+            <tr><td>社媒</td><td>看哪类内容真的带来咨询，调整下一批简报的方向</td></tr>
+            <tr><td>SEO 和 GEO</td><td>复查搜索和 AI 可见度，和第一周的基线对比</td></tr>
+            <tr><td>TikTok</td><td>看 organic 发布有没有带来访问，决定继续还是停</td></tr>
+            <tr><td>自动化</td><td>看三个 Agent 哪些已经跑稳，考虑让回流 Agent 的每周检查改成 connector 定时拉数据</td></tr>
+          </tbody>
+        </table></div>
+        <p>交付：调整后的渠道和预算计划、第二次基线对比、到 1 月的下一阶段计划。</p>
+        <p>哪周卡住了，依赖它的事就先不推，换去做不受影响的。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>先问客户什么</summary>
+      <div class="in">
+        <h4>缺了真推不动的</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>信息</th><th>卡住什么</th></tr></thead>
+          <tbody>
+            <tr><td>团期、价格、余位、完整行程、包含项目</td><td>所有写了具体信息的页面、内容和广告</td></tr>
+            <tr><td>谁审批、多久能回</td><td>所有对外的事</td></tr>
+            <tr><td>账号归谁、权限给谁</td><td>修追踪、投广告</td></tr>
+            <tr><td>咨询现在谁接、记在哪、多久回</td><td>线索承接和效果判断</td></tr>
+            <tr><td>广告预算</td><td>只卡广告</td></tr>
+          </tbody>
+        </table></div>
+        <h4>可以先假设、边做边验证的</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>假设</th><th>怎么验证</th></tr></thead>
+          <tbody>
+            <tr><td>主要客户是新西兰 50 岁以上、第一次去中国、想省心跟团的人</td><td>看过去的订单，问销售</td></tr>
+            <tr><td>3–5 月出发的长线团，主要在接下来 3–4 个月里下单</td><td>看过去从咨询到订金隔了多久</td></tr>
+            <tr><td>销售目标和接得住的量</td><td>启动会上问</td></tr>
+            <tr><td>什么算有效咨询，比如说清楚了出行时间和人数</td><td>和销售一起定</td></tr>
+          </tbody>
+        </table></div>
+        <p>这些假设直接写在 Fact Sheet 里，标成“假设”，确认了再改过来，不另建一张表。</p>
+        <h4>我自己就能查的</h4>
+        <p>官网现状、追踪代码、公开的社媒主页、Google 搜索结果、AI 搜索里怎么说这家公司、评价网站，还有新西兰护照去中国的最新官方规定。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>了解客户和销售过程</summary>
+      <div class="in">
+        <h4>从咨询到订单</h4>
+        <p>曝光 → 进官网 → 咨询（表单、电话、邮件、私信）→ 销售第一次回复 → 发行程和报价 → 跟进 → 付订金 → 付尾款 → 出发。每一步谁负责、用什么工具、隔多久，都标出来，看哪里会断。</p>
+        <h4>信息从三个地方来</h4>
+        <ul class="pts">
+          <li>过去的数据：上一季多少咨询、从哪来、多少成交、从咨询到订金要几天</li>
+          <li>和销售聊 15 分钟：客户常问什么，为什么没订，什么样的咨询最容易成</li>
+          <li>过去的咨询邮件（先脱敏）：让诊断 Agent 归纳常见问题和顾虑，之后官网 FAQ、SEO 和 GEO 都能用上</li>
+        </ul>
+        <p>路线卖点不由我或 AI 来编。从行程、老客户评价和销售那里提炼，写进 Fact Sheet，客户确认了才用。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>第一天让 Agent 查什么</summary>
+      <div class="in">
+        <p>都交给 <button type="button" class="tag t-ag" data-agent="dx">诊断 Agent</button> 同时跑，只读。除了测试咨询要客户点头，其他不用等客户。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>查什么</th><th>范围</th><th>留什么证据</th></tr></thead>
+          <tbody>
+            <tr><td>官网</td><td>China Tour 页面、信息有没有过时、咨询入口、表单、mobile、page speed、broken links</td><td>URL、截图、设备、时间、怎么复现</td></tr>
+            <tr><td>追踪</td><td>GTM、GA4、Pixel 和各自的 ID；Lead 有没有触发、会不会重复；来源有没有跟着表单提交</td><td>network requests 截图、Pixel Helper 结果</td></tr>
+            <tr><td>渠道</td><td>各平台最近 90 天发了什么、链接和 UTM、评价</td><td>主页 URL 和截图</td></tr>
+            <tr><td>账号权限线索</td><td>能公开看到的 Pixel ID、GA4 ID、有没有重复安装；归属问题标“要问客户”</td><td>page source 和 network requests</td></tr>
+            <tr><td>销售承接</td><td>客户同意后发一条标明 TEST 的测试咨询，最早第一天、最晚启动会当天；提前跟销售打招呼</td><td>提交、收到、回复的时间</td></tr>
+            <tr><td>搜索和 AI 可见度</td><td>几个固定问题在 Google 和 AI 搜索里的表现</td><td>带日期的记录</td></tr>
+          </tbody>
+        </table></div>
+        <p>所有发现都按同一格式写进证据和待办表：发现了什么、证据、影响、卡不卡后面的事、建议谁处理、要不要审批。我抽查、去重、排好序，再变成任务。</p>
+        <p>表格格式和示例见前面“名词解释”。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>最小链路和第一天交付什么</summary>
+      <div class="in">
+        <h4>先跑通哪条链路</h4>
+        <p>China Tour 页面 → 咨询表单 → Lead 事件只触发一次 → 来源被记下来 → 线索按时到销售手里。</p>
+        <p>这条不通，引流再多也看不出效果；承接有问题时，流量越多浪费越多。</p>
+        <h4>第一天收工时手上有什么</h4>
+        <ul class="pts">
+          <li>一张核过、排过序的证据和待办表（系统盘点和链路测试的结果也写在里面）</li>
+          <li>Fact Sheet v0，每条标了状态和来源</li>
+          <li>发出去的问题清单，约好的启动会</li>
+          <li>下周计划：做哪几件事、谁负责、依赖什么、卡在哪</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-domains" id="domains">
+    <h2 id="h-domains">五个领域怎么分工</h2>
+    <p class="sub">题目第三部分。这里讲每块做什么，具体怎么做走前面的流程。Agent 标签可以点。</p>
+
+    <div class="tw"><table class="dt wide">
+      <thead><tr><th>领域</th><th>谁来做</th><th>需要什么</th><th>交出什么</th><th>和其他部分怎么接</th><th>先不做</th></tr></thead>
+      <tbody>
+        <tr><td>官网与转化承接</td><td>诊断 Agent 查，出稿 Agent 起草改动，客户批，网站执行人上线</td><td>官网、追踪检查结果、咨询问题分类、Fact Sheet、SEO 和 GEO 的改动需求</td><td>问题清单、改动任务卡、可以引流的 landing page、只触发一次的 Lead 事件、进 CRM 的来源</td><td>所有引流的前提；SEO 和 GEO 的改动都汇到这里；给社媒和广告提供 landing page</td><td>整站改版、在线预订和支付、A/B 测试</td></tr>
+        <tr><td>SEO</td><td>诊断 Agent 研究和诊断，出稿 Agent 起草改动，回流 Agent 看结果</td><td>Search Console、GA4、crawl 结果、咨询问题分类</td><td>机会清单、问题清单、改动需求、indexing 和 impressions 的变化</td><td>改动进官网统一队列；和 GEO 共用 Fact Sheet 和问题分类</td><td>批量 AI 文章、买外链、做博客体系</td></tr>
+        <tr><td>GEO</td><td>诊断 Agent 观察、找错误出处，出稿 Agent 起草官网改动，站外的事我去协调客户</td><td>固定问题、AI 搜索结果、Fact Sheet</td><td>观察记录、错误出处、建议、复查对比</td><td>官网改动进统一队列；站外资料和评价由我协调客户</td><td>付费追踪工具、大规模站外内容</td></tr>
+        <tr><td>社媒内容</td><td>我写简报、复核，视频工厂生产，出稿 Agent 验收和打包，客户批，排期执行人发布</td><td>Fact Sheet、landing page、UTM 规则、渠道规格</td><td>多比例素材、发布包、发布日志、私信咨询记录</td><td>landing page 标“可引流”后才发带链接的内容；素材广告也能用；私信咨询进 CRM</td><td>X、TikTok 广告、网红合作、每个平台单独做内容</td></tr>
+        <tr><td>广告获客</td><td>回流 Agent 提建议，我审，客户批预算，投放执行人操作，销售反馈质量</td><td>四个前提都满足、批过的素材和文案、CRM 反馈</td><td>上线的广告、变更记录、每周对账</td><td>依赖官网、素材和事实确认；合格线索回传平台</td><td>YouTube、TikTok、X 广告；让 AI 自动调价</td></tr>
+      </tbody>
+    </table></div>
+
+    <details class="box" style="margin-top:16px">
+      <summary>官网与转化承接</summary>
+      <div class="in">
+        <p>所有流量最后都落在官网上。承接或追踪有问题，引来的人越多浪费越多，所以这块排在最前面。</p>
+        <h4>谁来做</h4>
+        <p><button type="button" class="tag t-ag" data-agent="dx">诊断 Agent</button> 查，<span class="tag t-pm">PM</span> 排优先级，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 起草改动，<span class="tag t-cl">客户</span> 批，<span class="tag t-tl">网站执行人</span> 上线，<button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 看转化。</p>
+        <h4>查什么</h4>
+        <ul class="pts">
+          <li>从首页点两下能不能找到 China Tour 页面并咨询</li>
+          <li>日期、团期、价格是不是旧的，和 Fact Sheet 对不对得上</li>
+          <li>有哪些咨询方式，放在哪，手机上能不能直接拨号</li>
+          <li>表单有几个字段、哪些必填、提交后有没有确认、出错有没有提示</li>
+          <li>mobile 体验、page speed、broken links，有没有评价、资质、联系方式和隐私政策</li>
+          <li>Lead 是不是只触发一次，hidden fields 有没有带上 UTM 和 click ID</li>
+          <li>发一条约好的测试咨询，看销售多久收到、多久回</li>
+        </ul>
+        <h4>证据怎么留</h4>
+        <p>每个问题一张卡：URL、截图、什么设备、怎么复现、影响多大、几级、要不要审批。</p>
+        <h4>怎么排优先级</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>等级</th><th>标准</th><th>例子</th></tr></thead>
+          <tbody>
+            <tr><td>P0</td><td>咨询或测量直接断了</td><td>表单坏了、Lead 不触发或重复、页面还挂着去年的团期</td></tr>
+            <tr><td>P1</td><td>会拉低转化</td><td>入口不显眼、手机上不好提交、常问的问题没答案、页面慢</td></tr>
+            <tr><td>P2</td><td>小问题</td><td>措辞、排版、视觉</td></tr>
+          </tbody>
+        </table></div>
+        <h4>哪些要人批</h4>
+        <ul class="pts">
+          <li>页面上的产品、价格、团期、签证内容：客户先确认事实，再批改动</li>
+          <li>表单和 GTM：客户批，执行人在有版本记录的地方改，改坏了能回滚</li>
+          <li>删页面、改 URL、加 redirect：客户批，我再看看会不会影响 SEO</li>
+          <li>咨询后的自动回复：客户批</li>
+        </ul>
+        <h4>怎么接上引流和咨询记录</h4>
+        <ul class="pts">
+          <li>landing page 上线、追踪复查过，看板上标“可引流”，社媒和广告才能用</li>
+          <li>所有指向官网的外部链接都带 UTM，用模板生成</li>
+          <li>表单把来源写进 CRM；回流 Agent 每周看从 landing page 到咨询的 conversion rate，低了就回去再查</li>
+        </ul>
+        <div class="warn"><b>先不做</b><ul><li>整站改版、在线预订这类新功能、A/B 测试都先不做，流量太少测不出结论</li></ul></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>SEO</summary>
+      <div class="in">
+        <p>SEO 见效慢。前四周主要是把技术问题清掉，让 China Tour 页面被 Google 正确 index 和理解，同时留一个基线。</p>
+        <h4>谁来做</h4>
+        <p><button type="button" class="tag t-ag" data-agent="dx">诊断 Agent</button> 研究和诊断，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 起草改动，<span class="tag t-cl">客户</span> 批，<span class="tag t-tl">网站执行人</span> 上线，<button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 看结果。</p>
+        <h4>证据从哪来</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>工具</th><th>拿到什么</th></tr></thead>
+          <tbody>
+            <tr><td>Google Search Console</td><td>indexing 状态、search queries、impressions 和 clicks、crawl errors（客户授权、只读）</td></tr>
+            <tr><td>GA4</td><td>organic search 带来的访问和咨询</td></tr>
+            <tr><td>Screaming Frog</td><td>全站标题、重复页面、broken links、redirect、canonical</td></tr>
+            <tr><td>PageSpeed Insights</td><td>page speed 和 mobile 体验</td></tr>
+            <tr><td>Rich Results Test</td><td>structured data 对不对</td></tr>
+            <tr><td>自己搜</td><td>在新西兰搜，前面排的是谁</td></tr>
+            <tr><td>咨询问题分类</td><td>客户真实的问法和顾虑</td></tr>
+          </tbody>
+        </table></div>
+        <h4>从研究到验证</h4>
+        <ul class="pts">
+          <li>研究：列出机会，按离下单远近分三层：快要买的、在比较的、刚有兴趣的。前四周只碰前两层</li>
+          <li>诊断：技术、页面、structured data、本地和信任四类问题，用同一个格式记</li>
+          <li>排序：先解决挡住 indexing 的技术问题，再弄 China Tour 页面，然后是 structured data 和 Google Business Profile，最后才是新内容</li>
+          <li>派活：每个改动写成任务卡（哪个页面、什么问题、证据、改成什么、引用哪条事实、谁改、谁批、怎么验收），放进官网统一改动队列</li>
+          <li>验证：上线当天核对版本、请求重新 indexing；2–4 周看 indexing 和 impressions；最后看 organic search 带来了多少有效咨询</li>
+        </ul>
+        <h4>要人批的</h4>
+        <ul class="pts">
+          <li>页面上的产品信息和签证说明</li>
+          <li>删页面、改 URL、加 redirect</li>
+          <li>noindex、robots.txt、canonical</li>
+          <li>新页面或文章；标题、描述、FAQ、structured data</li>
+        </ul>
+        <p>只读的 crawl、诊断和起草不用批，我抽查就行。</p>
+        <div class="warn"><b>先不做</b><ul><li>不批量用 AI 写文章，不买外链；前期 Search Console 够用，不买付费工具</li></ul></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>GEO 与 AI 搜索可见度</summary>
+      <div class="in">
+        <p>GEO 看的是 AI 回答里有没有提到客户、说得对不对、引用了哪里。AI 很依赖第三方来源，所以不少活在官网外面。</p>
+        <h4>谁来做</h4>
+        <p>不单独设 GEO Agent。<button type="button" class="tag t-ag" data-agent="dx">诊断 Agent</button> 负责观察和找错误出处，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 起草官网改动，站外资料由 <span class="tag t-pm">PM</span> 去和客户协调。</p>
+        <h4>怎么观察</h4>
+        <ul class="pts">
+          <li>第一轮只挑 5 个核心问题：品牌、品类、咨询邮件里常见的顾虑。定下来就别老改</li>
+          <li>先看 2 个平台，比如 ChatGPT（搜索）和 Google AI Overviews，之后看值不值得再加</li>
+          <li>每个问题看 2 次，一共 20 条。记下问题、回答、引用来源、时间和地区设置</li>
+          <li>两周复查一次；我自己手动抽几条核对</li>
+        </ul>
+        <h4>看到什么，做什么</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>现象</th><th>怎么办</th></tr></thead>
+          <tbody>
+            <tr><td>AI 说错了</td><td>找出错的来源，改官网，或者请客户联系那个来源</td></tr>
+            <tr><td>AI 常引用的平台上，客户资料没有或过时</td><td>补资料，请真实客户留评价</td></tr>
+            <tr><td>AI 用竞争对手的 FAQ 回答客户的顾虑</td><td>官网把这个问题答清楚</td></tr>
+            <tr><td>客户页面从来没被引用</td><td>查 robots.txt、页面是不是只靠 JavaScript 渲染、有没有被 Bing index</td></tr>
+            <tr><td>各平台上公司信息不一致</td><td>名称、地址、电话统一起来</td></tr>
+          </tbody>
+        </table></div>
+        <h4>怎么看有没有变化</h4>
+        <p>用同一套问题复查，看提到的次数、错误还在不在、有没有开始引用客户页面。GA4 里看从 AI 平台来的访问，表单里看有没有人选“从 AI 工具知道的”，最后还是以 CRM 为准。至少复查两三次再下结论。</p>
+        <h4>和 SEO 共用什么</h4>
+        <ul class="pts">
+          <li>输入：Fact Sheet、咨询问题分类、页面清单和技术检查、Search Console 和 GA4、竞争对手清单</li>
+          <li>输出：同样的证据格式、同一张问题表、同一个官网改动队列</li>
+          <li>很多改动两边都受益，比如在 China Tour 页面补上常见问题的回答，合成一个任务做</li>
+        </ul>
+        <h4>怎么不让两边抢着改官网</h4>
+        <ul class="pts">
+          <li>两个方向的 Agent 都没有官网写权限，只能提需求</li>
+          <li>改动都进一个队列，我按页面合并，一个页面同时只做一个任务</li>
+          <li>每个需求写明基于哪个线上版本，真要改时发现页面已经变了，就退回重新确认</li>
+          <li>有冲突时：先保证事实准确，再保证用户能顺利咨询，最后才是 SEO 和 GEO</li>
+        </ul>
+        <h4>要人批的</h4>
+        <p>官网改动；要不要放 AI crawler 进来（robots.txt 怎么设是客户的商业决定）；改第三方平台资料；回复评价；怎么邀请客户留评价。</p>
+        <div class="warn"><b>先不做，也不能做</b><ul><li>付费追踪工具和大规模站外内容先不做；假装客户去论坛发帖或刷评价，任何时候都不做</li></ul></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>社媒内容</summary>
+      <div class="in">
+        <p>一套素材多平台用。我的时间主要花在写简报、验收和审批上，生产交给现成的视频工厂。</p>
+        <h4>谁来做</h4>
+        <p><span class="tag t-pm">PM</span> 写简报、复核，<span class="tag t-vf">视频工厂</span> 生产，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 验收、写配文、打包、上线后核对，<span class="tag t-cl">客户</span> 批，<span class="tag t-tl">排期执行人</span> 发布，<button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 汇总效果。</p>
+        <h4>简报写什么</h4>
+        <p>只写字段、限制和验收标准：任务 ID、idempotency key、目标、市场和语言（新西兰英语市场，英语交付，遵循客户品牌规范）、Fact Sheet 版本、能用哪些事实、不能出现什么、各渠道交付规格、截止时间、费用和重试上限、谁审批、当前状态。完整样例见前面“交接样例一”。</p>
+        <h4>渠道要求</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>渠道</th><th>交付</th><th>定位</th></tr></thead>
+          <tbody>
+            <tr><td>Facebook / Instagram</td><td>Feed 4:5，Reels 和 Stories 9:16</td><td>主力</td></tr>
+            <tr><td>YouTube</td><td>16:9 完整版，Shorts 9:16</td><td>建立信任，也帮 SEO 和 GEO</td></tr>
+            <tr><td>TikTok</td><td>直接用 9:16</td><td>试试看，只发 organic</td></tr>
+            <tr><td>X</td><td>—</td><td>先不做，只确认账号在谁手里</td></tr>
+          </tbody>
+        </table></div>
+        <p>统一要求：burned-in captions；链接用 UTM 模板生成；具体规格以工厂模板为准。</p>
+        <h4>交付状态和回执</h4>
+        <p>派单 → 接单 → 生产中 → 交付 → 验收通过或退回。回执里要有素材 ID、版本、checksum、用了哪些事实、音乐授权凭证、实际用了多少额度。验收不过就附问题清单退回，出新版本，旧版本留着。</p>
+        <h4>审批和发布交接</h4>
+        <p>客户批的是整个发布包：哪个素材版本、配文、链接、账号、时间，批了就绑定这个版本。执行人发之前先查日志，避免重复；发完出稿 Agent 对一下线上内容和批的是否一样，写进发布日志。样例见“交接样例二”。</p>
+        <h4>生产出问题</h4>
+        <ul class="pts">
+          <li>简报信息不够：工厂退回给我，不自己补</li>
+          <li>render 失败：额度内自动重试，超了就停，通知我</li>
+          <li>交付晚了：我调排期、告诉客户，但不跳过验收</li>
+          <li>产品信息变了：按 facts_used 找出受影响的素材和排期，马上停</li>
+        </ul>
+        <h4>和其他部分怎么接</h4>
+        <p>landing page 标成“可引流”后才发带链接的内容；批过的素材广告可以直接用；私信和评论里的咨询按约定时间转给销售，在 CRM 里记来源。</p>
+        <div class="warn"><b>先不做</b><ul><li>X、TikTok 广告、网红合作先不做；不为每个平台单独做内容</li></ul></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>广告获客</summary>
+      <div class="in">
+        <p>广告是主要直接消耗媒体预算的环节。条件不齐就不花钱；AI 只出建议，不碰预算和开关。</p>
+        <h4>上线前要满足的四个条件</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>条件</th><th>怎样算满足</th><th>谁确认</th></tr></thead>
+          <tbody>
+            <tr><td>产品确认</td><td>团期、价格、余位、包含项目都定了</td><td>客户</td></tr>
+            <tr><td>landing page 和追踪</td><td>页面标了“可引流”；Lead 只触发一次；来源进 CRM；线索能到销售</td><td>我复核</td></tr>
+            <tr><td>素材和文案就绪</td><td>这条广告要用的素材和文案已验收、批过、版本清楚。搜索广告只要文案，不用等视频</td><td>客户</td></tr>
+            <tr><td>预算和监控责任</td><td>总预算、各渠道上限、测试期、什么情况暂停都书面批了；我不在线时谁接告警、谁有权暂停、多久响应也定好了</td><td>客户决策人</td></tr>
+          </tbody>
+        </table></div>
+        <p>还有一个容易忘的：销售接得住多少。销售一周只跟得过来那么多咨询，就别买超过这个量的线索。</p>
+        <h4>谁建议、谁拍板、谁动手</h4>
+        <p><button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 盯数据、带证据提建议，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 起草广告文案，<span class="tag t-pm">PM</span> 看是不是在批过的范围内，超出范围就找 <span class="tag t-cl">客户</span> 批，<span class="tag t-tl">投放执行人</span> 操作并登记，回流 Agent 例行每周两次核对后台实际状态，重大上线或调整后增加一次。</p>
+        <h4>怎么盯</h4>
+        <ul class="pts">
+          <li>每天：平台 automated rules 管花费和 ad disapproval；指定的人花 5 分钟看 landing page 和表单能不能用。回流 Agent 不每天跑</li>
+          <li>每周两次：回流 Agent 跑一次，看花费、CPL、点击到咨询的 conversion rate，有异常就报</li>
+          <li>每周一次：我和销售看线索质量，平台数据和 CRM 对账</li>
+          <li>除了必须马上停的情况，一周只调一次，别打断平台的 learning phase</li>
+          <li>上线前把我不在线时谁接告警、谁能暂停、多久响应定下来；定不下来，就缩短投放时段，或者先别上</li>
+          <li>平台 automated rules 只管花费和投放状态，网站坏了它不知道；landing page 和表单要另外做可用性检查，告警发给指定的人</li>
+        </ul>
+        <h4>什么时候停，什么时候调</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>类型</th><th>情况</th><th>怎么处理</th></tr></thead>
+          <tbody>
+            <tr><td>马上停</td><td>landing page 或表单坏了；追踪断了；产品信息变了；花费到上限；ad disapproval 或账户受限</td><td>指定的人按事先授权暂停，事后报告；花费类用平台 automated rules，不靠 AI</td></tr>
+            <tr><td>提建议</td><td>花到预设金额还没有有效咨询；咨询多但质量差；成本降了质量也稳；frequency 太高</td><td>回流 Agent 提，按审批流程走</td></tr>
+          </tbody>
+        </table></div>
+        <h4>效果怎么算</h4>
+        <p>业绩只看 CRM，CPL 的算法见后面“怎么判断做得好不好”。合格线索通过 Conversions API 和 offline conversions 回传平台。branded search 广告单独看。先投 Google 搜索（非品牌词）和 Meta，小预算试；YouTube 等 Meta 有结果了再说。</p>
+        <div class="warn"><b>先不做</b><ul><li>YouTube、TikTok、X 广告先不做；不让 AI 自动调 bidding 或预算</li></ul></div>
+      </div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-time" id="time-sec">
+    <h2 id="h-time">每周 16 小时怎么花</h2>
+    <p class="sub">题目第五部分。工时是估的，第一周结束后按实际情况再调。</p>
+
+    <details class="box">
+      <summary>第一周（共 15 小时）</summary>
+      <div class="in">
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>做什么</th><th>小时</th><th>产出</th><th>依赖</th><th>有什么用</th></tr></thead>
+          <tbody>
+            <tr><td>搭项目状态、写客户问题清单</td><td>1.0</td><td>Fact Sheet v0、看板、问题清单</td><td>—</td><td>大家都照着这个干</td></tr>
+            <tr><td>派诊断任务、核结果</td><td>1.5</td><td>证据和待办表</td><td>官网 URL</td><td>找出卡住咨询和测量的问题</td></tr>
+            <tr><td>测链路、盘点系统</td><td>0.5</td><td>结果写进证据和待办表</td><td>客户同意发测试咨询</td><td>知道咨询能不能接住、记下来</td></tr>
+            <tr><td>启动会（准备、开会、纪要）</td><td>1.5</td><td>确认事项和待办</td><td>客户时间</td><td>解开主要卡点</td></tr>
+            <tr><td>和销售聊、理流程、定基线</td><td>1.0</td><td>流程图、基线、有效咨询的定义</td><td>销售时间、过去的记录</td><td>之后判断效果的参照</td></tr>
+            <tr><td>整理 Fact Sheet、跟进确认</td><td>1.0</td><td>确认过的 Fact Sheet v1</td><td>客户回复</td><td>有了它才能对外</td></tr>
+            <tr><td>协调修追踪、复查</td><td>1.0</td><td>能用的 Lead 事件和来源记录</td><td>权限、网站执行人</td><td>引流效果才量得出来</td></tr>
+            <tr><td>审 China Tour 页面改动</td><td>1.5</td><td>交给客户的改动包</td><td>Fact Sheet v1</td><td>先把承接修好再引流</td></tr>
+            <tr><td>写视频简报、派第一批单</td><td>1.0</td><td>发出去的简报</td><td>Fact Sheet v1</td><td>第二周有素材可发</td></tr>
+            <tr><td>核对 AI 产出</td><td>1.0</td><td>核对记录</td><td>Agent 输出</td><td>防止编造事实和误报</td></tr>
+            <tr><td>UTM 规则、维护看板</td><td>0.5</td><td>UTM 规则 v1</td><td>—</td><td>来源能对得上</td></tr>
+            <tr><td>周报</td><td>0.5</td><td>一页周报</td><td>—</td><td>客户知道进度和卡点</td></tr>
+            <tr><td>和客户、执行人来回沟通</td><td>1.5</td><td>—</td><td>—</td><td>推审批、要权限</td></tr>
+            <tr><td>留给意外</td><td>1.5</td><td>—</td><td>—</td><td>应付延误和突发情况</td></tr>
+            <tr><td>合计</td><td>15.0</td><td colspan="3">还剩 1 小时余量</td></tr>
+          </tbody>
+        </table></div>
+        <p>沟通类大约 4.5 小时，自己核对大约 3 小时，缓冲加余量 2.5 小时。第一天用掉其中 3.5 小时左右。第一周我能保证的是检查做完、东西交出去；修好要看权限、审批和执行人。范围就是一个核心页面、一条咨询链路、一批视频任务。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>必做、往后放、需要别人帮忙</summary>
+      <div class="in">
+        <div class="cols">
+          <div><h4>第一周必须做</h4><ul class="pts">
+            <li>项目状态和问题清单</li>
+            <li>诊断和链路测试</li>
+            <li>启动会，定事实、审批人、权限、预算</li>
+            <li>销售流程和基线</li>
+            <li>协调修追踪</li>
+          </ul></div>
+          <div><h4>往后放</h4><ul class="pts">
+            <li>广告：第 3 周，条件满足再上</li>
+            <li>SEO 新内容、GEO 动作：第 2–3 周</li>
+            <li>TikTok：前四周只复用 9:16 素材试发 organic，第 5 周按带来的访问决定继续还是停</li>
+            <li>自动化：流程顺了再说</li>
+          </ul></div>
+        </div>
+        <h4>需要谁帮忙</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>谁</th><th>帮什么</th></tr></thead>
+          <tbody>
+            <tr><td>客户</td><td>产品信息、账号权限、审批、预算</td></tr>
+            <tr><td>销售</td><td>聊一次、配合测试咨询、每周反馈线索</td></tr>
+            <tr><td>网站执行人</td><td>改 GTM、表单和页面</td></tr>
+            <tr><td>视频工厂</td><td>按简报生产、给回执</td></tr>
+            <tr><td>投放执行人（Magic Engine 或客户那边）</td><td>第 3 周起上广告、做调整</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>AI 不是免费的</summary>
+      <div class="in">
+        <p>AI 省掉的是“动手做”的时间，但会多出“检查”的时间，还要算机器跑的时间和费用。</p>
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>工作</th><th>AI 省了什么</th><th>多了什么检查</th><th>我的时间</th><th>机器时间</th><th>费用</th></tr></thead>
+          <tbody>
+            <tr><td>诊断现状</td><td>一页页查、截图、整理</td><td>抽查证据是不是真的</td><td>核对 1.5 小时</td><td>十几分钟到一小时</td><td>模型用量，不高</td></tr>
+            <tr><td>归纳咨询邮件</td><td>一封封读、分类</td><td>抽查分类，确认脱敏了</td><td>0.5 小时</td><td>几分钟</td><td>不高</td></tr>
+            <tr><td>GEO 观察</td><td>20 条观察的提问和整理</td><td>抽查回答和引用来源</td><td>0.5 小时</td><td>十几分钟</td><td>不高</td></tr>
+            <tr><td>起草配文和官网改动</td><td>写初稿</td><td>一条条对 Fact Sheet 编号</td><td>每批约 0.5 小时</td><td>几分钟</td><td>不高</td></tr>
+            <tr><td>视频生产</td><td>交给现成工厂</td><td>看画面、字幕、事实</td><td>每批约 1 小时</td><td>看工厂 render 时间</td><td>按工厂额度，re-render 有上限</td></tr>
+            <tr><td>对账和周报</td><td>汇总、计算、初稿</td><td>数字要和 CRM 对上</td><td>0.5 小时</td><td>几分钟</td><td>不高</td></tr>
+            <tr><td>广告</td><td>每周两次汇总数据、发现异常</td><td>每条建议都要审</td><td>每周 2–2.5 小时</td><td>每周两次</td><td>广告费另算，客户批</td></tr>
+          </tbody>
+        </table></div>
+        <p>还有一些固定成本：三套 Agent 指令要维护，AI 出错了要返工。第一周会把实际 token 用量和核对时间记下来，之后按真实数据估。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>后面三周怎么调</summary>
+      <div class="in">
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>类别</th><th>第 1 周</th><th>第 2 周</th><th>第 3 周</th><th>第 4 周</th></tr></thead>
+          <tbody>
+            <tr><td>项目管理、沟通、审批</td><td>6.0</td><td>4.0</td><td>3.5</td><td>3.0</td></tr>
+            <tr><td>诊断和核对 AI</td><td>3.0</td><td>1.5</td><td>1.0</td><td>1.0</td></tr>
+            <tr><td>官网和追踪</td><td>2.5</td><td>2.5</td><td>1.0</td><td>1.0</td></tr>
+            <tr><td>社媒和视频</td><td>1.0</td><td>3.0</td><td>3.0</td><td>2.5</td></tr>
+            <tr><td>SEO 和 GEO</td><td>—</td><td>2.0</td><td>1.5</td><td>1.5</td></tr>
+            <tr><td>广告</td><td>—</td><td>1.0</td><td>3.0</td><td>2.5</td></tr>
+            <tr><td>复盘和销售对账</td><td>1.0</td><td>0.5</td><td>1.5</td><td>3.0</td></tr>
+            <tr><td>缓冲</td><td>1.5</td><td>1.5</td><td>1.5</td><td>1.5</td></tr>
+            <tr><td>合计</td><td>15.0</td><td>16.0</td><td>16.0</td><td>16.0</td></tr>
+          </tbody>
+        </table></div>
+        <ul class="pts">
+          <li>第 2 周：启动的事少了，时间转到官网上线验收、第一批社媒、SEO 诊断和广告前的准备</li>
+          <li>第 3 周：广告小预算上线，盯数据和审建议的时间变多；官网转为维护</li>
+          <li>第 4 周：完整复盘、和销售对账，决定加码什么、停什么、下一阶段怎么分时间</li>
+          <li>每周留 1.5 小时缓冲，不拿来提前排新活</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>情况变了怎么办</summary>
+      <div class="in">
+        <h4>第一周只有 8 小时</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>留下的</th><th>小时</th></tr></thead>
+          <tbody>
+            <tr><td>项目状态和问题清单</td><td>1.0</td></tr>
+            <tr><td>核诊断、测链路</td><td>2.0</td></tr>
+            <tr><td>启动会</td><td>1.5</td></tr>
+            <tr><td>跟进事实确认</td><td>1.0</td></tr>
+            <tr><td>协调修追踪</td><td>1.0</td></tr>
+            <tr><td>沟通</td><td>1.0</td></tr>
+            <tr><td>缓冲</td><td>0.5</td></tr>
+          </tbody>
+        </table></div>
+        <p>往后推的：视频派单晚一周；官网只修 P0；和销售的沟通并进启动会；周报改成一条消息。底线是守住“能不能卖、接不接得住、测不测得到”。</p>
+        <h4>视频工厂交付晚了</h4>
+        <p>Google 搜索广告不用视频，可以先上；社媒用批过的静态素材，或者往后推；不为赶进度跳过验收；空出来的时间放到官网和 SEO 上。</p>
+        <h4>审批一直不来</h4>
+        <p>等审批的任务就停在那，到期提醒一次；先做不受影响的事（追踪、基线、诊断、准备草稿）；周报里写清楚卡在哪、会怎么影响推广窗口。不会先发后补。</p>
+        <h4>广告预算是零</h4>
+        <p>广告全停，时间转到官网承接、SEO、GEO 和社媒 organic 发布；Pixel 照装，先攒 retargeting audience；效果主要看 organic 渠道和 conversion rate。</p>
+      </div>
+    </details>
+  </section>
+
+<section aria-labelledby="h-quality" id="quality-sec">
+    <h2 id="h-quality">怎么判断做得好不好</h2>
+    <p class="sub">题目第六部分。结果只看有效咨询和预订；发了多少内容、播放量多少、排第几，都只是过程。</p>
+
+    <details class="box">
+      <summary>四层指标：曝光、访问、有效咨询、预订</summary>
+      <div class="in">
+        <div class="tw"><table class="dt wide">
+          <thead><tr><th>层</th><th>指什么</th><th>数据从哪来</th><th>每周看什么</th><th>别把它当成</th></tr></thead>
+          <tbody>
+            <tr><td>曝光</td><td>内容、广告、搜索结果被人看到</td><td>各平台后台、Search Console、GEO 记录</td><td>各渠道 impressions 和观看、AI 回答里出现几次</td><td>需求或效果</td></tr>
+            <tr><td>访问</td><td>进了 China Tour 相关页面</td><td>GA4（按 UTM 和来源拆）</td><td>各渠道带来多少访问、访问到咨询的 conversion rate</td><td>咨询</td></tr>
+            <tr><td>有效咨询</td><td>符合和销售约好的标准，比如说清楚了出行时间和人数</td><td>CRM（销售标记）</td><td>全渠道有效咨询数、有效率、各付费渠道 CPL</td><td>所有提交的表单</td></tr>
+            <tr><td>预订</td><td>付了订金</td><td>CRM</td><td>预订数、从咨询到预订多少天、按来源的预订</td><td>—</td></tr>
+          </tbody>
+        </table></div>
+        <p>付费渠道 CPL = 这个渠道的广告花费 ÷ 按约定归因算到这个渠道的去重有效咨询数。全渠道总数另外列，不拿总花费去除全部咨询，否则 organic 带来的咨询会把广告成本拉低。分母是零就写“还没有有效咨询，已花 X”，不算成本。内容数量、播放量、ranking、平台后台的 conversions，只用来找问题，不当成销售结果汇报。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>第一周记哪些基线</summary>
+      <div class="in">
+        <div class="tw"><table class="dt">
+          <thead><tr><th>基线</th><th>从哪来</th></tr></thead>
+          <tbody>
+            <tr><td>上一季咨询数、预订数、成交率、从咨询到订金的天数</td><td>客户记录、和销售聊</td></tr>
+            <tr><td>China Tour 相关页面的访问和咨询 conversion rate</td><td>GA4</td></tr>
+            <tr><td>organic search 的 impressions、clicks、indexing 状态</td><td>Search Console</td></tr>
+            <tr><td>AI 搜索里出现几次、说得准不准</td><td>GEO 记录</td></tr>
+            <tr><td>各社媒最近 90 天发了什么、带来多少访问</td><td>平台后台、GA4</td></tr>
+            <tr><td>以前的广告花费和结果</td><td>广告后台</td></tr>
+            <tr><td>销售第一次回复要多久</td><td>测试咨询、CRM</td></tr>
+          </tbody>
+        </table></div>
+        <p>没有历史数据，或者追踪刚修好，就拿前一两周当基线，周报里说明一下。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>线索怎么到销售手里，又怎么回到我们这边</summary>
+      <div class="in">
+        <p>CRM 记什么见前面“名词解释”。</p>
+        <ul class="pts">
+          <li>所有咨询都进 CRM：官网表单、Lead Ads、私信评论、电话和邮件</li>
+          <li>每条都带来源：UTM、click ID、表单里“从哪知道我们的”；同一联系人合并，不同出行需求分开记</li>
+          <li>和销售约好第一次回复要多快，回得慢本身就是质量问题</li>
+          <li>销售更新两项：有效性（待判断 / 有效 / 无效，写原因和日期）和销售阶段（新线索 → 已联系 → 已报价 → 已付订金 / 流失，写原因）</li>
+          <li>每周和销售对 15 分钟：哪些无效、为什么，客户常担心什么，哪个来源更容易成</li>
+          <li>有效和预订的状态回传广告平台，让它往质量上优化；无效原因用在下一轮简报和官网 FAQ 里</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>四周内看得到什么，哪些要等更久</summary>
+      <div class="in">
+        <div class="tw"><table class="dt">
+          <thead><tr><th>渠道</th><th>四周内能看到</th><th>要等更久</th></tr></thead>
+          <tbody>
+            <tr><td>官网承接</td><td>修好没有、访问到咨询的 conversion rate 有没有变</td><td>—</td></tr>
+            <tr><td>广告</td><td>CPL、有效率</td><td>预订（看销售周期）</td></tr>
+            <tr><td>社媒</td><td>带来多少访问和咨询、哪类内容引流好</td><td>品牌认知、retargeting audience 积累</td></tr>
+            <tr><td>SEO</td><td>indexing、技术问题清没清掉、impressions 开始变没有</td><td>ranking、clicks 和咨询，一般要 2–3 个月以上</td></tr>
+            <tr><td>GEO</td><td>错误信息改过来没有、开始被引用没有</td><td>稳定出现在 AI 回答里</td></tr>
+            <tr><td>预订</td><td>早期咨询成交得怎么样</td><td>完整销售周期，可能一直到出发前</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>什么时候改计划</summary>
+      <div class="in">
+        <ul class="pts">
+          <li>每周复盘一次，结论写进下周计划；landing page 坏了、追踪断了、事实变了这种，马上处理</li>
+          <li>两周是一个复查点，不是“满两周就一定有结论”：要不要调，看花了多少钱、样本够不够、销售周期走到哪。故障、错误信息、到了止损线，马上处理；样本不够就先不下结论</li>
+          <li>顺着漏斗找断点：有曝光没访问，查内容和链接；有访问没咨询，查 landing page 和表单；咨询有了但有效的少，查 audience 和页面说法；有效咨询有了却没预订，和销售一起看报价和跟进</li>
+          <li>第 4 周完整复盘：有效的加码，没用的停，重新分配 16 小时</li>
+          <li>超出批过范围的调整，回去找客户批</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>SEO 暂时没起色，还做不做</summary>
+      <div class="in">
+        <p>按顺序看：页面被 index → impressions 涨 → ranking 好转 → clicks 增加 → 有咨询。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>情况</th><th>判断</th></tr></thead>
+          <tbody>
+            <tr><td>已经 index，impressions 在涨，还没咨询</td><td>方向对，继续，少投点时间就行</td></tr>
+            <tr><td>还没 index，或者 impressions 不动</td><td>技术或内容有问题，回去诊断</td></tr>
+            <tr><td>有 clicks 没咨询</td><td>搜索意图和页面对不上，或者官网承接有问题</td></tr>
+            <tr><td>三个月左右这些指标都没起色</td><td>少投，时间给已经证明有效的渠道</td></tr>
+          </tbody>
+        </table></div>
+        <p>推广窗口在 2027 年 3–5 月，SEO 对这一季的预订帮助可能有限，更多是给下一季打基础。所以前期只做花得少、收益确定的事。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>广告和 organic 怎么不重复算</summary>
+      <div class="in">
+        <ul class="pts">
+          <li>CRM 是唯一的账，一个咨询只记一条，只算给一个来源</li>
+          <li>归因规则提前约好，比如 last non-direct click；首次来源也留着，用来看哪些渠道擅长让人第一次知道我们</li>
+          <li>所有链接都带 UTM，免费帖子用 organic_social，广告用 paid_social，付费和自然才分得开</li>
+          <li>branded search 广告单独看，它常常抢走本来会从 organic search 来的咨询</li>
+          <li>每周对账：各平台报的 conversions 加起来，和 CRM 实际数比一比，记下高估了多少</li>
+          <li>同一个平台里，Pixel 和 server-side 回传用同一个 event_id 去重</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>谁批什么、版本变了、发布失败</summary>
+      <div class="in">
+        <h4>谁批什么</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>批什么</th><th>谁批</th></tr></thead>
+          <tbody>
+            <tr><td>小改：错别字、标点、排期时间微调</td><td>只有客户在预批范围里书面授权的非实质修改才由我批；仍生成新版本，记差异和授权依据。产品信息、价格、链接、账号、预算不算小改</td></tr>
+            <tr><td>内容改动：文字、素材、页面内容、发布包</td><td>客户市场负责人</td></tr>
+            <tr><td>产品信息、预算、新渠道、超出预批范围的调整</td><td>客户决策人</td></tr>
+            <tr><td>官网和 GTM 的技术改动</td><td>客户批，有权限的人执行</td></tr>
+            <tr><td>第三方平台资料、回复评价</td><td>客户</td></tr>
+          </tbody>
+        </table></div>
+        <h4>版本变了</h4>
+        <p>批准跟着具体版本走。内容改了就是新版本，回到待批；客户书面授权过的非实质小改由我批，但同样生成新版本、记差异和授权依据，产品信息、价格、链接、账号、预算不算小改。Fact Sheet 更新时，按 Fact Sheet 编号把引用旧版本的内容全部找出来重新审。</p>
+        <h4>发布失败</h4>
+        <ul class="pts">
+          <li>接口超时：先去平台看是不是已经发出去了，再决定要不要重试，免得发两遍</li>
+          <li>线上和批的不一样：马上下线或设为私密，记下差异，按批的版本恢复</li>
+          <li>官网改坏了：页面内容用网站后台或 CMS 的版本回滚，追踪配置用 GTM 的版本回滚</li>
+          <li>每次失败都记下来，查清是哪一步没拦住，需要的话加一道检查</li>
+        </ul>
+        <p>其他异常见前面“出了问题怎么回到我这里”。</p>
+      </div>
+    </details>
+  </section>
+
+  <section aria-labelledby="h-q7" id="q7-sec">
+    <h2 id="h-q7">现场追问</h2>
+    <p class="sub">题目第七部分，四选二。我准备的是第 1 题和第 3 题。</p>
+
+    <details class="box">
+      <summary>AI 在线路页文案里承诺了未经确认的签证政策和团期，怎么办</summary>
+      <div class="in">
+        <ul class="pts">
+          <li>先止损：页面内容用网站后台、CMS 或部署版本回滚到批准版本，追踪配置才用 GTM 的版本回滚；回不去就先下线或设私密；引用了同一说法的帖子和广告一起处理，指向这个页面的广告先暂停</li>
+          <li>查范围：按 Fact Sheet 编号找引用过的内容；但 AI 编的说法可能根本没有编号，所以同时按错误原文、关键词、素材字幕和发布日志再搜一遍（视频、配文、广告、其他页面），逐个检查</li>
+          <li>告诉客户：什么时候上线的、大概多少人看到、已经怎么处理。如果有人据此咨询了，销售统一口径回复“以官方信息为准”，并给出正确说法</li>
+          <li>查是哪一步没拦住：出稿 Agent 没标“需确认”？验收没核签证和团期？还是批的版本和上线的不一致？找到那一步，补一道检查</li>
+          <li>加硬规则：签证、团期、价格这类内容，Agent 指令里写明“没有 Fact Sheet 编号一律不写”；验收清单里这几项必须人看过才能过</li>
+        </ul>
+        <p>一句话：不是 AI 的问题，是流程哪一步没拦住；先止损，再补那一步。</p>
+      </div>
+    </details>
+
+    <details class="box">
+      <summary>广告产生了线索，但客户说这些人不适合，AI 怎样辅助诊断</summary>
+      <div class="in">
+        <ul class="pts">
+          <li>先把“不适合”写清楚：和销售一起给这批线索标无效原因，比如预算不够、想自由行、时间不对、没看懂产品。没有原因，AI 没法分析</li>
+          <li>让回流 Agent 做三件事：按原因分类；对照每条线索的来源（哪条广告、哪个 audience、哪个关键词、哪个版本的 landing page）；找共同点</li>
+          <li>顺着原因找根源：多数是“没看懂产品”，查广告文案和页面说法有没有误导；多数是“想自由行”，audience 或关键词太宽；多数是“预算不够”，价格区间没在前面说清楚</li>
+          <li>一次只改一件事，到下一个复查点（一般两周，样本不够就再等）看有效率有没有变：比如先收窄关键词，或者在 landing page 前面放价格区间</li>
+          <li>把有效和无效的结果回传平台（Conversions API、offline conversions），让平台往质量优化；持续产生无效线索的广告组直接停</li>
+        </ul>
+        <p>AI 的边界：Agent 做分类和对照，线索适不适合由销售判断，改什么由我定。</p>
+      </div>
+    </details>
+  </section>
+
+  <footer>候选人：Arthur Gao　实际准备耗时：约 80–90 分钟<br>AI 使用说明：我用 Claude 帮忙拆题、补营销追踪方面的概念、起草结构和页面；优先级、取舍和流程是我自己判断、定下来的。</footer>
+</div>
+
+<script>
+const ROLE = {pm:["PM","t-pm"],dx:["诊断 Agent","t-ag"],out:["出稿 Agent","t-ag"],fb:["回流 Agent","t-ag"],vf:["视频工厂","t-vf"],cl:["客户","t-cl"],sales:["销售","t-cl"],tl:["工具 / 执行人","t-tl"]};
+
+const AGENTS = {
+  dx:{name:"诊断 Agent",en:"Audit Agent",one:"看清现在是什么情况：网站、追踪、渠道、搜索和 AI 可见度",
+    pos:"第 2 步，之后每两周复查一次",steps:[2],
+    trig:"我派活；之后按固定周期复查",
+    input:["官网 URL、固定问题","客户授权的 Search Console 和 GA4（只读）","脱敏后的过往咨询邮件"],
+    tools:["浏览器和 network requests、Meta Pixel Helper、Tag Assistant","Screaming Frog、PageSpeed Insights","ChatGPT（搜索）、Google AI Overviews"],
+    perm:"只读：公开页面、客户授权的只读数据（GSC、GA4）或客户导出的数据；只发一次约好的 TEST 测试咨询",
+    output:["证据和待办表：发现了什么、证据、影响、卡不卡、建议谁处理、要不要批","GEO 观察记录（带日期，能前后对比）"],
+    accept:"每条发现都附了能复查的证据；看不到或拿不准的标“未确认”",
+    check:"我抽查关键发现",next:"我核实、排序、分任务",
+    risk:"报错或漏报，把猜的当成查到的",
+    guard:"证据必须有截图、URL 或代码片段",
+    note:["只读公开页面和客户授权的数据，不改任何东西，不联系第三方","查不到 Pixel、GTM 归谁，就标“要问客户”，不猜","AI 搜索结果会变；第一轮 5 个问题 × 2 个平台 × 2 次，共 20 条，值得再扩","只报问题，不出方案，方案我来定"]},
+  out:{name:"出稿 Agent",en:"Outbound Agent",one:"管发出去的东西：起草、对事实、打发布包、核对上线结果",
+    pos:"第 5、6、8 步",steps:[5,6,8],
+    trig:"我派活；视频回执到了；上线完成后",
+    input:["Fact Sheet 对外页（带版本号）","品牌规范、渠道规格","视频工厂回执、批准记录"],
+    tools:["写草稿","逐条对照 Fact Sheet"],
+    perm:"只读事实和资料，只出草稿；不能发布，也不能给视频工厂派单",
+    output:["官网改动草稿（SEO 和 GEO 的需求合在一起）","视频简报草稿、配文、广告文案、发布包","验收结果、发布和变更日志"],
+    accept:"每条事实都能对到 Fact Sheet 编号；需要确认的标出来并停下",
+    check:"我复核事实（签证、价格、团期必查），客户批",
+    next:"客户批了，执行人上线",
+    risk:"写出没确认的东西，比如签证政策或团期",
+    guard:"只能用 Fact Sheet 里的；拿不准就停，不自己补",
+    note:["官网、社媒、广告的所有对外文字都过这一关，事实核对的规则只写在这一个地方","UTM 链接用模板生成，它不能改","一个页面同时只有一个改动任务，SEO 和 GEO 不会撞车","验收不过就出新版本，不覆盖旧的"]},
+  fb:{name:"回流 Agent",en:"Feedback Agent",one:"管回来的结果：盯数据、对账、发现异常、提调整建议",
+    pos:"第 9 步",steps:[9],
+    trig:"每周跑两次；复盘前汇总",
+    input:["广告后台数据","GA4","CRM 导出（脱敏：来源、状态、日期）","Fact Sheet 内部页（目标、成交率）","发布和变更日志"],
+    tools:["表格和计算","平台报表导出或 connector（比如 Looker Studio）"],
+    perm:"只读；不能改广告，也不能动预算",
+    output:["每次检查的异常提醒","每周对账表：平台报的加总和 CRM 实际数","带证据的调整建议"],
+    accept:"数字和 CRM 一致；每条建议都有数据和理由",
+    check:"我审；超出批过范围的交客户",
+    next:"我决定，执行人操作",
+    risk:"算错，或者把相关当成因果",
+    guard:"以 CRM 为准；只能建议，不能动手",
+    note:["按曝光 → 访问 → 有效咨询 → 预订一层层看，播放量和排名不算销售结果","各平台都会多算 conversions，每周记下高估了多少","必须马上停的情况（landing page 坏了、超预算）交给指定的人和平台规则；它负责发现规则管不到的异常","SEO 和 GEO 按月看，四周内只看早期信号"]}
+};
+
+const STEPS = [
+  {n:1,group:"启动一次",title:"建 Fact Sheet 和看板",sum:"一张表，一张看板",roles:["pm"],role:"pm",
+   what:["建一张 Fact Sheet（对外信息一页、内部数字一页）和一张任务看板，假设也写在 Fact Sheet 里","写一份问题清单一次发给客户，按急不急排好，约启动会","把诊断任务派出去，和等客户回复同时进行"],
+   input:"客户简报",output:"Fact Sheet v0（每条标已确认、待确认或假设，以及来源）、看板、问题清单",
+   key:["项目状态只有一份，大家都看这一份","先弄清三件事：产品能不能卖、咨询接不接得住、效果测不测得到"],
+   care:["第一天不写营销方案","问题一次问完，别零零碎碎地追"]},
+  {n:2,title:"查现状",sum:"官网、追踪、渠道、SEO、GEO 基线",roles:["dx"],role:"ag",agent:"dx",
+   what:["官网：China Tour 页面、咨询入口、表单、mobile","追踪：GTM、GA4、Pixel 装没装；Lead 触不触发、会不会重复","渠道：各平台最近 90 天发了什么、链接和 UTM、评价","SEO：Search Console 和 crawler 看到的 indexing 和技术问题","GEO：5 个核心问题在 2 个 AI 平台里有没有提到客户、对不对、引用了哪里（共 20 条）","咨询邮件（脱敏后）：归纳常见问题和顾虑"],
+   input:"官网 URL、固定问题、只读数据权限",output:"证据和待办表",
+   key:["全部只读","每条发现都有证据"],
+   care:["测试咨询要客户同意、写明 TEST、提前和销售说","查不到归属的标“要问客户”"]},
+  {n:3,title:"核实和排序",sum:"抽查证据，排先后",roles:["pm"],role:"pm",
+   what:["抽查 Agent 的关键发现","重复的合并","按对咨询影响多大、工作量多少、卡不卡排序","每件事定负责人和依赖"],
+   input:"证据和待办表",output:"有负责人和依赖的任务看板",
+   key:["顺序：先承接和追踪，再确认事实，最后才引流","被卡住的先解决，不受影响的同时推"],
+   care:["Agent 的发现我没核过，就不发给客户"]},
+  {n:4,title:"客户确认事实、预算和预批范围",sum:"第一道审批",roles:["cl"],role:"cl",gate:true,
+   what:["启动会上把团期、价格、余位、行程、包含项目定下来","确认谁审批、多久回","确认账号归谁、权限给谁（网站、GTM、Meta、Google）","批一个预批范围：预算上限、什么情况暂停、能用的素材和信息范围、哪些非实质小改可以由我批。范围内我直接安排，超出才再找客户","和销售定“有效咨询”怎么算、一周接得住多少"],
+   input:"问题清单、诊断结果",output:"确认过的 Fact Sheet（带版本号）、书面的预算和预批范围、审批人名单",
+   key:["没确认的信息不能对外"],
+   care:["签证政策只记官方来源和日期，不保证 2027 年还是这样"]},
+  {n:5,group:"每个任务都走",title:"出稿",sum:"官网改动、简报、配文、广告文案；视频任务交视频工厂",roles:["out","vf"],role:"ag",agent:"out",
+   what:["出稿 Agent 起草：官网改动（SEO 和 GEO 的需求合并，一个页面一个任务）、各平台配文、广告文案，每条事实标上 Fact Sheet 编号","视频任务：我写简报（渠道、比例、能用的事实、截止、额度），视频工厂按模板出多比例素材，交回执（素材 ID、版本、checksum、用了哪些事实、授权凭证、用了多少额度）"],
+   input:"Fact Sheet 对外页、品牌规范、渠道规格",output:"草稿和引用编号；视频素材和回执",
+   key:["只用确认过的事实，需要没确认的信息就标出来停下","派单前按 task_id 查重；re-render 次数和费用都有上限"],
+   care:["简报只写字段和限制，不写创意","工厂信息不够就退回给我，不自己补"]},
+  {n:6,title:"验收",sum:"Agent 先查，我再复核",roles:["out","pm"],role:"ag",agent:"out",
+   what:["出稿 Agent 查比例、时长、字幕，事实有没有超出范围","看成片的字幕、旁白和关键画面，不只信工厂报的 facts_used","我亲自复核签证、价格、团期，抽查画面","不过就带具体问题退回（哪个素材、第几秒、什么问题）"],
+   input:"草稿、素材、回执、简报",output:"通过，或退回出新版本",
+   key:["签证、价格、团期必须人来复核"],
+   care:["新版本不覆盖旧版本","不为赶时间跳过验收"]},
+  {n:7,title:"客户批准",sum:"第二道审批",roles:["cl"],role:"cl",gate:true,
+   what:["批发布包：素材版本、配文、链接、账号、时间","批官网改动","批超出预批范围的广告调整"],
+   input:"验收过的发布包或改动草稿",output:"批准记录，绑定具体版本",
+   key:["内容改了要重新批；客户授权的非实质小改我批，仍出新版本记日志","一周集中批一次，双方都省时间"],
+   care:["没批就往后推，不先发后补"]},
+  {n:8,title:"上线并核对",sum:"官网、帖子、广告",roles:["tl","out"],role:"tl",agent:"out",
+   what:["有权限的人改官网或 GTM（有版本，能回滚）；按排期发帖子；投放执行人上广告","发之前查日志，避免重复；执行人登记实际做了什么","出稿 Agent 逐项比对线上内容和批准版本，看链接能不能打开、UTM 全不全，写进日志"],
+   input:"批准记录",output:"线上内容、发布和变更日志",
+   key:["线上内容必须和批的一样，不一致马上下线或设私密，按批的版本恢复"],
+   care:["接口超时先确认发没发出去，再决定要不要重试","landing page 没上线就不投，不拿首页凑"]},
+  {n:9,group:"每周循环",title:"接咨询，看效果",sum:"CRM 是唯一的账",roles:["sales","fb"],role:"cl",agent:"fb",
+   what:["表单、Lead Ads、私信评论、电话都进 CRM，记来源，同一联系人合并","销售标有效没有、订了没有；合格线索回传广告平台","回流 Agent 每周两次：看花费、landing page、追踪有没有异常；对账平台数据和 CRM；按曝光 → 访问 → 有效咨询 → 预订分析，带证据提建议","每天的硬性检查交给平台规则和指定的人，不靠 Agent"],
+   input:"各渠道咨询、广告后台、GA4、CRM 导出、日志",output:"带来源和状态的线索记录；异常提醒、对账表、调整建议",
+   key:["一个咨询只记一次，只算给一个来源","CPL 按付费渠道分开算；Agent 只建议，不动手"],
+   care:["社媒私信不记，社媒的效果就“不见了”","播放量和排名不算销售结果；SEO 和 GEO 按月看"]},
+  {n:10,title:"定下一轮",sum:"我拍板，回到流程",roles:["pm"],role:"pm",
+   what:["审回流 Agent 的建议","预批范围内的直接安排，超出的回第 4 步找客户","更新简报和看板","每周给客户一页周报"],
+   input:"回流报告",output:"更新后的看板和周报",
+   key:["日常调整一周一次，别打断广告平台的 learning phase"],
+   care:["别因为一周的数据就大改"]}
+];
+
+const EXC = [
+  ["landing page 坏了或追踪断了","指定的人按事先授权暂停广告；修好、核对过再恢复"],
+  ["产品信息变了（团期取消、卖完、改价）","按 Fact Sheet 编号找出所有受影响的内容，暂停排期，已发的下线或更正"],
+  ["AI 写了没确认的签证或团期","验收拦下来；已经上线就马上下线，再查是哪一步没拦住"],
+  ["视频生产失败或延迟","重试次数用完就停；调整排期，不跳过验收"],
+  ["审批一直没来","到期提醒一次，还没批就往后推，不自己发"],
+  ["发布接口超时","先去平台看发出去没有，再决定要不要重试"],
+  ["线上内容和批的不一样","下线或设为私密，记下差异，按批的版本恢复"],
+  ["观看量涨了但没人咨询","依次查：链接和 UTM、landing page、表单和 Lead 事件、内容和目标人群对不对得上"]
+];
+
+const CTRL = [
+  ["上下文","每个 Agent 只拿到这次任务需要的资料；产品信息只从 Fact Sheet 读，不靠对话记忆"],
+  ["客户数据","只有回流 Agent 碰 CRM 数据和 Fact Sheet 内部页，而且 CRM 只用脱敏后的导出；每个客户项目分开"],
+  ["版本","Fact Sheet、简报、素材、发布包都有版本号；批准跟着版本走。如果 Magic Engine 现有工作流已经用 GitHub 做审核和检查脚本，Agent 指令、Fact Sheet 源文件和出稿 Agent 的文字草稿就直接沿用，一份草稿一个 PR，脚本查 FS 编号、UTM 格式和禁用词；没有的话，首月就用共享文档的版本历史和看板上的审批记录，不新增 CI，稳定后再考虑自动检查。无论哪种，客户不碰 GitHub，视频文件也不进仓库"],
+  ["成本和重试","每类任务都设次数和费用上限；派单前查重；失败超过上限就交给我"],
+  ["先手动再自动","前四周三个 Agent 就是三套固定指令，我手动调用；跑稳了、验收标准清楚了再自动触发"],
+  ["不用 Agent 的地方","UTM 用模板，线索同步用 CRM 集成，拉数据用 connector，花费类暂停用平台规则，视频用现成工厂"]
+];
+
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const li = arr => `<ul class="pts">${arr.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+const roleTag = r => {
+  const [label,cls] = ROLE[r];
+  if (AGENTS[r]) return `<button type="button" class="tag ${cls}" data-agent="${r}" aria-label="查看${label}">${label}</button>`;
+  return `<span class="tag ${cls}">${label}</span>`;
+};
+
+const agentsEl = document.getElementById("agents");
+agentsEl.innerHTML = Object.entries(AGENTS).map(([k,a])=>`
+  <button type="button" class="acard" data-agent="${k}" aria-pressed="false" aria-controls="adetail">
+    <span class="nm">${a.name}</span><span class="en">${a.en}</span><span class="one">${esc(a.one)}</span>
+  </button>`).join("");
+
+const routeEl = document.getElementById("route");
+routeEl.innerHTML = STEPS.map(s=>`${s.group?`<li class="grp" aria-hidden="true">${s.group}</li>`:""}
+  <li class="stop r-${s.role}${s.gate?" gate":""}${s.branch?" branch":""}" id="step-${s.n}" data-n="${s.n}">
+    <span class="dot" aria-hidden="true">${s.n}</span>
+    <button type="button" class="shead" aria-expanded="false" aria-controls="sb-${s.n}">
+      <span class="stitle"><b>${esc(s.title)}${s.gate?'<span class="stamp">审批</span>':""}</b><span>${esc(s.sum)}</span></span>
+      <span class="roles">${s.roles.map(r=>{const [l,c]=ROLE[r];return `<span class="tag ${c}">${l}</span>`}).join("")}</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="sbody" id="sb-${s.n}" hidden>
+      <div class="panel">
+        <dl class="kv">
+          <dt>负责</dt><dd>${s.roles.map(roleTag).join(" ")}</dd>
+          <dt>具体做什么</dt><dd>${li(s.what)}</dd>
+          <dt>输入</dt><dd>${esc(s.input)}</dd>
+          <dt>输出</dt><dd>${esc(s.output)}</dd>
+          <dt>关键</dt><dd>${li(s.key)}</dd>
+        </dl>
+        <div class="warn"><b>注意</b>${li(s.care)}</div>
+      </div>
+    </div>
+  </li>`).join("");
+
+document.getElementById("extable").innerHTML = EXC.map(([a,b])=>`<tr><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join("");
+document.getElementById("controls").innerHTML = `<dl class="kv">${CTRL.map(([a,b])=>`<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}</dl>`;
+
+const detailEl = document.getElementById("adetail");
+let current = null;
+function showAgent(k, scroll){
+  if (current === k && !scroll){ hideAgent(); return; }
+  current = k;
+  const a = AGENTS[k];
+  detailEl.innerHTML = `<div class="panel">
+    <button type="button" class="close" id="aclose">收起</button>
+    <h3>${a.name}</h3><p class="meta">${a.en}，负责${esc(a.pos)}</p>
+    <dl class="kv">
+      <dt>做什么</dt><dd>${esc(a.one)}</dd>
+      <dt>什么时候启动</dt><dd>${esc(a.trig)}</dd>
+      <dt>输入</dt><dd>${li(a.input)}</dd>
+      <dt>工具</dt><dd>${li(a.tools)}</dd>
+      <dt>权限</dt><dd>${esc(a.perm)}</dd>
+      <dt>输出</dt><dd>${li(a.output)}</dd>
+      <dt>怎样算合格</dt><dd>${esc(a.accept)}</dd>
+      <dt>谁检查</dt><dd>${esc(a.check)}</dd>
+      <dt>交给谁</dt><dd>${esc(a.next)}</dd>
+      <dt>容易出什么错</dt><dd>${esc(a.risk)}</dd>
+      <dt>怎么防</dt><dd>${esc(a.guard)}</dd>
+    </dl>
+    <div class="warn"><b>注意</b>${li(a.note)}</div>
+  </div>`;
+  document.getElementById("aclose").addEventListener("click", hideAgent);
+  agentsEl.querySelectorAll(".acard").forEach(b=>b.setAttribute("aria-pressed", b.dataset.agent===k ? "true":"false"));
+  routeEl.querySelectorAll(".stop").forEach(li=>{
+    const on = a.steps.includes(+li.dataset.n);
+    li.classList.toggle("hl", on); li.classList.toggle("dim", !on);
+  });
+  if (scroll) document.getElementById("h-agents").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto":"smooth"});
+}
+function hideAgent(){
+  current = null; detailEl.innerHTML = "";
+  agentsEl.querySelectorAll(".acard").forEach(b=>b.setAttribute("aria-pressed","false"));
+  routeEl.querySelectorAll(".stop").forEach(li=>li.classList.remove("hl","dim"));
+}
+function setAll(open){
+  document.querySelectorAll("details.box").forEach(d=>d.open=open);
+  routeEl.querySelectorAll(".shead").forEach(h=>{h.setAttribute("aria-expanded",String(open));document.getElementById(h.getAttribute("aria-controls")).hidden=!open;});
+}
+const exBtn=document.getElementById("expandAll");
+exBtn.addEventListener("click",()=>{const open=exBtn.getAttribute("aria-pressed")!=="true";setAll(open);exBtn.setAttribute("aria-pressed",String(open));exBtn.textContent=open?"全部收起":"全部展开";});
+window.addEventListener("beforeprint",()=>setAll(true));
+agentsEl.addEventListener("click", e=>{ const b=e.target.closest(".acard"); if(b) showAgent(b.dataset.agent,false); });
+document.querySelectorAll("#domains, #start-sec").forEach(el=>el.addEventListener("click", e=>{
+  const t = e.target.closest("button.tag[data-agent]");
+  if (t) showAgent(t.dataset.agent, true);
+}));
+routeEl.addEventListener("click", e=>{
+  const t = e.target.closest("button.tag[data-agent]");
+  if (t){ showAgent(t.dataset.agent,true); return; }
+  const h = e.target.closest(".shead");
+  if (h){
+    const open = h.getAttribute("aria-expanded")==="true";
+    h.setAttribute("aria-expanded", String(!open));
+    document.getElementById(h.getAttribute("aria-controls")).hidden = open;
+  }
+});
+</script>
+<!-- campaignops-links:start (generated by campaign-ops/frontend/scripts/source-links.mjs from src/lib/source-map.json; edit there, not here) -->
+<style id="co-links-style">
+/* CampaignOps links (generated block). Uses the page's own tokens so light/dark follow it. */
+.co-search {
+  margin-top: 24px;
+}
+.co-field {
+  position: relative;
+}
+.co-search label {
+  display: block;
+  font-size: 13px;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+.co-search input {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+}
+.co-search input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+.co-results {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 6px 0 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+}
+.co-results[hidden] {
+  display: none;
+}
+.co-group {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink3);
+  padding: 8px 8px 4px;
+}
+.co-opt {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.co-opt[aria-selected='true'],
+.co-opt:hover {
+  background: var(--paper);
+}
+.co-opt .co-k {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink3);
+  min-width: 5.5em;
+}
+.co-opt .co-t {
+  flex: 1;
+  min-width: 0;
+}
+.co-opt .co-go {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink3);
+}
+.co-opt.app .co-t {
+  color: var(--focus);
+}
+.co-empty {
+  padding: 10px 8px;
+  font-size: 14px;
+  color: var(--ink3);
+}
+.co-note {
+  font-size: 12px;
+  color: var(--ink3);
+  margin: 6px 0 0;
+}
+.co-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line2);
+  font-size: 13px;
+  color: var(--ink3);
+}
+.sub + .co-row {
+  margin: -12px 0 18px;
+  padding-top: 0;
+  border-top: 0;
+}
+.co-app {
+  color: var(--focus);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  white-space: nowrap;
+}
+.co-app::after {
+  content: ' ↗';
+  font-size: 11px;
+}
+.co-app:hover {
+  border-bottom-width: 2px;
+}
+.co-ref {
+  color: inherit;
+  text-decoration: underline dotted var(--focus);
+  text-underline-offset: 3px;
+}
+.co-ref:hover {
+  color: var(--focus);
+}
+td.co-cell {
+  white-space: nowrap;
+  padding-left: 12px !important;
+}
+.co-flash {
+  animation: co-flash 1.6s ease-out;
+}
+@keyframes co-flash {
+  from {
+    box-shadow: 0 0 0 3px var(--focus);
+  }
+  to {
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-flash {
+    animation: none;
+    outline: 2px solid var(--focus);
+  }
+}
+@media print {
+  .co-search {
+    display: none;
+  }
+  .co-app::after {
+    content: '';
+  }
+}
+</style>
+<script id="co-links">
+/* CampaignOps links (generated block): ties the source workflow to the CampaignOps demo app.
+ * Runs after the page's own script, so steps, agents, exceptions and rules already exist.
+ * MAP is injected by frontend/scripts/source-links.mjs from frontend/src/lib/source-map.json. */
+(function () {
+  'use strict';
+  var MAP = {"appUrl":"https://campaign-ops-tau.vercel.app","sourceUrl":"https://claude.ai/artifact/TpdZz945Dm6MVEvLeBNLFN","entries":[{"key":"step-1","kind":"step","anchor":"step-1","zh":"建 Fact Sheet 和看板","en":"Fact Sheet and task board","app":[{"label":"Workflow step 1","path":"/workflow#step-1"},{"label":"Fact Sheet","path":"/fact-sheet"},{"label":"Tasks","path":"/tasks"}]},{"key":"step-2","kind":"step","anchor":"step-2","zh":"查现状","en":"Audit the current state","app":[{"label":"Workflow step 2","path":"/workflow#step-2"},{"label":"Audit agent","path":"/agents#agent-audit"},{"label":"Evidence","path":"/evidence"}]},{"key":"step-3","kind":"step","anchor":"step-3","zh":"核实和排序","en":"Verify and prioritise","app":[{"label":"Workflow step 3","path":"/workflow#step-3"},{"label":"Evidence","path":"/evidence?status=open"},{"label":"Tasks","path":"/tasks"}]},{"key":"step-4","kind":"step","anchor":"step-4","zh":"客户确认事实、预算和预批范围","en":"Client confirms facts, budget and scope","app":[{"label":"Workflow step 4","path":"/workflow#step-4"},{"label":"Fact Sheet","path":"/fact-sheet"},{"label":"Pre-approved scope","path":"/settings#scope"}]},{"key":"step-5","kind":"step","anchor":"step-5","zh":"出稿","en":"Produce","app":[{"label":"Workflow step 5","path":"/workflow#step-5"},{"label":"Outbound agent","path":"/agents#agent-outbound"},{"label":"Video factory","path":"/factory"}]},{"key":"step-6","kind":"step","anchor":"step-6","zh":"验收","en":"QA","app":[{"label":"Workflow step 6","path":"/workflow#step-6"},{"label":"Tasks","path":"/tasks"},{"label":"Video factory","path":"/factory"}]},{"key":"step-7","kind":"step","anchor":"step-7","zh":"客户批准","en":"Client approves exact versions","app":[{"label":"Workflow step 7","path":"/workflow#step-7"},{"label":"Publish","path":"/publish?status=awaiting_approval"},{"label":"Tasks","path":"/tasks"}]},{"key":"step-8","kind":"step","anchor":"step-8","zh":"上线并核对","en":"Go live and verify","app":[{"label":"Workflow step 8","path":"/workflow#step-8"},{"label":"Publish","path":"/publish"},{"label":"Tasks","path":"/tasks"}]},{"key":"step-9","kind":"step","anchor":"step-9","zh":"接咨询，看效果","en":"Take enquiries, read results","app":[{"label":"Workflow step 9","path":"/workflow#step-9"},{"label":"Leads","path":"/leads"},{"label":"Reconciliation","path":"/leads?tab=reconciliation"},{"label":"Feedback agent","path":"/agents#agent-feedback"}]},{"key":"step-10","kind":"step","anchor":"step-10","zh":"定下一轮","en":"Decide the next round","app":[{"label":"Workflow step 10","path":"/workflow#step-10"},{"label":"Feedback agent","path":"/agents#agent-feedback"},{"label":"Dashboard","path":"/"}]},{"key":"agent-dx","kind":"agent","anchor":"agent-dx","zh":"诊断 Agent","en":"Audit agent","app":[{"label":"Audit agent","path":"/agents#agent-audit"}]},{"key":"agent-out","kind":"agent","anchor":"agent-out","zh":"出稿 Agent","en":"Outbound agent","app":[{"label":"Outbound agent","path":"/agents#agent-outbound"}]},{"key":"agent-fb","kind":"agent","anchor":"agent-fb","zh":"回流 Agent","en":"Feedback agent","app":[{"label":"Feedback agent","path":"/agents#agent-feedback"}]},{"key":"ex-1","kind":"exception","anchor":"ex-1","zh":"landing page 坏了或追踪断了","en":"Landing page broken or tracking down","app":[{"label":"Landing page checks","path":"/settings#landing"}]},{"key":"ex-2","kind":"exception","anchor":"ex-2","zh":"产品信息变了","en":"Product facts changed","app":[{"label":"Fact Sheet history","path":"/fact-sheet?tab=history"}]},{"key":"ex-3","kind":"exception","anchor":"ex-3","zh":"AI 写了没确认的签证或团期","en":"AI wrote an unconfirmed visa claim or date","app":[{"label":"Outbound agent","path":"/agents#agent-outbound"},{"label":"Fact Sheet","path":"/fact-sheet"}]},{"key":"ex-4","kind":"exception","anchor":"ex-4","zh":"视频生产失败或延迟","en":"Video production failed or late","app":[{"label":"Video factory","path":"/factory"}]},{"key":"ex-5","kind":"exception","anchor":"ex-5","zh":"审批一直没来","en":"Approval never came","app":[{"label":"Awaiting client approval","path":"/#approvals"}]},{"key":"ex-6","kind":"exception","anchor":"ex-6","zh":"发布接口超时","en":"Publish call timed out","app":[]},{"key":"ex-7","kind":"exception","anchor":"ex-7","zh":"线上内容和批的不一样","en":"Live content differs from approved","app":[{"label":"Mismatched packages","path":"/publish?status=mismatch"}]},{"key":"ex-8","kind":"exception","anchor":"ex-8","zh":"观看量涨了但没人咨询","en":"Views up, no enquiries","app":[{"label":"Funnel","path":"/#funnel"}]},{"key":"rule-1","kind":"rule","anchor":"rule-1","zh":"上下文","en":"Context","app":[{"label":"Agents","path":"/agents"}]},{"key":"rule-2","kind":"rule","anchor":"rule-2","zh":"客户数据","en":"Client data","app":[{"label":"Leads (de-identified export)","path":"/leads"}]},{"key":"rule-3","kind":"rule","anchor":"rule-3","zh":"版本","en":"Versions","app":[{"label":"Fact Sheet history","path":"/fact-sheet?tab=history"}]},{"key":"rule-4","kind":"rule","anchor":"rule-4","zh":"成本和重试","en":"Cost and retries","app":[{"label":"Video factory","path":"/factory"}]},{"key":"rule-5","kind":"rule","anchor":"rule-5","zh":"先手动再自动","en":"Manual first","app":[{"label":"Agents","path":"/agents"}]},{"key":"rule-6","kind":"rule","anchor":"rule-6","zh":"不用 Agent 的地方","en":"Not an agent job","app":[{"label":"Settings","path":"/settings"}]},{"key":"h-terms","kind":"section","anchor":"h-terms","zh":"名词解释","en":"Terms","app":[{"label":"Fact Sheet","path":"/fact-sheet"},{"label":"Evidence","path":"/evidence"},{"label":"Leads","path":"/leads"}]},{"key":"h-agents","kind":"section","anchor":"h-agents","zh":"三个 Agent","en":"Three agents","app":[{"label":"Agents","path":"/agents"}]},{"key":"h-flow","kind":"section","anchor":"h-flow","zh":"十个步骤","en":"Ten steps","app":[{"label":"Workflow","path":"/workflow"}]},{"key":"h-sec4","kind":"section","anchor":"h-sec4","zh":"工作流细节和样例","en":"Workflow details and samples","app":[{"label":"Video factory","path":"/factory"},{"label":"Publish","path":"/publish"}]},{"key":"h-more","kind":"section","anchor":"h-more","zh":"出问题时，和统一规则","en":"Exceptions and shared rules","app":[{"label":"Exceptions","path":"/workflow#exceptions"},{"label":"Agent rules","path":"/workflow#rules"}]},{"key":"h-start","kind":"section","anchor":"h-start","zh":"已知条件和第一天怎么开始","en":"Starting conditions and day one","app":[{"label":"Evidence","path":"/evidence"}]},{"key":"h-domains","kind":"section","anchor":"h-domains","zh":"五个领域怎么分工","en":"Five areas","app":[{"label":"Tasks","path":"/tasks"}]},{"key":"h-time","kind":"section","anchor":"h-time","zh":"每周 16 小时怎么花","en":"The weekly 16 hours","app":[{"label":"Checkpoint and hours","path":"/#checkpoint"}]},{"key":"h-quality","kind":"section","anchor":"h-quality","zh":"怎么判断做得好不好","en":"Measuring quality","app":[{"label":"Funnel","path":"/#funnel"},{"label":"Reconciliation","path":"/leads?tab=reconciliation"}]},{"key":"FS-04","kind":"entity","anchor":"ref-FS-04","zh":"团期","en":"Departure","app":[{"label":"FS-04 on the Fact Sheet","path":"/fact-sheet?fact=FS-04#fact-FS-04"}]},{"key":"FS-07","kind":"entity","anchor":"ref-FS-07","zh":"行程城市","en":"Itinerary cities","app":[{"label":"FS-07 on the Fact Sheet","path":"/fact-sheet?fact=FS-07#fact-FS-07"}]},{"key":"FS-09","kind":"entity","anchor":"ref-FS-09","zh":"新西兰护照赴华入境要求","en":"Entry requirements (NZ passport)","app":[{"label":"FS-09 on the Fact Sheet","path":"/fact-sheet?fact=FS-09#fact-FS-09"}]},{"key":"FS-11","kind":"entity","anchor":"ref-FS-11","zh":"包含项目","en":"Inclusions","app":[{"label":"FS-11 on the Fact Sheet","path":"/fact-sheet?fact=FS-11#fact-FS-11"}]},{"key":"FS-12","kind":"entity","anchor":"ref-FS-12","zh":"主要客户是 50 岁以上","en":"Primary customer","app":[{"label":"FS-12 on the Fact Sheet","path":"/fact-sheet?fact=FS-12#fact-FS-12"}]},{"key":"FS-15","kind":"entity","anchor":"ref-FS-15","zh":"价格","en":"Price","app":[{"label":"FS-15 on the Fact Sheet","path":"/fact-sheet?fact=FS-15#fact-FS-15"}]},{"key":"FS-20","kind":"entity","anchor":"ref-FS-20","zh":"广告预算","en":"Ad budget","app":[{"label":"FS-20 (internal page)","path":"/fact-sheet?tab=internal&fact=FS-20#fact-FS-20"}]},{"key":"FS-21","kind":"entity","anchor":"ref-FS-21","zh":"销售目标","en":"Sales target","app":[{"label":"FS-21 (internal page)","path":"/fact-sheet?tab=internal&fact=FS-21#fact-FS-21"}]},{"key":"FS-22","kind":"entity","anchor":"ref-FS-22","zh":"销售每周跟得过来的咨询量","en":"Sales capacity","app":[{"label":"FS-22 (internal page)","path":"/fact-sheet?tab=internal&fact=FS-22#fact-FS-22"}]},{"key":"FS-23","kind":"entity","anchor":"ref-FS-23","zh":"有效咨询到订单的成交率","en":"Close rate","app":[{"label":"FS-23 (internal page)","path":"/fact-sheet?tab=internal&fact=FS-23#fact-FS-23"}]},{"key":"FS-24","kind":"entity","anchor":"ref-FS-24","zh":"平均每单人数","en":"People per booking","app":[{"label":"FS-24 (internal page)","path":"/fact-sheet?tab=internal&fact=FS-24#fact-FS-24"}]},{"key":"FS-v1.2","kind":"entity","anchor":"ref-FS-v1.2","zh":"Fact Sheet 版本","en":"Fact Sheet version","app":[{"label":"Fact Sheet history","path":"/fact-sheet?tab=history"}]},{"key":"FS-v1.3","kind":"entity","anchor":"ref-FS-v1.3","zh":"Fact Sheet 版本","en":"Fact Sheet version","app":[{"label":"Fact Sheet history","path":"/fact-sheet?tab=history"}]},{"key":"E-03","kind":"entity","anchor":"ref-E-03","zh":"Lead 触发了两次","en":"Lead event fires twice","app":[{"label":"E-03 in Evidence","path":"/evidence?focus=E-03"}]},{"key":"E-07","kind":"entity","anchor":"ref-E-07","zh":"页面还写着去年的团期","en":"Last year's dates on the page","app":[{"label":"E-07 in Evidence","path":"/evidence?focus=E-07"}]},{"key":"TASK-021","kind":"entity","anchor":"ref-TASK-021","zh":"Facebook 配文任务","en":"Facebook caption task","app":[{"label":"TASK-021","path":"/tasks?task=TASK-021"}]},{"key":"SOC-2027CT-003","kind":"entity","anchor":"ref-SOC-2027CT-003","zh":"视频简报","en":"Video brief","app":[{"label":"SOC-2027CT-003 in the factory","path":"/factory/SOC-2027CT-003"}]},{"key":"VID-0031-4x5-v1","kind":"entity","anchor":"ref-VID-0031-4x5-v1","zh":"视频素材","en":"Video asset","app":[{"label":"Receipt v1","path":"/factory/SOC-2027CT-003"}]},{"key":"VID-0031-9x16-v1","kind":"entity","anchor":"ref-VID-0031-9x16-v1","zh":"视频素材","en":"Video asset","app":[{"label":"Receipt v1","path":"/factory/SOC-2027CT-003"}]},{"key":"VID-0031-16x9-v1","kind":"entity","anchor":"ref-VID-0031-16x9-v1","zh":"视频素材","en":"Video asset","app":[{"label":"Receipt v1","path":"/factory/SOC-2027CT-003"}]},{"key":"VID-0031-4x5-v2","kind":"entity","anchor":"ref-VID-0031-4x5-v2","zh":"视频素材","en":"Video asset","app":[{"label":"Receipt v2","path":"/factory/SOC-2027CT-003"}]},{"key":"PUB-2027CT-012","kind":"entity","anchor":"ref-PUB-2027CT-012","zh":"发布包","en":"Publish package","app":[{"label":"PUB-2027CT-012","path":"/publish/PUB-2027CT-012"}]},{"key":"CAP-012-v1","kind":"entity","anchor":"ref-CAP-012-v1","zh":"配文版本","en":"Caption version","app":[{"label":"Caption on PUB-2027CT-012","path":"/publish/PUB-2027CT-012"}]},{"key":"L-0012","kind":"entity","anchor":"ref-L-0012","zh":"线索","en":"Lead","app":[{"label":"L-0012 in Leads","path":"/leads?lead=L-0012"}]},{"key":"L-0013","kind":"entity","anchor":"ref-L-0013","zh":"线索","en":"Lead","app":[{"label":"L-0013 in Leads","path":"/leads?lead=L-0013"}]},{"key":"ADS-007","kind":"entity","anchor":"ref-ADS-007","zh":"暂停 Meta 广告组 B","en":"Pause Meta ad set B","app":[{"label":"Feedback run RUN-0009","path":"/agents/runs/RUN-0009"}]},{"key":"term-fact-sheet","kind":"term","anchor":"term-fact-sheet","find":"Fact Sheet：所有信息只认这一张表","zh":"Fact Sheet 事实表 对外页 内部页","en":"Fact Sheet","app":[{"label":"Fact Sheet","path":"/fact-sheet"}]},{"key":"term-evidence","kind":"term","anchor":"term-evidence","find":"证据和待办表：所有检查结果都写进这里","zh":"证据和待办表","en":"Evidence & backlog","app":[{"label":"Evidence","path":"/evidence"}]},{"key":"term-crm","kind":"term","anchor":"term-crm","find":"CRM：每个咨询从进来到下单的记录","zh":"CRM 线索 有效性 销售阶段","en":"Leads","app":[{"label":"Leads","path":"/leads"}]},{"key":"term-board","kind":"term","anchor":"term-board","find":"任务看板","zh":"任务看板","en":"Tasks board","app":[{"label":"Tasks","path":"/tasks"}]},{"key":"term-package","kind":"term","anchor":"term-package","find":"发布包","zh":"发布包","en":"Publish package","app":[{"label":"Publish","path":"/publish"}]},{"key":"term-traffic-ready","kind":"term","anchor":"term-traffic-ready","find":"可引流","zh":"可引流 landing page","en":"Traffic-ready landing page","app":[{"label":"Landing page checks","path":"/settings#landing"}]},{"key":"term-lead-event","kind":"term","anchor":"term-lead-event","find":"Lead 事件","zh":"Lead 事件","en":"Lead event","app":[{"label":"Landing page checks","path":"/settings#landing"},{"label":"E-03","path":"/evidence?focus=E-03"}]},{"key":"term-utm","kind":"term","anchor":"term-utm","find":"UTM","zh":"UTM","en":"UTM template","app":[{"label":"UTM template","path":"/settings#utm"}]},{"key":"term-priority","kind":"term","anchor":"term-priority","find":"P0 / P1 / P2","zh":"P0 P1 P2 优先级","en":"Priority","app":[{"label":"Evidence","path":"/evidence"}]},{"key":"term-cpl","kind":"term","anchor":"term-cpl","find":"CPL","zh":"CPL 有效咨询 对账","en":"Cost per valid lead","app":[{"label":"Reconciliation","path":"/leads?tab=reconciliation"}]},{"key":"term-scope","kind":"term","anchor":"step-4","zh":"预批范围 预算上限","en":"Pre-approved scope","app":[{"label":"Pre-approved scope","path":"/settings#scope"}]},{"key":"term-ad-gates","kind":"term","anchor":"term-ad-gates","find":"上线前要满足的四个条件","zh":"广告上线前四个条件","en":"Ad gates","app":[{"label":"Ad gates","path":"/#ad-gates"}]},{"key":"term-factory","kind":"term","anchor":"term-factory","find":"交接样例一：我给视频工厂派单，工厂交回执","zh":"视频工厂 简报 回执","en":"Video factory","app":[{"label":"Video factory","path":"/factory"}]}]};
+  var byKey = {};
+  MAP.entries.forEach(function (e) {
+    byKey[e.key] = e;
+  });
+  var KIND = {
+    step: '步骤',
+    agent: 'Agent',
+    exception: '出问题',
+    rule: '规则',
+    section: '章节',
+    entity: '编号',
+    term: '术语',
+    summary: '小节',
+  };
+  var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function appHref(path) {
+    return MAP.appUrl + path;
+  }
+  function appLink(l, cls) {
+    var a = el('a', cls || 'co-app', l.label);
+    a.href = appHref(l.path);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.title = '在 CampaignOps 里打开（新标签页）';
+    return a;
+  }
+  /** "在 CampaignOps 里看" row with the entry's app links. */
+  function appRow(entry) {
+    var p = el('p', 'co-row');
+    p.setAttribute('data-co', entry.key);
+    p.appendChild(el('span', null, '在 CampaignOps 里看'));
+    if (!entry.app.length) p.appendChild(el('span', null, '演示系统里没有模拟这一项'));
+    entry.app.forEach(function (l) {
+      p.appendChild(appLink(l));
+    });
+    return p;
+  }
+
+  // Steps: links at the bottom of each step's panel.
+  for (var n = 1; byKey['step-' + n]; n++) {
+    var panel = document.querySelector('#sb-' + n + ' .panel');
+    if (panel) panel.appendChild(appRow(byKey['step-' + n]));
+  }
+
+  // Exceptions: anchor each row and add a third cell.
+  var exRows = document.querySelectorAll('#extable tr');
+  for (var i = 0; i < exRows.length; i++) {
+    var ex = byKey['ex-' + (i + 1)];
+    exRows[i].id = 'ex-' + (i + 1);
+    var cell = el('td', 'co-cell');
+    if (ex && ex.app.length)
+      ex.app.forEach(function (l, j) {
+        if (j) cell.appendChild(document.createTextNode(' · '));
+        cell.appendChild(appLink(l));
+      });
+    else cell.textContent = '—';
+    exRows[i].appendChild(cell);
+  }
+
+  // Shared rules: anchor each term and add the link under its description.
+  var dts = document.querySelectorAll('#controls dt');
+  for (var r = 0; r < dts.length; r++) {
+    var rule = byKey['rule-' + (r + 1)];
+    dts[r].id = 'rule-' + (r + 1);
+    var dd = dts[r].nextElementSibling;
+    if (rule && dd) dd.appendChild(appRow(rule));
+  }
+
+  // Agents: anchor the cards; add links to whichever agent panel is open.
+  var agentApp = {};
+  document.querySelectorAll('.acard[data-agent]').forEach(function (card) {
+    var k = card.getAttribute('data-agent');
+    card.id = 'agent-' + k;
+    agentApp[k] = byKey['agent-' + k];
+  });
+  var detail = document.getElementById('adetail');
+  if (detail)
+    new MutationObserver(function () {
+      var panelEl = detail.querySelector('.panel');
+      var on = document.querySelector('.acard[aria-pressed="true"]');
+      if (!panelEl || !on || panelEl.querySelector('.co-row')) return;
+      var entry = agentApp[on.getAttribute('data-agent')];
+      if (entry) panelEl.appendChild(appRow(entry));
+    }).observe(detail, { childList: true });
+
+  // Glossary terms, headings and summaries named by `find` get the entry's anchor.
+  MAP.entries.forEach(function (e) {
+    if (!e.find || document.getElementById(e.anchor)) return;
+    var nodes = document.querySelectorAll('td, h4, summary');
+    for (var k = 0; k < nodes.length; k++) {
+      if (nodes[k].textContent.trim() !== e.find) continue;
+      var host =
+        nodes[k].tagName === 'SUMMARY'
+          ? nodes[k].parentElement
+          : nodes[k].tagName === 'TD'
+            ? nodes[k].parentElement
+            : nodes[k];
+      host.id = e.anchor;
+      break;
+    }
+  });
+
+  // Sections: one row under each section's lede.
+  MAP.entries.forEach(function (e) {
+    if (e.kind !== 'section') return;
+    var h = document.getElementById(e.anchor);
+    var sub = h && h.nextElementSibling;
+    if (sub && sub.classList.contains('sub')) sub.insertAdjacentElement('afterend', appRow(e));
+  });
+
+  // Record ids in the text (FS-04, PUB-2027CT-012, …) become links into the app.
+  var entities = MAP.entries
+    .filter(function (e) {
+      return e.kind === 'entity';
+    })
+    .sort(function (a, b) {
+      return b.key.length - a.key.length;
+    });
+  var pattern = new RegExp(
+    '(' +
+      entities
+        .map(function (e) {
+          return e.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        })
+        .join('|') +
+      ')',
+    'g',
+  );
+  var SKIP = { SCRIPT: 1, STYLE: 1, A: 1, BUTTON: 1, SUMMARY: 1, INPUT: 1, TEXTAREA: 1 };
+  function isWordChar(c) {
+    return !!c && /[A-Za-z0-9_-]/.test(c);
+  }
+  var root = document.querySelector('.wrap') || document.body;
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function (node) {
+      for (var p = node.parentElement; p && p !== root; p = p.parentElement) {
+        if (SKIP[p.tagName] || p.classList.contains('co-search') || p.classList.contains('co-row'))
+          return NodeFilter.FILTER_REJECT;
+      }
+      pattern.lastIndex = 0;
+      return pattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    },
+  });
+  var textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+  textNodes.forEach(function (node) {
+    var text = node.nodeValue,
+      frag = document.createDocumentFragment(),
+      last = 0,
+      m;
+    pattern.lastIndex = 0;
+    while ((m = pattern.exec(text))) {
+      var before = text.charAt(m.index - 1),
+        after = text.charAt(m.index + m[0].length);
+      // Whole ids only: "FS-04" but not part of "FS-045"; "FS-v1.3" but not "FS-v1.30".
+      if (
+        isWordChar(before) ||
+        isWordChar(after) ||
+        (after === '.' && /\d/.test(text.charAt(m.index + m[0].length + 1)))
+      )
+        continue;
+      var entry = byKey[m[0]];
+      frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var a = el('a', 'co-ref', m[0]);
+      a.href = appHref(entry.app[0].path);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.title = entry.app[0].label + '（在 CampaignOps 里打开）';
+      if (!document.getElementById(entry.anchor)) a.id = entry.anchor;
+      frag.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    if (!last) return;
+    frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  });
+
+  // Jump to a place in this page: open what hides it, scroll, flash.
+  function go(id) {
+    var target = id && document.getElementById(id);
+    if (!target) return false;
+    if (/^agent-/.test(id) && typeof window.showAgent === 'function') {
+      var k = id.slice(6);
+      if (target.getAttribute('aria-pressed') !== 'true') window.showAgent(k, false);
+    }
+    var stop = target.closest('.stop');
+    if (stop) {
+      var head = stop.querySelector('.shead');
+      var body = head && document.getElementById(head.getAttribute('aria-controls'));
+      if (head && body) {
+        head.setAttribute('aria-expanded', 'true');
+        body.hidden = false;
+      }
+    }
+    for (var p = target.parentElement; p; p = p.parentElement)
+      if (p.tagName === 'DETAILS') p.open = true;
+    var flashEl = stop && target === stop ? stop.querySelector('.shead') : target;
+    flashEl.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    flashEl.classList.remove('co-flash');
+    void flashEl.offsetWidth;
+    flashEl.classList.add('co-flash');
+    setTimeout(function () {
+      flashEl.classList.remove('co-flash');
+    }, 1700);
+    return true;
+  }
+  function fromHash() {
+    go(decodeURIComponent(location.hash.slice(1)));
+  }
+  window.addEventListener('hashchange', fromHash);
+
+  // Search: places in this page and screens in the app.
+  var summaries = [];
+  document.querySelectorAll('details.box > summary').forEach(function (s, idx) {
+    var d = s.parentElement;
+    if (!d.id) d.id = 'sum-' + (idx + 1);
+    summaries.push({
+      group: 'doc',
+      kind: 'summary',
+      label: s.textContent.trim(),
+      anchor: d.id,
+      hay: s.textContent.toLowerCase(),
+    });
+  });
+  var items = summaries.slice();
+  var seenApp = {};
+  MAP.entries.forEach(function (e) {
+    var hay = (e.key + ' ' + e.zh + ' ' + e.en).toLowerCase();
+    var where =
+      e.kind === 'step'
+        ? '第 ' + e.key.slice(5) + ' 步 ' + e.zh
+        : e.kind === 'entity'
+          ? e.key + ' ' + e.zh
+          : e.zh;
+    items.push({
+      group: 'doc',
+      kind: e.kind,
+      key: e.key,
+      label: where,
+      anchor: e.anchor,
+      hay: hay,
+    });
+    e.app.forEach(function (l) {
+      var id = l.path + '|' + l.label;
+      if (seenApp[id]) {
+        seenApp[id].hay += ' ' + hay;
+        return;
+      }
+      seenApp[id] = {
+        group: 'app',
+        kind: e.kind,
+        key: e.key,
+        label: l.label,
+        path: l.path,
+        hay: hay + ' ' + l.label.toLowerCase() + ' ' + l.path.toLowerCase(),
+      };
+      items.push(seenApp[id]);
+    });
+  });
+
+  var box = el('div', 'co-search');
+  box.setAttribute('role', 'search');
+  var label = el('label', null, '在原文和 CampaignOps 里找');
+  label.htmlFor = 'co-q';
+  var input = el('input');
+  input.id = 'co-q';
+  input.type = 'search';
+  input.autocomplete = 'off';
+  input.placeholder = '编号、中文词或界面名，比如 FS-04、发布包、Publish（按 / 聚焦）';
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-expanded', 'false');
+  input.setAttribute('aria-controls', 'co-results');
+  var list = el('ul', 'co-results');
+  list.id = 'co-results';
+  list.setAttribute('role', 'listbox');
+  list.setAttribute('aria-label', '搜索结果');
+  list.hidden = true;
+  var note = el(
+    'p',
+    'co-note',
+    'CampaignOps 是这份工作流的演示系统，数据是虚构的；“系统”结果在新标签页打开。',
+  );
+  var field = el('div', 'co-field');
+  field.appendChild(input);
+  field.appendChild(list);
+  box.appendChild(label);
+  box.appendChild(field);
+  box.appendChild(note);
+  var toc = document.querySelector('nav.toc');
+  if (toc) toc.parentNode.insertBefore(box, toc);
+  else root.insertBefore(box, root.firstChild);
+
+  var options = [],
+    active = -1;
+  function score(it, q) {
+    if (it.key && it.key.toLowerCase() === q) return 0;
+    if (it.label.toLowerCase().indexOf(q) === 0) return 1;
+    return 2;
+  }
+  function search(q) {
+    var terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!terms.length) return [];
+    var hits = items.filter(function (it) {
+      return terms.every(function (t) {
+        return it.hay.indexOf(t) !== -1;
+      });
+    });
+    var whole = terms.join(' ');
+    hits.sort(function (a, b) {
+      return score(a, whole) - score(b, whole);
+    });
+    var doc = hits
+      .filter(function (h) {
+        return h.group === 'doc';
+      })
+      .slice(0, 8);
+    var app = hits
+      .filter(function (h) {
+        return h.group === 'app';
+      })
+      .slice(0, 8);
+    return doc.concat(app);
+  }
+  function setActive(i) {
+    options.forEach(function (o, j) {
+      o.setAttribute('aria-selected', j === i ? 'true' : 'false');
+    });
+    active = i;
+    if (i >= 0) {
+      input.setAttribute('aria-activedescendant', options[i].id);
+      options[i].scrollIntoView({ block: 'nearest' });
+    } else input.removeAttribute('aria-activedescendant');
+  }
+  function close() {
+    list.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    setActive(-1);
+  }
+  function activate(opt) {
+    var it = opt && opt._item;
+    if (!it) return;
+    if (it.group === 'app') {
+      window.open(appHref(it.path), '_blank', 'noopener');
+      return;
+    }
+    close();
+    if (location.hash === '#' + it.anchor) go(it.anchor);
+    else location.hash = it.anchor;
+  }
+  function render() {
+    var q = input.value.trim();
+    list.textContent = '';
+    options = [];
+    if (!q) {
+      close();
+      return;
+    }
+    var hits = search(q);
+    var lastGroup = null;
+    hits.forEach(function (it, i) {
+      if (it.group !== lastGroup) {
+        var g = el('li', 'co-group', it.group === 'doc' ? '原文' : '系统 · CampaignOps');
+        g.setAttribute('role', 'presentation');
+        list.appendChild(g);
+        lastGroup = it.group;
+      }
+      var li = el('li');
+      li.setAttribute('role', 'presentation');
+      var opt = el(it.group === 'app' ? 'a' : 'div', 'co-opt' + (it.group === 'app' ? ' app' : ''));
+      opt.id = 'co-opt-' + i;
+      opt.setAttribute('role', 'option');
+      opt.setAttribute('data-group', it.group);
+      if (it.group === 'app') {
+        opt.href = appHref(it.path);
+        opt.target = '_blank';
+        opt.rel = 'noopener';
+        opt.tabIndex = -1;
+      }
+      opt.appendChild(el('span', 'co-k', KIND[it.kind] || ''));
+      opt.appendChild(el('span', 'co-t', it.label));
+      opt.appendChild(el('span', 'co-go', it.group === 'app' ? '打开 ↗' : '跳到这里'));
+      opt._item = it;
+      opt.addEventListener('mousedown', function (ev) {
+        ev.preventDefault();
+      });
+      opt.addEventListener('click', function (ev) {
+        if (it.group === 'app') return;
+        ev.preventDefault();
+        activate(opt);
+      });
+      li.appendChild(opt);
+      list.appendChild(li);
+      options.push(opt);
+    });
+    if (!hits.length) list.appendChild(el('li', 'co-empty', '没有找到“' + q + '”'));
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    setActive(hits.length ? 0 : -1);
+  }
+  input.addEventListener('input', render);
+  input.addEventListener('focus', function () {
+    if (input.value.trim()) render();
+  });
+  input.addEventListener('blur', function () {
+    setTimeout(close, 150);
+  });
+  input.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowDown' && options.length) {
+      ev.preventDefault();
+      setActive((active + 1) % options.length);
+    } else if (ev.key === 'ArrowUp' && options.length) {
+      ev.preventDefault();
+      setActive((active - 1 + options.length) % options.length);
+    } else if (ev.key === 'Enter' && active >= 0) {
+      ev.preventDefault();
+      activate(options[active]);
+    } else if (ev.key === 'Escape') {
+      input.value = '';
+      close();
+    }
+  });
+  document.addEventListener('keydown', function (ev) {
+    var t = ev.target;
+    if (ev.key !== '/' || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    ev.preventDefault();
+    input.focus();
+  });
+
+  if (location.hash) fromHash();
+})();
+</script>
+<!-- campaignops-links:end -->
+</body>
+</html>

@@ -74,6 +74,21 @@
   }
 }
 
+/* Deep-link target (useHashTarget): a brief accent ring so the reader sees what was found. */
+@keyframes target-flash {
+  from {
+    box-shadow: 0 0 0 3px var(--color-accent);
+  }
+  to {
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+
+[data-target-flash] {
+  animation: target-flash 1.6s ease-out;
+  border-radius: 4px;
+}
+
 @layer base {
   html {
     font-size: 15px;

@@ -10,6 +10,7 @@ import { RichText } from '@/components/shared/Placeholder';
 import { StatusChip } from '@/components/shared/StatusChip';
 import { VersionBadge } from '@/components/shared/VersionBadge';
 import { VersionDiff } from '@/components/shared/VersionDiff';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { useFactIndex } from '@/api/queries/facts';
 import { copy } from '@/lib/copy';
 import { fmtDateTime, humanize } from '@/lib/format';
@@ -89,6 +90,7 @@ export function PackageView({ pkg }: { pkg: PublishPackage }) {
       <header className="flex flex-wrap items-center gap-3">
         <h2 className="font-mono text-lg font-semibold">{pkg.id}</h2>
         <StatusChip status={pkg.status} />
+        <SourceRef id={pkg.id} />
         {pkg.takenDown ? (
           <span className="rounded-sm bg-ink px-1.5 py-px text-[0.7rem] font-semibold text-white">
             Taken down

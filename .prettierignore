@@ -8,3 +8,5 @@ pnpm-lock.yaml
 test-results
 playwright-report
 frontend/public/_redirects
+# Verbatim copy of the source workflow artifact and its generated linked version
+docs/source/

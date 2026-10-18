@@ -21,7 +21,8 @@
       "@campaign-ops/core": ["../packages/core/src/index.ts"]
     },
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
-    "isolatedModules": true
+    "isolatedModules": true,
+    "resolveJsonModule": true
   },
   "include": ["src"]
 }

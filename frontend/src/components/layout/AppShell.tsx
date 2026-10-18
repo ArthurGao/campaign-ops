@@ -1,8 +1,10 @@
 import { Outlet } from 'react-router-dom';
+import { useHashTarget } from '@/lib/useHashTarget';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 
 export function AppShell() {
+  useHashTarget();
   return (
     <div className="flex min-h-screen">
       <a

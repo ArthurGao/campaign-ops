@@ -5,6 +5,7 @@ import { ActionButton } from '@/components/shared/ActionButton';
 import { BlockedHint } from '@/components/shared/BlockedHint';
 import { HistoryList } from '@/components/shared/HistoryList';
 import { Facts, Section } from '@/components/shared/Layout';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { Input } from '@/components/ui/input';
 import { Field } from '@/components/ui/label';
 import { SimpleSelect } from '@/components/ui/select';
@@ -50,7 +51,12 @@ export function LeadEditDrawer({ lead, onClose }: { lead: Lead | undefined; onCl
     <Sheet open onOpenChange={(o) => !o && onClose()}>
       <SheetContent
         title={`${lead.id} · ${lead.enquiry.tour}`}
-        description={`${lead.source.channelLabel} · received ${fmtDateTime(lead.receivedAt)}`}
+        description={
+          <span className="flex flex-wrap items-center gap-3">
+            {`${lead.source.channelLabel} · received ${fmtDateTime(lead.receivedAt)}`}
+            <SourceRef id={lead.id} />
+          </span>
+        }
       >
         <div className="grid gap-6 p-5">
           {!editable ? (

@@ -96,7 +96,7 @@ export function UtmTemplateForm({ settings }: { settings: Settings }) {
     content: 'pub-2027ct-013',
   });
   return (
-    <Section title="UTM template">
+    <Section title="UTM template" id="utm">
       <fieldset
         disabled={!can(role, 'settings.general').ok}
         className="grid gap-3 rounded-md border border-rule bg-surface p-4"

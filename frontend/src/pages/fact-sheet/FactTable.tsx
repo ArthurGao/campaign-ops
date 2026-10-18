@@ -5,6 +5,7 @@ import { ActionButton } from '@/components/shared/ActionButton';
 import { FactChip } from '@/components/shared/FactChip';
 import { RichText } from '@/components/shared/Placeholder';
 import { StatusChip } from '@/components/shared/StatusChip';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -59,9 +60,10 @@ export function FactTable({
             const dim = f.status === 'superseded';
             const actionable = f.status !== 'superseded';
             return (
-              <tr key={f.id} className={cn(dim && 'text-ink-3')}>
+              <tr key={f.id} id={`fact-${f.id}`} className={cn(dim && 'text-ink-3')}>
                 <td>
                   <FactChip id={f.id} fact={f} />
+                  <SourceRef id={f.id} className="mt-1 flex" />
                 </td>
                 <td>
                   <p className="font-medium text-ink">{f.label}</p>

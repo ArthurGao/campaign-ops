@@ -1,7 +1,8 @@
-import { Fragment, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, RotateCcw, Stamp } from 'lucide-react';
 import { EmptyState, PageHeader, Section } from '@/components/shared/Layout';
+import { SourceLink } from '@/components/shared/SourceLink';
 import { SkeletonRows } from '@/components/ui/skeleton';
 import { copy } from '@/lib/copy';
 import { cn } from '@/lib/utils';
@@ -16,11 +17,6 @@ const TONE: Record<StepTone, { label: string; dot: string; text: string }> = {
 export default function WorkflowPage() {
   const status = useStepStatus();
   const w = copy.workflow;
-  const { hash } = useLocation();
-  // Step tags on other screens link to /workflow#step-N; jump there once the steps have rendered.
-  useEffect(() => {
-    if (status && hash) document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' });
-  }, [status, hash]);
   return (
     <>
       <PageHeader
@@ -94,7 +90,12 @@ export default function WorkflowPage() {
                             <Stamp className="size-3" aria-hidden /> {w.gate}
                           </span>
                         ) : null}
-                        <span className="ml-auto flex flex-wrap gap-1">
+                        <span className="ml-auto flex flex-wrap items-center gap-1">
+                          <SourceLink
+                            anchor={`step-${s.n}`}
+                            what={`step ${s.n}`}
+                            className="mr-2"
+                          />
                           {s.roles.map((r) => (
                             <span
                               key={r}
@@ -150,11 +151,14 @@ export default function WorkflowPage() {
                     <th scope="col">Situation</th>
                     <th scope="col">What happens</th>
                     <th scope="col">Where in CampaignOps</th>
+                    <th scope="col">
+                      <span className="sr-only">Source</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {w.exceptions.map(([a, b, c]) => (
-                    <tr key={a}>
+                  {w.exceptions.map(([a, b, c], i) => (
+                    <tr key={a} id={`ex-${i + 1}`} className="scroll-mt-20">
                       <th
                         scope="row"
                         className="!bg-transparent !text-[0.8125rem] !font-medium !normal-case !tracking-normal text-ink"
@@ -163,6 +167,9 @@ export default function WorkflowPage() {
                       </th>
                       <td className="text-ink-2">{b}</td>
                       <td className="text-ink-2">{c}</td>
+                      <td>
+                        <SourceLink anchor={`ex-${i + 1}`} what={`exception ${i + 1}`} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,9 +180,16 @@ export default function WorkflowPage() {
           <Section title="Rules every agent follows" count={w.rules.length} id="rules">
             {w.rules.length ? (
               <dl className="grid gap-px overflow-hidden rounded-md border border-rule bg-rule sm:grid-cols-2">
-                {w.rules.map(([k, v]) => (
-                  <div key={k} className="grid gap-1 bg-surface px-3.5 py-3">
-                    <dt className="text-sm font-semibold">{k}</dt>
+                {w.rules.map(([k, v], i) => (
+                  <div
+                    key={k}
+                    id={`rule-${i + 1}`}
+                    className="grid scroll-mt-20 gap-1 bg-surface px-3.5 py-3"
+                  >
+                    <dt className="flex items-baseline justify-between gap-3 text-sm font-semibold">
+                      {k}
+                      <SourceLink anchor={`rule-${i + 1}`} what={`rule ${i + 1}`} />
+                    </dt>
                     <dd className="text-[0.8125rem] text-ink-2">{v}</dd>
                   </div>
                 ))}

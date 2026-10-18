@@ -4,6 +4,7 @@ import { HistoryList } from '@/components/shared/HistoryList';
 import { RichText } from '@/components/shared/Placeholder';
 import { StatusChip } from '@/components/shared/StatusChip';
 import { VersionBadge } from '@/components/shared/VersionBadge';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { SkeletonRows } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -40,6 +41,7 @@ export function TaskDrawer({
                 <span className="font-mono text-xs text-ink-2">{task.id}</span>
                 <StatusChip status={task.status} />
                 <VersionBadge>v{task.version}</VersionBadge>
+                <SourceRef id={task.id} />
               </span>
             ) : undefined
           }

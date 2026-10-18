@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import type { EvidenceItem } from '@campaign-ops/core';
 import { ActionButton } from '@/components/shared/ActionButton';
 import { StatusChip } from '@/components/shared/StatusChip';
+import { SourceRef } from '@/components/shared/SourceLink';
 import { Checkbox } from '@/components/ui/checkbox';
 import { humanize } from '@/lib/format';
 import { cn } from '@/lib/utils';
@@ -87,7 +88,10 @@ export function EvidenceTable({
                   />
                 ) : null}
               </td>
-              <td className="font-mono text-[0.78rem] whitespace-nowrap">{e.id}</td>
+              <td className="font-mono text-[0.78rem] whitespace-nowrap">
+                {e.id}
+                <SourceRef id={e.id} className="flex font-sans" />
+              </td>
               <td className="whitespace-nowrap">{humanize(e.source)}</td>
               <td>
                 <p className="font-medium text-ink">{e.finding}</p>

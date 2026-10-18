@@ -55,6 +55,7 @@ export function ScopeForm({ settings }: { settings: Settings }) {
   return (
     <Section
       title="Pre-approved scope"
+      id="scope"
       actions={
         <span className="text-xs text-ink-3">
           Signed by {s.signedBy} · {fmtDateTime(s.signedAt)}
