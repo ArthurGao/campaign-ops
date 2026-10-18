@@ -16,6 +16,8 @@ const ROUTES = [
   '/week',
   '/week?tab=hours',
   '/week?tab=report',
+  '/leads?tab=funnel',
+  '/review',
 ];
 
 for (const width of [1440, 390]) {

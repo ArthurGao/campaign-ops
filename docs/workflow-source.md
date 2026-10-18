@@ -19,7 +19,7 @@ author's intent; record the resolution in `docs/decisions.md`.
 | 7 | Client approval of exact versions (gate 2) | Client | Task approval, Publish › Approve these versions; edits reset approval | Done |
 | 8 | Go live and verify | Executor, Outbound | Mark live (ad gates, page lock), Schedule (duplicate check), Mark published, Outbound verify | Done |
 | 9 | Take enquiries, read results | Sales, Feedback agent | Leads (validity vs stage, merge rules), Funnel by layer (D-39), Reconciliation, Feedback runs, de-identified CSV | Done |
-| 10 | Decide the next round | PM | Accept / reject suggestions; in-scope changes arrive pre-approved, others go to the client; Week (plan, hours, report) | Done (D-37) |
+| 10 | Decide the next round | PM | Accept / reject suggestions; in-scope changes arrive pre-approved, others go to the client; Week (plan, hours, report), Review (D-40) | Done (D-37, D-40) |
 
 In the app, **Workflow** (`/workflow`) renders these steps with their live status and links; each
 screen header shows the step numbers it serves.
@@ -64,10 +64,9 @@ Loop: out-of-scope changes go back to step 4, new tasks to step 5, every two wee
 
 ## Still open
 
-1. **Week-4 review report and the AI cost log** (source "第 4 周：第一次完整复盘", "AI 不是免费的"). The
-   weekly report, plan and 16-hour split are in the app since D-37, and the review's layer-by-layer
-   funnel with break points since D-39 (Leads → Funnel); the review report itself and the cost log are
-   not.
+Nothing. The last open item, the week-4 review report and the AI cost log (source "第 4 周：第一次完整
+复盘", "AI 不是免费的"), is built since D-40: Review screen and Agents → AI cost. The weekly loop is
+D-37 and the review's layer-by-layer funnel D-39.
 
 Resolved as a label only: Feedback suggestions in scope read "Approved by the PM within scope ·
 applied by Executor", matching the source sample ADS-007.

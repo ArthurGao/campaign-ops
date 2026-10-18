@@ -23,6 +23,7 @@ import type {
   Ratio,
   ReconChannel,
   ReportStatus,
+  ReviewDecision,
   Role,
   RunStatus,
   RunTrigger,
@@ -660,4 +661,96 @@ export type DecisionResult = {
   createdType: OutputDecision['createdType'];
   createdId?: string;
   run: AgentRun;
+};
+
+// ---------------------------------------------------------------- Campaign review (D-40)
+
+/** One channel over the review weeks; `suggestion` is the rule's call, the PM decides. */
+export type ReviewChannelNumbers = {
+  spendCents: number;
+  visits: number;
+  validLeads: number;
+  deposits: number;
+  platformReportedConversions: number;
+  /** As in reconciliation: undefined = no spend, null = spend and no valid leads. */
+  paidCpl?: number | null;
+  overReportRatio?: number | null;
+};
+
+export type ReviewChannelView = ReviewChannelNumbers & {
+  channel: ReconChannel;
+  /** Break point in the last review week, against the week before. */
+  breakPoint: FunnelStep | null;
+  suggestion: ReviewDecision;
+  reason: string;
+};
+
+/** Source: replace the close-rate assumption with the real rate once the sample is big enough. */
+export type AssumptionCheck = {
+  factId: string;
+  statement: string;
+  validLeads: number;
+  deposits: number;
+  rate: number | null;
+  enough: boolean;
+};
+
+export type ReviewChannelDecision = {
+  channel: ReconChannel;
+  decision: ReviewDecision;
+  note: string;
+};
+
+/** What the client was sent: the sent review shows these, not numbers recomputed later. */
+export type ReviewNumbers = Pick<ReviewView, 'weeks' | 'channels' | 'totals' | 'assumption'>;
+
+/** The one-page review to the client: per channel what to scale, keep, stop or wait on. */
+export type CampaignReview = Tracked & {
+  id: string; // 'REV-1'
+  status: ReportStatus;
+  decisions: ReviewChannelDecision[];
+  nextPhase: string;
+  /** Snapshot taken when the review is sent. */
+  numbers?: ReviewNumbers;
+  sentAt?: string;
+  sentBy?: Actor;
+};
+
+export type ReviewView = {
+  /** Full weeks only (the current week is still running), oldest first. */
+  weeks: string[];
+  /** False with under two full weeks: only small changes and stop-losses (source). */
+  bigCallsAllowed: boolean;
+  channels: ReviewChannelView[];
+  totals: { spendCents: number; validLeads: number; deposits: number; paidCpl?: number | null };
+  assumption: AssumptionCheck;
+  /** Pre-approved spend caps per channel; scaling above one needs the client. */
+  budgetCapCents: Record<string, number>;
+  review?: CampaignReview;
+};
+
+// ---------------------------------------------------------------- AI cost (D-40)
+
+export type AiCostLine = {
+  runs: number;
+  /** Machine time from run start to finish. */
+  machineMinutes: number;
+  tokens: number;
+  usd: number;
+};
+
+export type AiCostWeek = AiCostLine & {
+  week: WeekId;
+  /** Video factory credits on receipts delivered that week. */
+  factoryCredits: number;
+  /** PM hours logged as "Audit and AI checks". */
+  checkHours: number;
+};
+
+export type AiCostView = {
+  weeks: AiCostWeek[];
+  byAgent: (AiCostLine & { agent: AgentId })[];
+  factory: { credits: number; capCredits: number; renders: number };
+  /** Average of the full weeks: the estimate for the weeks ahead (source: estimate from real data). */
+  perWeek: Omit<AiCostWeek, 'week'> | null;
 };

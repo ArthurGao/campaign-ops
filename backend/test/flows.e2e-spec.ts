@@ -396,4 +396,38 @@ describe('key flows (e2e)', () => {
       'enquiry',
     ]);
   });
+
+  it('review (D-40): PM decides each channel, sends once; DTO and roles enforced', async () => {
+    const view = (await h.as('pm').get('/review').expect(200)).body;
+    expect(view.weeks).toEqual(['2026-09-28', '2026-10-05']);
+    await h.as('client_approver').patch('/review', { nextPhase: 'x' }).expect(403);
+    await h
+      .as('pm')
+      .patch('/review', { decisions: [{ channel: 'meta_ads', decision: 'double', note: '' }] })
+      .expect(400);
+    const decisions = view.channels.map((c: { channel: string; suggestion: string }) => ({
+      channel: c.channel,
+      decision: c.suggestion,
+      note: '',
+    }));
+    await h.as('pm').patch('/review', { decisions, nextPhase: 'Shift 1 h to ads.' }).expect(200);
+    const sent = (await h.as('pm').post('/review/send', {}).expect(201)).body;
+    expect([sent.review.status, sent.review.numbers.weeks.length]).toEqual(['sent', 2]);
+    await h.as('pm').post('/review/send', {}).expect(409);
+  });
+
+  it('AI cost (D-40): per week, per agent, factory credits', async () => {
+    const cost = (await h.as('sales').get('/agents/cost').expect(200)).body;
+    expect(cost.weeks.map((w: { week: string }) => w.week)).toEqual([
+      '2026-09-28',
+      '2026-10-05',
+      '2026-10-12',
+    ]);
+    expect(cost.byAgent.map((a: { agent: string }) => a.agent)).toEqual([
+      'audit',
+      'outbound',
+      'feedback',
+    ]);
+    expect(cost.factory.capCredits).toBeGreaterThan(cost.factory.credits);
+  });
 });

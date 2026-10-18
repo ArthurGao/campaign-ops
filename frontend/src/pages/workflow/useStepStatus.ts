@@ -5,6 +5,7 @@ import { useBriefs } from '@/api/queries/factory';
 import { useFacts } from '@/api/queries/facts';
 import { useLeads, useRecon } from '@/api/queries/leads';
 import { usePackages } from '@/api/queries/packages';
+import { useReview } from '@/api/queries/review';
 import { useSettings } from '@/api/queries/settings';
 import { useTasks } from '@/api/queries/tasks';
 import { fmtDateTime, fmtDay, plural } from '@/lib/format';
@@ -24,6 +25,7 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
   const recon = useRecon(3).data;
   const settings = useSettings().data;
   const dash = useDashboard().data;
+  const review = useReview().data;
   if (
     !facts ||
     !evidence ||
@@ -34,7 +36,8 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
     !leads ||
     !recon ||
     !settings ||
-    !dash
+    !dash ||
+    !review
   )
     return undefined;
 
@@ -134,9 +137,11 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
     },
     10: {
       tone: undecidedSuggestions.length ? 'waiting' : 'ok',
-      text: `${plural(undecidedSuggestions.length, 'suggestion')} to decide; this week's report ${dash.reportThisWeek === 'sent' ? 'sent' : 'not sent yet'}; next checkpoint ${fmtDay(dash.nextCheckpoint)}`,
+      text: `${plural(undecidedSuggestions.length, 'suggestion')} to decide; this week's report ${dash.reportThisWeek === 'sent' ? 'sent' : 'not sent yet'}; campaign review ${review.review?.status === 'sent' ? 'sent' : review.review ? 'in draft' : 'not started'}; next checkpoint ${fmtDay(dash.nextCheckpoint)}`,
       links: [
         { to: '/week', label: 'Week plan and report' },
+        { to: '/review', label: 'Campaign review' },
+        { to: '/agents#ai-cost', label: 'AI cost' },
         { to: '/agents', label: 'Agent outputs' },
       ],
     },

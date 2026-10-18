@@ -1,13 +1,15 @@
-import { useAgents, useRuns } from '@/api/queries/agents';
+import { useAgents, useAiCost, useRuns } from '@/api/queries/agents';
 import { PageHeader, Section } from '@/components/shared/Layout';
 import { SkeletonRows } from '@/components/ui/skeleton';
 import { copy } from '@/lib/copy';
 import { AgentCard } from './AgentCard';
+import { AiCost } from './AiCost';
 import { RunsTable } from './RunsTable';
 
 export default function AgentsPage() {
   const agents = useAgents();
   const runs = useRuns();
+  const cost = useAiCost();
   return (
     <>
       <PageHeader
@@ -27,6 +29,9 @@ export default function AgentsPage() {
         )}
         <Section title="Runs" count={runs.data?.length} id="runs">
           {runs.data ? <RunsTable runs={runs.data} /> : <SkeletonRows />}
+        </Section>
+        <Section title="AI cost" id="ai-cost">
+          {cost.data ? <AiCost cost={cost.data} /> : <SkeletonRows />}
         </Section>
       </div>
     </>

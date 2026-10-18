@@ -109,3 +109,8 @@ export function changeText(change: number): string {
   if (p === 0) return '± 0%';
   return `${change < 0 ? '▼' : '▲'} ${p}%`;
 }
+
+/** Counts with NZ grouping: 63,500. */
+export function num(n: number): string {
+  return n.toLocaleString('en-NZ');
+}

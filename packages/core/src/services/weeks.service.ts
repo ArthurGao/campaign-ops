@@ -15,6 +15,7 @@ import {
   reportNumbers,
   summarizeHours,
   weekOf,
+  weekRange,
 } from '../domain/rules/week';
 import type {
   Actor,
@@ -93,18 +94,17 @@ export class WeeksService {
   /** Campaign weeks so far, plus the coming one (plans are made ahead); newest first. */
   list(): WeekSummary[] {
     const current = this.current();
-    const out: WeekSummary[] = [];
-    let number = 1;
-    for (let w = this.firstWeek(); w <= addDays(current, 7); w = addDays(w, 7), number++) {
-      const status = this.report(w)?.status;
-      out.push({
-        week: w,
-        number,
-        isCurrent: w === current,
-        ...(status ? { reportStatus: status } : {}),
-      });
-    }
-    return out.reverse();
+    return weekRange(this.firstWeek(), addDays(current, 7))
+      .map((w, i) => {
+        const status = this.report(w)?.status;
+        return {
+          week: w,
+          number: i + 1,
+          isCurrent: w === current,
+          ...(status ? { reportStatus: status } : {}),
+        };
+      })
+      .reverse();
   }
 
   get(param = 'current'): WeekView {

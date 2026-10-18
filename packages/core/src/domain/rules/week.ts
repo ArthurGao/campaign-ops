@@ -65,6 +65,13 @@ export function addDays(date: string, days: number): string {
   return new Date(Date.UTC(y, m - 1, d) + days * DAY_MS).toISOString().slice(0, 10);
 }
 
+/** Mondays from `first` to `last`, both included, oldest first. */
+export function weekRange(first: WeekId, last: WeekId): WeekId[] {
+  const out: WeekId[] = [];
+  for (let w = first; w <= last; w = addDays(w, 7)) out.push(w);
+  return out;
+}
+
 /** The Monday (Pacific/Auckland) of the week an instant falls in. */
 export function weekOf(instant: Date | string): WeekId {
   const { date, weekday } = local(new Date(instant));

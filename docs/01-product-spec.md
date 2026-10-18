@@ -52,6 +52,7 @@ Purpose: answer the three starting questions at a glance.
 - Runs table: run ID, agent, trigger, status, started, duration, outputs count, cost estimate (tokens mock).
 - Run detail: inputs snapshot, outputs list; each output has type (evidence / draft / suggestion / needs_confirmation / observation), body, fact refs, and **Accept** / **Reject** with note. Accept creates the linked record and shows the link.
 - Visible guardrail text under each card: "Read-only. Produces drafts and suggestions only."
+- **AI cost** (D-40, source "AI 不是免费的"): per campaign week the runs, machine time, tokens, model cost, factory credits and the PM's check time ("Audit and AI checks" hours); per agent totals; factory credits against the briefs' caps; the average of the full weeks as the estimate for the weeks ahead.
 
 ### 6. Video factory
 - Briefs list: task ID, campaign, deliverables (ratios), allowed facts, deadline, cost cap, status (`submitted → accepted → in_production → delivered → qa_passed | qa_returned`).
@@ -83,6 +84,13 @@ The source workflow's weekly loop: plan on Monday, a one-page report at the end 
 - **Plan**: tasks picked from the board for this or next week (pm). Each row says what stops it: an unconfirmed fact, client approval, unmet ad gates, or a block reason. Past weeks are read-only.
 - **Hours**: the PM logs time by category (management, audit, site, social, SEO/GEO, ads, review, buffer) in quarter hours. Used vs the source plan's split for that campaign week (15 h in week 1, then 16 h, with 1.5 h buffer); over 16 h shows as over. Buffer entries need a note. The top bar and Dashboard read the same total.
 - **Report**: done / blocked / next, prefilled from the week's records (status changes, publishes, Fact Sheet versions, open blockers, next week's plan), edited and saved as a draft, then sent once with a snapshot of the week's numbers (visits, valid leads, deposits, paid spend and CPL). Client roles see sent reports only; a sent report is not edited.
+
+### 11. Review (added 2026-10-18, D-40)
+The source's week-4 review: "一页复盘报告，写清每个渠道带来多少有效咨询、花了多少、下一步加码什么、停什么".
+- Covers full weeks only (the running week is left out). Under two full weeks, only small changes and stop-losses: scaling is refused until the next review.
+- One row per channel: spend, valid leads, deposits, paid CPL, over-report ratio, the last week's funnel break point, and a suggestion with its reason (stop: spend with no valid leads, or no visits; wait: a paid channel under 5 valid leads, or visits without leads; scale: the lowest paid CPL with enough leads; keep: the rest). The PM picks scale / keep / stop / wait with a note; scaling shows the channel's pre-approved cap (above it the client approves).
+- The close-rate assumption (FS-23) against the real rate: replace it when there are 10+ valid leads, keep it otherwise.
+- Next phase (how the 16 hours and budget move), saved as a draft, sent once with a snapshot of the numbers. Client roles see the PM's saved decisions only, never the suggestions as decisions.
 
 ## Key flows (must work end to end in the demo)
 

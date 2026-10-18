@@ -9,11 +9,14 @@ import {
   type RunTrigger,
 } from '../domain/enums';
 import { AppError, invalidTransition, notFound } from '../domain/errors';
+import { aiCost } from '../domain/rules/ai-cost';
+import { weekOf } from '../domain/rules/week';
 import type {
   Actor,
   AgentCard,
   AgentOutput,
   AgentRun,
+  AiCostView,
   DecisionResult,
   OutputDecision,
 } from '../domain/types';
@@ -73,6 +76,18 @@ export class AgentsService {
             }
           : {}),
       };
+    });
+  }
+
+  /** AI cost per week and agent, factory credits and the PM's check time (D-40). */
+  cost(): AiCostView {
+    const { runs, briefs, timeEntries, settings } = this.store.data;
+    return aiCost({
+      runs,
+      briefs,
+      timeEntries,
+      firstWeek: weekOf(settings.campaign.startDate),
+      currentWeek: weekOf(this.clock.now()),
     });
   }
 

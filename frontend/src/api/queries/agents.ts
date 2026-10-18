@@ -1,5 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import type { AgentCard, AgentId, AgentRun, DecisionResult, RunTrigger } from '@campaign-ops/core';
+import type {
+  AgentCard,
+  AgentId,
+  AgentRun,
+  AiCostView,
+  DecisionResult,
+  RunTrigger,
+} from '@campaign-ops/core';
 import { api } from '../client';
 import { useApiMutation } from './core';
 
@@ -9,6 +16,8 @@ export const useAgents = () =>
   useQuery({ queryKey: ['agents'], queryFn: () => api.get<AgentCard[]>('/agents') });
 
 /** Polls every 2 s while any user-started run is in flight (the seeded scheduled run waits for its slot). */
+export const useAiCost = () =>
+  useQuery({ queryKey: ['ai-cost'], queryFn: () => api.get<AiCostView>('/agents/cost') });
 export const useRuns = () =>
   useQuery({
     queryKey: ['runs'],

@@ -319,6 +319,15 @@ type WeeklyReport = Tracked & { id: 'WR-2026-10-12'; week: WeekId; status: 'draf
 ```
 Rules (`packages/core/src/domain/rules/week.ts`): hours in quarter steps, 0.25–8 per entry, not for a future week or before the campaign; buffer entries need a note; plans only for the current or a coming week and never with verified tasks; a report is sent once, with `done` and `next`, and is not edited after. The source plan's split per campaign week is `SOURCE_HOURS_PLAN` (weeks 1–4, week 5+ repeats week 4).
 
+## Campaign review and AI cost (D-40)
+
+```ts
+type ReviewDecision = 'scale' | 'keep' | 'stop' | 'wait';
+type CampaignReview = Tracked & { id: 'REV-1'; status: 'draft' | 'sent'; decisions: { channel: ReconChannel; decision: ReviewDecision; note: string }[]; nextPhase: string; numbers?: ReviewNumbers; sentAt?: string; sentBy?: Actor };
+```
+Rules (`rules/review.ts`): full weeks only; under 2 (`MIN_REVIEW_WEEKS`) no scaling; a paid channel under 5 valid leads (`MIN_REVIEW_LEADS`) is not judged; suggestions as in the product spec; FS-23 is checked when the period has 10+ valid leads (`MIN_FUNNEL_BASE`). Sent once; the snapshot's weeks stay the review's weeks afterwards.
+AI cost (`rules/ai-cost.ts`) is derived, not stored: runs that started (machine time = finish − start, tokens and model cost from `costEstimate`), factory credits by receipt delivery week, check time = `audit` time entries; the estimate is the average of the full weeks.
+
 ## Ad gates (used by Tasks and Dashboard)
 
 ```ts

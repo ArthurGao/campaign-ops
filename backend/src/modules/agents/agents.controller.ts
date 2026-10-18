@@ -18,6 +18,12 @@ export class AgentsController {
     return this.agents.cards();
   }
 
+  /** AI cost per week and agent, factory credits, PM check time (D-40). */
+  @Get('cost')
+  cost() {
+    return this.agents.cost();
+  }
+
   @Get('runs')
   @ApiQuery({ name: 'agent', enum: AGENT_IDS, required: false })
   @ApiQuery({ name: 'status', enum: RUN_STATUSES, required: false })

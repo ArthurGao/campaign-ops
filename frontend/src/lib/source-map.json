@@ -215,6 +215,10 @@
           "path": "/week"
         },
         {
+          "label": "Campaign review",
+          "path": "/review"
+        },
+        {
           "label": "Feedback agent",
           "path": "/agents#agent-feedback"
         }
@@ -557,6 +561,10 @@
         {
           "label": "Week: PM hours",
           "path": "/week?tab=hours#hours"
+        },
+        {
+          "label": "AI cost",
+          "path": "/agents#ai-cost"
         }
       ]
     },
@@ -1091,6 +1099,34 @@
         {
           "label": "Dashboard funnel",
           "path": "/#funnel"
+        }
+      ]
+    },
+    {
+      "key": "term-review",
+      "kind": "term",
+      "anchor": "term-review",
+      "find": "第 4 周：第一次完整复盘",
+      "zh": "第 4 周 复盘 复盘报告 加码 停掉 成交率",
+      "en": "Campaign review",
+      "app": [
+        {
+          "label": "Campaign review",
+          "path": "/review"
+        }
+      ]
+    },
+    {
+      "key": "term-ai-cost",
+      "kind": "term",
+      "anchor": "term-ai-cost",
+      "find": "AI 不是免费的",
+      "zh": "AI 成本 token 用量 机器时间 核对时间",
+      "en": "AI cost",
+      "app": [
+        {
+          "label": "AI cost",
+          "path": "/agents#ai-cost"
         }
       ]
     },

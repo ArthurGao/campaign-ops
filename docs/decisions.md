@@ -127,3 +127,12 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
   conclusions). Seed: one table per channel and week feeds both `recon` and `funnel`, so CRM valid
   leads agree; weekly totals keep the old Dashboard numbers. `GET /funnel`; the Dashboard funnel
   links to the tab. Still open: the week-4 review report itself.
+- **D-40 Campaign review and AI cost (user decision 2026-10-18).** The source's week-4 deliverable
+  ("一页复盘报告：每个渠道带来多少有效咨询、花了多少、下一步加码什么、停什么") is a Review screen: full
+  weeks only; under two of them no scaling (source: 数据不到两周只做小调整); per channel the rule
+  suggests stop (spend, no valid leads; or no visits), wait (paid under 5 valid leads; or visits, no
+  leads), scale (lowest paid CPL with enough leads) or keep, and the PM decides with a note. Scaling
+  shows the pre-approved cap (above it the client approves). FS-23 is checked against the real close
+  rate at 10+ valid leads. One review (`REV-1`), sent once with a snapshot; its weeks stay fixed after.
+  "AI 不是免费的" is Agents → AI cost, derived from runs, receipts and "Audit and AI checks" hours,
+  with the full weeks' average as the estimate. Model cost stays in US$ as the runs report it.

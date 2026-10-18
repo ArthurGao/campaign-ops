@@ -17,10 +17,11 @@ React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + React Rou
 | `/fact-sheet` | Fact Sheet | `FactTable` (tabs external/internal/history), `FactRowActions`, `FactUsagesDrawer`, `VersionDiff` |
 | `/evidence` | Findings | `EvidenceTable`, `EvidenceFilters`, `ConvertToTaskDialog`, `ExampleBanner` |
 | `/tasks` | Tasks | `KanbanBoard` (dnd-kit), `TaskCard`, `TaskDrawer` (tabs: details, fact refs, QA, approval, history), `GateBadges` |
-| `/agents` | Agents | `AgentCard` ×3, `RunForm`, `RunsTable`, `RunDetail`, `OutputReviewItem` (accept/reject) |
+| `/agents` | Agents | `AgentCard` ×3, `RunForm`, `RunsTable`, `RunDetail`, `OutputReviewItem` (accept/reject), `AiCost` (D-40) |
 | `/factory` | Video factory | `BriefList`, `BriefForm`, `ReceiptView`, `QAChecklist`, `JsonPeek` (shows the brief/receipt JSON as in the plan) |
 | `/publish` | Publish packages | `PackageList`, `PackageView`, `ApprovalPanel`, `ExecutorPanel`, `PublishLogTable`, `VersionBadge` |
 | `/leads` | Leads | `LeadsTable`, `LeadEditDrawer`, `MergeSuggestionBanner`, tab `Funnel` → `FunnelTab` (D-39), tab `Reconciliation` → `ReconTable`, `ReconChart`, `ExportButton` |
+| `/review` | Review | `ChannelTable` (suggestion, decision, note per channel), assumption check, next phase, send once (D-40) |
 | `/settings` | Settings | `ScopeForm`, `PeopleForm`, `UtmTemplateForm` (live preview), `LandingPageChecks` (4 toggles → status), `ProhibitedWords`, `ResetDemoButton` |
 
 ## UX rules

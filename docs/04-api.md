@@ -35,6 +35,7 @@ Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH
 
 ## Agents
 - `GET /agents` → 3 cards with permissions, last run, guardrail text
+- `GET /agents/cost` → `AiCostView` (per week, per agent, factory credits, PM check time, estimate per week; D-40)
 - `GET /agents/runs?agent=&status=` → `AgentRun[]` (newest first)
 - `GET /agents/runs/:runId`
 - `POST /agents/:agentId/runs` (pm) `{ trigger, inputs }` → `202 { runId }`
@@ -83,6 +84,11 @@ Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH
 - `POST /weeks/:week/time` (pm) `{ category, hours, note?, date? }` → 400 `VALIDATION` for a future week, a bad amount, a date outside the week, or buffer without a note
 - `PATCH /weeks/:week/report` (pm) `{ done?, blocked?, next? }` → saves the draft; 409 once sent
 - `POST /weeks/:week/report/send` (pm) → needs `done` and `next`; snapshots `numbers`; 409 if already sent
+
+## Review (D-40)
+- `GET /review` → `ReviewView` (`weeks`, `bigCallsAllowed`, `channels` with suggestion and reason, `totals`, `assumption`, `budgetCapCents`, `review?`)
+- `PATCH /review` (pm) `{ decisions?: { channel, decision, note }[], nextPhase? }` → saves the draft; 400 for an unknown channel or decision; 409 once sent
+- `POST /review/send` (pm) → needs a decision for every channel and a next phase; 400 for scaling on under two full weeks; snapshots `numbers` and freezes the weeks; 409 if already sent
 
 ## Health
 - `GET /health` → `{ ok: true, seedVersion }`

@@ -17,6 +17,7 @@ import { FactoryService } from './services/factory.service';
 import { LeadsService } from './services/leads.service';
 import { PackagesService } from './services/packages.service';
 import { ReconciliationService } from './services/reconciliation.service';
+import { ReviewService } from './services/review.service';
 import { SettingsService } from './services/settings.service';
 import { TasksService } from './services/tasks.service';
 import { WeeksService } from './services/weeks.service';
@@ -86,6 +87,7 @@ export function createCore(opts: CoreOptions = {}) {
   const recon = new ReconciliationService(store);
   const dashboard = new DashboardService(store, tasks, clock);
   const weeks = new WeeksService(store, tasks, clock);
+  const review = new ReviewService(store, clock);
 
   return {
     clock,
@@ -103,6 +105,7 @@ export function createCore(opts: CoreOptions = {}) {
     recon,
     dashboard,
     weeks,
+    review,
   };
 }
 

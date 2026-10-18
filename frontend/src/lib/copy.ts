@@ -23,6 +23,7 @@ export const copy = {
     dashboard: 'Dashboard',
     workflow: 'Workflow',
     week: 'Week',
+    review: 'Review',
     facts: 'Fact Sheet',
     evidence: 'Findings',
     tasks: 'Tasks',
@@ -73,6 +74,10 @@ export const copy = {
       title: 'Week',
       lede: 'Monday plan from the board, the PM’s 16 hours against the plan’s split, and the one-page report to the client.',
     },
+    review: {
+      title: 'Review',
+      lede: 'The first full review: what each channel brought, what it cost, and what to scale, keep, stop or wait on. Sent to the client once.',
+    },
     workflow: {
       title: 'Workflow',
       lede: 'The ten steps of the China Tour 2027 plan, and where each one stands right now.',
@@ -96,6 +101,28 @@ export const copy = {
     reportHelp: 'One page for the client: what got done, what is stuck, what comes next.',
     reportNotSent: 'Not sent yet. The PM sends one page at the end of the week.',
     sendConfirm: 'Sent reports are not edited. Corrections go into next week’s report.',
+  },
+  review: {
+    decisions: {
+      scale: 'Scale',
+      keep: 'Keep',
+      stop: 'Stop',
+      wait: 'Wait',
+    },
+    smallOnly:
+      'Under two full weeks of data: small changes and stop-losses only. Scaling waits for the next review.',
+    scaleCap: (channel: string, cap: string) =>
+      `${channel}: scale within the pre-approved cap of ${cap}; above it the client approves.`,
+    scaleNoCap: (channel: string) =>
+      `${channel}: no pre-approved cap, so any increase goes to the client.`,
+    nextPhaseHelp:
+      'How the 16 hours and the budget move from here: what gets more time, what gets less.',
+    sendConfirm: 'A sent review is not edited. Later changes go into the weekly report.',
+    notSent: 'Not sent yet. The PM writes the review once two full weeks of data are in.',
+  },
+  aiCost: {
+    intro:
+      'AI saves the doing and adds the checking. Usage is recorded from week 1; the weeks ahead are estimated from the full weeks so far.',
   },
   guardrail: 'Read-only. Produces drafts and suggestions only. A person accepts each item.',
   readOnly: (role: string, who: string) => `Read-only for ${role}. Switch role to ${who} to edit.`,

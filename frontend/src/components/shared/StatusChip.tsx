@@ -44,6 +44,11 @@ const TONES: Record<string, Tone> = {
   assumption: 'bad',
   superseded: 'neutral',
   rejected: 'bad',
+  // review decisions
+  scale: 'ok',
+  keep: 'info',
+  stop: 'bad',
+  wait: 'warn',
   // landing page
   traffic_ready: 'ok',
   not_ready: 'bad',

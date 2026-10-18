@@ -11,12 +11,12 @@ import { Section } from '@/components/shared/Layout';
 import { SourceLink } from '@/components/shared/SourceLink';
 import { SimpleSelect } from '@/components/ui/select';
 import { copy } from '@/lib/copy';
-import { changeText, fmtDay, humanize, pct } from '@/lib/format';
+import { changeText, fmtDay, humanize, num, pct } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 function Count({ n }: { n: number | null }) {
   if (n === null) return <span className="text-ink-3">—</span>;
-  return <>{n.toLocaleString('en-NZ')}</>;
+  return <>{num(n)}</>;
 }
 
 function RateCell({ step, broken }: { step: FunnelStepView; broken: boolean }) {

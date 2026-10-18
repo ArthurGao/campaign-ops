@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Bot,
   CalendarDays,
+  ClipboardCheck,
   Route,
   ClipboardList,
   Clapperboard,
@@ -22,6 +23,7 @@ const ITEMS = [
   { to: '/', label: copy.nav.dashboard, icon: Gauge, count: null },
   { to: '/workflow', label: copy.nav.workflow, icon: Route, count: null },
   { to: '/week', label: copy.nav.week, icon: CalendarDays, count: null },
+  { to: '/review', label: copy.nav.review, icon: ClipboardCheck, count: null },
   { to: '/fact-sheet', label: copy.nav.facts, icon: FileCheck2, count: 'facts' },
   { to: '/evidence', label: copy.nav.evidence, icon: ClipboardList, count: 'evidence' },
   { to: '/tasks', label: copy.nav.tasks, icon: KanbanSquare, count: 'tasks' },

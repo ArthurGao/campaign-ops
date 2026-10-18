@@ -190,6 +190,9 @@ export const HOUR_CATEGORIES = [
 export type HourCategory = (typeof HOUR_CATEGORIES)[number];
 export const REPORT_STATUSES = ['draft', 'sent'] as const;
 export type ReportStatus = (typeof REPORT_STATUSES)[number];
+/** Campaign review (week 4, D-40): what to do with each channel next. */
+export const REVIEW_DECISIONS = ['scale', 'keep', 'stop', 'wait'] as const;
+export type ReviewDecision = (typeof REVIEW_DECISIONS)[number];
 
 // Error codes returned in { code, message, hint }
 export const ERROR_CODES = [

@@ -24,6 +24,7 @@ import {
   type PatchTaskInput,
   type Role,
   type SaveReportInput,
+  type SaveReviewInput,
   type TransitionInput,
   BRIEF_QA_CHECKLIST,
 } from '@campaign-ops/core';
@@ -231,6 +232,7 @@ export const ROUTES: Route[] = [
 
   // ---- Agents
   { method: 'GET', pattern: '/agents', handler: (c) => c.agents.cards() },
+  { method: 'GET', pattern: '/agents/cost', handler: (c) => c.agents.cost() },
   {
     method: 'GET',
     pattern: '/agents/runs',
@@ -434,6 +436,21 @@ export const ROUTES: Route[] = [
   },
 
   // ---- Settings
+  // ---- Campaign review (D-40)
+  { method: 'GET', pattern: '/review', handler: (c) => c.review.get() },
+  {
+    method: 'PATCH',
+    pattern: '/review',
+    roles: ['pm'],
+    handler: (c, ctx) => c.review.save(as<SaveReviewInput>(ctx.body), ctx.actor),
+  },
+  {
+    method: 'POST',
+    pattern: '/review/send',
+    roles: ['pm'],
+    handler: (c, ctx) => c.review.send(ctx.actor),
+  },
+
   // ---- Weekly loop (D-37): plan, the PM's 16 hours, the weekly report
   { method: 'GET', pattern: '/weeks', handler: (c) => c.weeks.list() },
   {

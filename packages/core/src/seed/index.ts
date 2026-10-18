@@ -1,4 +1,5 @@
 import type {
+  CampaignReview,
   AgentRun,
   Brief,
   EvidenceItem,
@@ -26,7 +27,7 @@ import { opsSeed, settingsSeed } from './settings.seed';
 import { tasksSeed } from './tasks.seed';
 import { timeEntriesSeed, weeklyReportsSeed, weekPlansSeed } from './week.seed';
 
-export const SEED_VERSION = 'seed-2026-10-18.1';
+export const SEED_VERSION = 'seed-2026-10-18.2';
 
 export type Seed = {
   seedVersion: string;
@@ -48,6 +49,7 @@ export type Seed = {
   timeEntries: TimeEntry[];
   weekPlans: WeekPlan[];
   weeklyReports: WeeklyReport[];
+  reviews: CampaignReview[];
 };
 
 /** The whole demo dataset. Deterministic: every date is relative to SEED_NOW. */
@@ -72,5 +74,6 @@ export function buildSeed(): Seed {
     timeEntries: timeEntriesSeed(),
     weekPlans: weekPlansSeed(),
     weeklyReports: weeklyReportsSeed(),
+    reviews: [],
   };
 }
