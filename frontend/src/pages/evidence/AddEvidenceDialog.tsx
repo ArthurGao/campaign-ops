@@ -48,7 +48,7 @@ export function AddEvidenceDialog({ onClose }: { onClose(): void }) {
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent wide>
         <DialogHeader
-          title="Add evidence"
+          title="Add finding"
           description="Finding, proof and impact. Report the problem; the fix is a task."
         />
         <div className="grid gap-3 sm:grid-cols-3">

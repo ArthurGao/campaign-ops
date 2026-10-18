@@ -13,6 +13,7 @@ import type {
   EvidenceStatus,
   FactPage,
   FactStatus,
+  FunnelStep,
   HourCategory,
   LandingPageStatus,
   OutputType,
@@ -445,6 +446,41 @@ export type FunnelWeek = {
   validLeads: number;
   deposits: number;
 };
+
+/** One channel's week by funnel layer. impressions is null where nothing is shown (direct). */
+export type FunnelRow = {
+  weekStart: string;
+  channel: ReconChannel;
+  impressions: number | null;
+  visits: number;
+  validLeads: number;
+  deposits: number;
+};
+
+export type FunnelCounts = Omit<FunnelRow, 'weekStart' | 'channel'>;
+
+/** rate = next layer ÷ this layer; change is relative to the week before (−0.4 = 40% lower). */
+export type FunnelStepView = {
+  rate: number | null;
+  lowSample: boolean;
+  change: number | null;
+  /** The rate fell enough against the week before to be a break point candidate. */
+  fell: boolean;
+};
+
+export type FunnelLine = FunnelCounts & {
+  steps: Record<FunnelStep, FunnelStepView>;
+  /** The step whose rate fell most against the week before, when it fell enough to matter. */
+  breakPoint: FunnelStep | null;
+};
+
+export type FunnelWeekView = {
+  weekStart: string;
+  total: FunnelLine;
+  channels: (FunnelLine & { channel: ReconChannel })[];
+};
+
+export type FunnelResponse = { weeks: FunnelWeekView[] };
 
 // ---------------------------------------------------------------- Settings
 

@@ -1,5 +1,6 @@
 import type { Clock } from '../domain/clock';
 import { isPubliclyUsable } from '../domain/rules/facts';
+import { funnelTotals } from '../domain/rules/funnel';
 import { weekHours, weekOf } from '../domain/rules/week';
 import type { DashboardResponse } from '../domain/types';
 import type { MemoryStore } from '../store/memory.store';
@@ -46,7 +47,7 @@ export class DashboardService {
 
     const awaitingTasks = tasks.filter((t) => t.status === 'awaiting_approval').length;
     const awaitingPackages = packages.filter((p) => p.status === 'awaiting_approval').length;
-    const [lastWeek, thisWeek] = funnel.slice(-2);
+    const [lastWeek, thisWeek] = funnelTotals(funnel).slice(-2);
     const week = weekOf(now);
     const hours = weekHours(this.store.data.timeEntries, week, settings.campaign.startDate);
     const reportThisWeek = this.store.data.weeklyReports.find((r) => r.week === week)?.status;

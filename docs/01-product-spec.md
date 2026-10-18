@@ -36,7 +36,7 @@ Purpose: answer the three starting questions at a glance.
 - "Where is this used?" drawer: lists drafts, briefs, packages referencing the entry.
 - History tab: version list with diff of changed entries; bumping a referenced entry shows affected items with a **Re-review** button that flags them.
 
-### 3. Evidence & backlog
+### 3. Findings
 - Table: ID, source (site/tracking/channels/seo/geo/sales/ai_search), finding, proof (link/screenshot label), impact, blocks (none/traffic/ads/measurement), priority P0–P2, suggested owner, needs approval, status (open/converted/dismissed).
 - Filters by source, blocks, priority. Bulk "Convert to task".
 - Inline note: "Format example only — not a diagnosis" shown on seed items flagged `isExample`.
@@ -67,6 +67,7 @@ Purpose: answer the three starting questions at a glance.
 ### 8. Leads (simple CRM)
 - Table: ID, date, enquiry summary, source (utm_source/medium/campaign or phone/dm/email), ad detail (campaign/ad ID, utm_content, utm_term, landing page version, or "unknown"), self-reported source, first response time, owner, validity (+date, reason), stage, order.
 - Row edit for `sales`. Merge suggestion banner when same email/phone appears with the same travel need; keep separate when travel need differs (show both with a link).
+- **Funnel** tab (D-39): impressions → visits → valid leads → deposits by week (all channels) and by channel for a chosen week; visit, lead and booking rates with change against the week before; the break point is the step whose rate fell 20% or more, with what to check (source 顺着漏斗找断点). Rates on fewer than 10 people are shown but not compared.
 - **Reconciliation** tab: per channel per week — platform-reported conversions vs CRM valid leads, spend, paid CPL (or "no valid leads yet, spent X"), over-report ratio. Small chart.
 - Export button produces the de-identified CSV the Feedback agent would receive (names/emails/phones stripped) — download as a file.
 

@@ -168,6 +168,9 @@ export const RECON_CHANNELS = [
 ] as const;
 export type ReconChannel = (typeof RECON_CHANNELS)[number];
 export const PAID_RECON_CHANNELS = ['google_search', 'meta_ads', 'tiktok'] as const;
+/** Funnel steps between the four layers: impressions → visits → valid leads → deposits. */
+export const FUNNEL_STEPS = ['click', 'enquiry', 'booking'] as const;
+export type FunnelStep = (typeof FUNNEL_STEPS)[number];
 
 // Settings: landing page 'traffic_ready' means ready to receive paid traffic
 export const LANDING_PAGE_STATUSES = ['not_ready', 'traffic_ready'] as const;

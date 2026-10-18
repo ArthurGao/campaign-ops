@@ -72,7 +72,7 @@ export default function EvidencePage() {
             permission="evidence.edit"
             onClick={() => setAdding(true)}
           >
-            <Plus /> Add evidence
+            <Plus /> Add finding
           </ActionButton>
         }
       />
@@ -80,7 +80,7 @@ export default function EvidencePage() {
         {hasExamples ? (
           <p className="flex items-start gap-2 rounded-md border border-warn/30 bg-warn-soft px-3 py-2 text-sm text-warn">
             <Info className="mt-0.5 size-4 shrink-0" aria-hidden />
-            Items labelled “Format example only” show how evidence is recorded. They are seeded
+            Items labelled “Format example only” show how a finding is recorded. They are seeded
             examples, not a diagnosis of a real site.
           </p>
         ) : null}
@@ -141,7 +141,7 @@ export default function EvidencePage() {
           />
         ) : (
           <EmptyState
-            title="No evidence matches these filters."
+            title="No findings match these filters."
             body="Clear a filter, or run the Audit agent to collect findings with proof."
           />
         )}

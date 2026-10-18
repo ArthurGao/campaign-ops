@@ -269,7 +269,22 @@ type ReconRow = {
   paidCpl?: number | null;    // null when crmValidLeads === 0 and spend > 0 → UI shows message
   overReportRatio?: number;   // platformReported / crmValid
 };
+
+// Same seeded table as ReconRow, so valid leads always agree (D-39).
+type FunnelRow = {
+  weekStart: string;
+  channel: ReconRow['channel'];
+  impressions: number | null; // null where nothing is shown (direct)
+  visits: number;
+  validLeads: number;
+  deposits: number;
+};
 ```
+
+Funnel rules (`rules/funnel.ts`): step rate = next layer ÷ this layer (null when the base is 0 or
+missing); a base under 10 is a small sample and is not compared; change is relative to the same
+line a week earlier; the break point is the step with the largest fall of at least 20%. Weekly
+totals (`funnelTotals`) feed the Dashboard funnel, the weekly report numbers and the Feedback agent.
 
 ## Settings
 

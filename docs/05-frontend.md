@@ -15,12 +15,12 @@ React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + React Rou
 |---|---|---|
 | `/` | Dashboard | `ThreeQuestionTiles`, `FunnelChart` (Recharts), `BlockersList`, `ApprovalsCard`, `CheckpointCard` |
 | `/fact-sheet` | Fact Sheet | `FactTable` (tabs external/internal/history), `FactRowActions`, `FactUsagesDrawer`, `VersionDiff` |
-| `/evidence` | Evidence & backlog | `EvidenceTable`, `EvidenceFilters`, `ConvertToTaskDialog`, `ExampleBanner` |
+| `/evidence` | Findings | `EvidenceTable`, `EvidenceFilters`, `ConvertToTaskDialog`, `ExampleBanner` |
 | `/tasks` | Tasks | `KanbanBoard` (dnd-kit), `TaskCard`, `TaskDrawer` (tabs: details, fact refs, QA, approval, history), `GateBadges` |
 | `/agents` | Agents | `AgentCard` ×3, `RunForm`, `RunsTable`, `RunDetail`, `OutputReviewItem` (accept/reject) |
 | `/factory` | Video factory | `BriefList`, `BriefForm`, `ReceiptView`, `QAChecklist`, `JsonPeek` (shows the brief/receipt JSON as in the plan) |
 | `/publish` | Publish packages | `PackageList`, `PackageView`, `ApprovalPanel`, `ExecutorPanel`, `PublishLogTable`, `VersionBadge` |
-| `/leads` | Leads | `LeadsTable`, `LeadEditDrawer`, `MergeSuggestionBanner`, tab `Reconciliation` → `ReconTable`, `ReconChart`, `ExportButton` |
+| `/leads` | Leads | `LeadsTable`, `LeadEditDrawer`, `MergeSuggestionBanner`, tab `Funnel` → `FunnelTab` (D-39), tab `Reconciliation` → `ReconTable`, `ReconChart`, `ExportButton` |
 | `/settings` | Settings | `ScopeForm`, `PeopleForm`, `UtmTemplateForm` (live preview), `LandingPageChecks` (4 toggles → status), `ProhibitedWords`, `ResetDemoButton` |
 
 ## UX rules

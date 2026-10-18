@@ -13,5 +13,16 @@ export class ReconciliationController {
   }
 }
 
-@Module({ controllers: [ReconciliationController] })
+@ApiTags('reconciliation')
+@Controller('funnel')
+export class FunnelController {
+  constructor(private readonly recon: ReconciliationService) {}
+
+  @Get()
+  get(@Query('weeks', new DefaultValuePipe(3), ParseIntPipe) weeks: number) {
+    return this.recon.funnel(weeks);
+  }
+}
+
+@Module({ controllers: [ReconciliationController, FunnelController] })
 export class ReconciliationModule {}

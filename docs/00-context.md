@@ -15,7 +15,7 @@ This app operationalises a project-management plan for an AI-assisted marketing 
 | Plan | App |
 |---|---|
 | Fact Sheet 对外页 / 内部页 | Fact Sheet external page / internal page |
-| 证据和待办表 | Evidence & backlog |
+| 证据和待办表 | Findings (each with its evidence; entity `Evidence`, route `/evidence`) |
 | 任务看板 | Tasks board |
 | 可引流 | Landing page status `traffic_ready` |
 | P0 / P1 / P2 | Priority P0 / P1 / P2 |

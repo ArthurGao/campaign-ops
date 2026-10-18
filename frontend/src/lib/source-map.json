@@ -39,7 +39,7 @@
           "path": "/agents#agent-audit"
         },
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence"
         }
       ]
@@ -56,7 +56,7 @@
           "path": "/workflow#step-3"
         },
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence?status=open"
         },
         {
@@ -184,6 +184,10 @@
         {
           "label": "Leads",
           "path": "/leads"
+        },
+        {
+          "label": "Funnel",
+          "path": "/leads?tab=funnel"
         },
         {
           "label": "Reconciliation",
@@ -448,7 +452,7 @@
           "path": "/fact-sheet"
         },
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence"
         },
         {
@@ -525,7 +529,7 @@
       "en": "Starting conditions and day one",
       "app": [
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence"
         }
       ]
@@ -564,8 +568,8 @@
       "en": "Measuring quality",
       "app": [
         {
-          "label": "Funnel",
-          "path": "/#funnel"
+          "label": "Funnel by layer",
+          "path": "/leads?tab=funnel"
         },
         {
           "label": "Reconciliation",
@@ -750,7 +754,7 @@
       "en": "Lead event fires twice",
       "app": [
         {
-          "label": "E-03 in Evidence",
+          "label": "E-03 in Findings",
           "path": "/evidence?focus=E-03"
         }
       ]
@@ -763,7 +767,7 @@
       "en": "Last year's dates on the page",
       "app": [
         {
-          "label": "E-07 in Evidence",
+          "label": "E-07 in Findings",
           "path": "/evidence?focus=E-07"
         }
       ]
@@ -931,10 +935,10 @@
       "anchor": "term-evidence",
       "find": "证据和待办表：所有检查结果都写进这里",
       "zh": "证据和待办表",
-      "en": "Evidence & backlog",
+      "en": "Findings (evidence & backlog)",
       "app": [
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence"
         }
       ]
@@ -1040,7 +1044,7 @@
       "en": "Priority",
       "app": [
         {
-          "label": "Evidence",
+          "label": "Findings",
           "path": "/evidence"
         }
       ]
@@ -1069,6 +1073,24 @@
         {
           "label": "Weekly report",
           "path": "/week?tab=report"
+        }
+      ]
+    },
+    {
+      "key": "term-funnel",
+      "kind": "term",
+      "anchor": "term-funnel",
+      "find": "四层指标：曝光、访问、有效咨询、预订",
+      "zh": "四层指标 曝光 访问 有效咨询 预订 漏斗 断点 复盘",
+      "en": "Funnel by layer",
+      "app": [
+        {
+          "label": "Funnel",
+          "path": "/leads?tab=funnel"
+        },
+        {
+          "label": "Dashboard funnel",
+          "path": "/#funnel"
         }
       ]
     },

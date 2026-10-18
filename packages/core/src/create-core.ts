@@ -1,4 +1,5 @@
 import { DemoClock, TimerScheduler, type Clock, type Scheduler } from './domain/clock';
+import { funnelTotals } from './domain/rules/funnel';
 import { deidentify } from './domain/rules/leads';
 import type { AgentAdapter } from './integrations/agents/agent.adapter';
 import { MockAuditAdapter } from './integrations/agents/mock-audit.adapter';
@@ -62,7 +63,7 @@ export function createCore(opts: CoreOptions = {}) {
     new MockFeedbackAdapter(
       {
         recon: () => store.data.recon,
-        funnel: () => store.data.funnel,
+        funnel: () => funnelTotals(store.data.funnel),
         adSets: () => store.data.adSets,
         crmExport: () => store.data.leads.filter((l) => !l.mergedInto).map(deidentify),
       },

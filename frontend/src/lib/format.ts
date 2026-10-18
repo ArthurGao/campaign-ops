@@ -95,3 +95,17 @@ export function humanize(value: string): string {
 export function plural(n: number, one: string, many = `${one}s`): string {
   return `${n} ${n === 1 ? one : many}`;
 }
+
+/** Funnel rates: two decimals under 1% (0.41%), one above (3.3%). */
+export function pct(rate: number): string {
+  if (rate === 0) return '0%';
+  const p = rate * 100;
+  return `${p < 1 ? p.toFixed(2) : p.toFixed(1)}%`;
+}
+
+/** Relative change against the week before: ▼ 39%, ▲ 3%. */
+export function changeText(change: number): string {
+  const p = Math.round(Math.abs(change) * 100);
+  if (p === 0) return '± 0%';
+  return `${change < 0 ? '▼' : '▲'} ${p}%`;
+}

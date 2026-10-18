@@ -381,4 +381,19 @@ describe('key flows (e2e)', () => {
       overReportRatio: null,
     });
   });
+
+  it('funnel (D-39): week 2 breaks at enquiry, in total and on Meta', async () => {
+    const { weeks } = (await h.as('sales').get('/funnel?weeks=3').expect(200)).body;
+    expect(weeks).toHaveLength(3);
+    expect(weeks.map((w: { total: { visits: number } }) => w.total.visits)).toEqual([
+      1350, 1480, 760,
+    ]);
+    const meta = weeks[1].channels.find((c: { channel: string }) => c.channel === 'meta_ads');
+    expect([weeks[1].total.breakPoint, meta.visits, meta.validLeads, meta.breakPoint]).toEqual([
+      'enquiry',
+      700,
+      0,
+      'enquiry',
+    ]);
+  });
 });

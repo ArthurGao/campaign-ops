@@ -104,6 +104,15 @@ describe('source map', () => {
     expect(entityKeys.filter((k) => !known.has(k))).toEqual(['ADS-007']);
   });
 
+  it('names the findings screen the way the nav does', () => {
+    expect(copy.nav.evidence).toBe('Findings');
+    const labels = appLinks.filter((l) => l.path.startsWith('/evidence')).map((l) => l.label);
+    expect(labels.length).toBeGreaterThan(0);
+    // A bare record id ("E-03") names the row, not the screen.
+    const screenLabels = labels.filter((l) => !/^[A-Z]+-\d+$/.test(l));
+    expect(screenLabels.filter((l) => !l.endsWith(copy.nav.evidence))).toEqual([]);
+  });
+
   it('builds artifact links that carry only a fragment', () => {
     expect(sourceHref('step-4')).toBe('https://claude.ai/artifact/TpdZz945Dm6MVEvLeBNLFN#step-4');
   });

@@ -3,7 +3,7 @@ import { AppError } from '../errors';
 import type {
   AdGates,
   FactEntry,
-  FunnelWeek,
+  FunnelRow,
   HoursSummary,
   PlanItemView,
   ReconRow,
@@ -14,6 +14,7 @@ import type {
   WeeklyReport,
 } from '../types';
 import { unusableRefs } from './facts';
+import { funnelTotals } from './funnel';
 import { cplText } from './recon';
 
 const TZ = 'Pacific/Auckland';
@@ -262,10 +263,10 @@ export function assertSendable(report: WeeklyReport | undefined, week: WeekId): 
 /** The week's numbers from the CRM-side data: funnel and paid spend per channel. */
 export function reportNumbers(
   week: WeekId,
-  funnel: readonly FunnelWeek[],
+  funnel: readonly FunnelRow[],
   recon: readonly ReconRow[],
 ): ReportNumbers {
-  const f = funnel.find((x) => weekOf(x.weekStart) === week);
+  const f = funnelTotals(funnel).find((x) => weekOf(x.weekStart) === week);
   const paid = recon
     .filter(
       (r) =>

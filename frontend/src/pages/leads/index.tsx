@@ -4,6 +4,7 @@ import { Download, GitMerge } from 'lucide-react';
 import { SOURCE_MEDIUMS, STAGES, VALIDITIES } from '@campaign-ops/core';
 import {
   fetchExportCsv,
+  useFunnel,
   useLeads,
   useMergeLead,
   useMergeSuggestions,
@@ -19,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { copy } from '@/lib/copy';
 import { LeadEditDrawer } from './LeadEditDrawer';
 import { LeadsTable } from './LeadsTable';
+import { FunnelTab } from './FunnelTab';
 import { ReconChart } from './ReconChart';
 import { ReconSummary, ReconTable } from './ReconTable';
 
@@ -57,6 +59,7 @@ export default function LeadsPage() {
   const suggestions = useMergeSuggestions().data ?? [];
   const merge = useMergeLead();
   const recon = useRecon(3);
+  const funnel = useFunnel(3, tab === 'funnel');
   const [exporting, setExporting] = useState(false);
   const all = leads.data ?? [];
   const list = all.filter((l) =>
@@ -90,6 +93,7 @@ export default function LeadsPage() {
           <TabsTrigger value="leads">
             Leads <span className="font-mono text-xs text-ink-3">{all.length}</span>
           </TabsTrigger>
+          <TabsTrigger value="funnel">Funnel</TabsTrigger>
           <TabsTrigger value="reconciliation">Reconciliation</TabsTrigger>
         </TabsList>
         <TabsContent value="leads" className="grid gap-3">
@@ -144,6 +148,9 @@ export default function LeadsPage() {
           ) : (
             <EmptyState title="No leads match these filters." />
           )}
+        </TabsContent>
+        <TabsContent value="funnel">
+          {funnel.data ? <FunnelTab weeks={funnel.data.weeks} /> : <SkeletonRows />}
         </TabsContent>
         <TabsContent value="reconciliation" className="grid gap-6">
           <p className="max-w-[80ch] text-sm text-ink-2">

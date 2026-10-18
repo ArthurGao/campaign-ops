@@ -427,6 +427,11 @@ export const ROUTES: Route[] = [
     pattern: '/reconciliation',
     handler: (c, ctx) => c.recon.get(Number(q(ctx, 'weeks') ?? 3)),
   },
+  {
+    method: 'GET',
+    pattern: '/funnel',
+    handler: (c, ctx) => c.recon.funnel(Number(q(ctx, 'weeks') ?? 3)),
+  },
 
   // ---- Settings
   // ---- Weekly loop (D-37): plan, the PM's 16 hours, the weekly report

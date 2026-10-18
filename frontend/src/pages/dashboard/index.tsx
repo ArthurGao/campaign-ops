@@ -87,10 +87,10 @@ export default function DashboardPage() {
             id="funnel"
             actions={
               <Link
-                to="/leads?tab=reconciliation"
+                to="/leads?tab=funnel"
                 className="text-xs font-medium text-accent hover:underline"
               >
-                Reconciliation →
+                By layer and channel →
               </Link>
             }
           >

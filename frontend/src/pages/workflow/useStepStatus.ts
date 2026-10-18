@@ -76,7 +76,7 @@ export function useStepStatus(): Record<number, StepStatus> | undefined {
     3: {
       tone: openP0.length ? 'blocked' : open.length ? 'waiting' : 'ok',
       text: `${plural(open.length, 'open finding')}${openP0.length ? `, ${openP0.length} P0 (${openP0.map((e) => e.id).join(', ')})` : ''} not yet a task`,
-      links: [{ to: '/evidence?status=open', label: 'Evidence' }],
+      links: [{ to: '/evidence?status=open', label: 'Findings' }],
     },
     4: {
       tone: unusable.length ? 'waiting' : 'ok',

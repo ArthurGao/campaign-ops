@@ -12,7 +12,7 @@ export function BlockersList({ blockers }: { blockers: DashboardResponse['blocke
     return (
       <EmptyState
         title="Nothing is blocked."
-        body="No blocking evidence and no task waiting on an unconfirmed fact."
+        body="No blocking findings and no task waiting on an unconfirmed fact."
       />
     );
   return (

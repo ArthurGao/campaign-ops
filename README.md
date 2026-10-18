@@ -13,7 +13,7 @@ Built to run the workflow in **China Tour 2027 推广工作流** (https://claude
 | Area | Why it exists |
 |---|---|
 | Fact Sheet | The only source of truth for anything said publicly. Entries have status (confirmed / pending / assumption) and a version. Unconfirmed entries cannot be referenced by outbound content. External page vs internal page (budget, targets). |
-| Evidence & backlog | Everything the Audit agent or the PM finds: finding, proof, impact, blocks what, suggested owner, needs approval. Items become tasks. |
+| Findings | Everything the Audit agent or the PM finds: finding, proof, impact, blocks what, suggested owner, needs approval. Items become tasks. |
 | Tasks | Kanban across the shared pipeline: draft → QA → client approval → live → verified. Site changes, SEO/GEO changes, social posts, ad copy, video briefs. |
 | Agents | Three agents — Audit, Outbound, Feedback — each with fixed inputs, read-only permissions, and outputs that must be reviewed. Trigger a run, watch status, review results, accept or reject. |
 | Video factory | Briefs out, receipts in. Idempotency check by `task_id`, QA checklist, cost cap. |

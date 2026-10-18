@@ -27,7 +27,7 @@ function acceptLabel(o: AgentOutput): string {
   const p = o.proposal;
   switch (o.type) {
     case 'evidence':
-      return 'Accept → add to evidence';
+      return 'Accept → add to findings';
     case 'draft':
       return p?.kind === 'task' && p.task.taskId
         ? `Accept → apply to ${p.task.taskId}`

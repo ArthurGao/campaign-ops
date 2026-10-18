@@ -1,13 +1,12 @@
 import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import type { FunnelWeek } from '@campaign-ops/core';
+import { copy } from '@/lib/copy';
 import { fmtDay } from '@/lib/format';
 
-const LAYERS: { key: keyof Omit<FunnelWeek, 'weekStart'>; label: string }[] = [
-  { key: 'impressions', label: 'Impressions' },
-  { key: 'visits', label: 'Visits' },
-  { key: 'validLeads', label: 'Valid leads (CRM)' },
-  { key: 'deposits', label: 'Deposits' },
-];
+const LAYERS = (['impressions', 'visits', 'validLeads', 'deposits'] as const).map((key) => ({
+  key,
+  label: copy.funnel.layers[key],
+}));
 
 /** Four small multiples, each on its own scale (impressions and deposits differ by 10⁴). No pie charts. */
 export function FunnelChart({

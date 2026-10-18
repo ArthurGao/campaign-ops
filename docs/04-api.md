@@ -67,6 +67,7 @@ Error codes used by the UI: `FORBIDDEN`, `NEEDS_CONFIRMATION`, `VERSION_MISMATCH
 - `POST /leads/:id/merge` (sales) `{ intoId }` → I-L2 enforced
 - `GET /leads/export?deidentified=true` → CSV without contact/clickIds (I-L3)
 - `GET /reconciliation?weeks=3` → `ReconRow[]` + `{ summary: { byChannel, totals } }`
+- `GET /funnel?weeks=3` → `{ weeks: FunnelWeekView[] }`, oldest first: per week the total and each channel by layer (impressions, visits, valid leads, deposits), the three step rates with change against the week before, and the break point (D-39)
 
 ## Settings
 - `GET /settings`

@@ -87,7 +87,7 @@ export function DetailsTab({ task }: { task: Task }) {
           ...(task.originEvidenceId
             ? ([
                 [
-                  'From evidence',
+                  'From finding',
                   <Link
                     to={`/evidence?focus=${task.originEvidenceId}`}
                     className="font-mono text-accent hover:underline"

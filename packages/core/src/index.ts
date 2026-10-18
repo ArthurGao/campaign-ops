@@ -7,6 +7,7 @@ export * from './domain/rules/gates';
 export * from './domain/rules/tasks';
 export * from './domain/rules/packages';
 export * from './domain/rules/leads';
+export * from './domain/rules/funnel';
 export * from './domain/rules/recon';
 export * from './domain/rules/money';
 export * from './domain/rules/utm';

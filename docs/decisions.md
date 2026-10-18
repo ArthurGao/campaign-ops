@@ -113,3 +113,17 @@ simpler option, leave a `// TODO(phase2):` where it matters, and record it here.
   top bar sum the time entries. Over 16 h is shown, not refused (time already spent cannot be
   refused); the buffer needs a note so it is not used to plan new work. Out of scope: the week-4
   review report and the AI cost log from the source.
+- **D-38 The 证据和待办表 screen is called "Findings" (user decision 2026-10-18).** Each row of the
+  source table is a finding (发现) with its proof as one column; the source also calls it 同一张问题表,
+  and inventory and link-test results that pass go there too, so "Findings" fits better than
+  "Evidence & backlog" or "Issues" (the backlog is the task board). UI copy and the artifact link
+  labels only: the `Evidence` entity, the `/evidence` route and API, and the `E-xx` ids stay. The
+  source HTML keeps its own Chinese name.
+- **D-39 Funnel by layer (user decision 2026-10-18).** The source's 四层指标 (impressions → visits →
+  valid leads → deposits) and its week-4 review "一层层看，找断点" get a Funnel tab on Leads: weeks in
+  total and channels for a chosen week, three step rates with change against the week before, and a
+  break point = the step whose rate fell 20% or more (largest fall wins), with the source's "what to
+  check" line. A rate on fewer than 10 people is shown but not compared (source: small samples, no
+  conclusions). Seed: one table per channel and week feeds both `recon` and `funnel`, so CRM valid
+  leads agree; weekly totals keep the old Dashboard numbers. `GET /funnel`; the Dashboard funnel
+  links to the tab. Still open: the week-4 review report itself.

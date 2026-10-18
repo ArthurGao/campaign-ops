@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type {
   CreateLeadInput,
+  FunnelResponse,
   Lead,
   MergeSuggestion,
   PatchLeadInput,
@@ -20,6 +21,13 @@ export const useRecon = (weeks = 3) =>
   useQuery({
     queryKey: ['recon', weeks],
     queryFn: () => api.get<ReconResponse>(`/reconciliation?weeks=${weeks}`),
+  });
+
+export const useFunnel = (weeks = 3, enabled = true) =>
+  useQuery({
+    enabled,
+    queryKey: ['funnel', weeks],
+    queryFn: () => api.get<FunnelResponse>(`/funnel?weeks=${weeks}`),
   });
 
 export const usePatchLead = () =>

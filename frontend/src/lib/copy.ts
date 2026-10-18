@@ -1,4 +1,8 @@
 // All English UI copy in one place (frontend/CLAUDE.md rule 11).
+import { BREAK_POINT_DROP, MIN_FUNNEL_BASE } from '@campaign-ops/core';
+
+const DROP = `${Math.round(BREAK_POINT_DROP * 100)}%`;
+
 export const copy = {
   app: {
     name: 'CampaignOps',
@@ -20,7 +24,7 @@ export const copy = {
     workflow: 'Workflow',
     week: 'Week',
     facts: 'Fact Sheet',
-    evidence: 'Evidence',
+    evidence: 'Findings',
     tasks: 'Tasks',
     agents: 'Agents',
     factory: 'Video factory',
@@ -38,8 +42,8 @@ export const copy = {
       lede: 'The only source for anything said publicly. Unconfirmed entries cannot be cited.',
     },
     evidence: {
-      title: 'Evidence & backlog',
-      lede: 'What the Audit agent or the PM found, with proof. Items become tasks.',
+      title: 'Findings',
+      lede: 'Every check result from the Audit agent or the PM, each with its evidence. Triaged findings become tasks.',
     },
     tasks: {
       title: 'Tasks',
@@ -105,6 +109,30 @@ export const copy = {
     'No prohibited words',
     'UTM link generated from template, unedited',
   ],
+  funnel: {
+    intro: `Impressions → visits → valid leads (CRM) → deposits, layer by layer. The break point is the step whose rate fell ${DROP} or more against the week before; a rate on fewer than ${MIN_FUNNEL_BASE} people is shown but not compared.`,
+    layers: {
+      impressions: 'Impressions',
+      visits: 'Visits',
+      validLeads: 'Valid leads (CRM)',
+      deposits: 'Deposits',
+    },
+    steps: {
+      click: 'Visit rate',
+      enquiry: 'Lead rate',
+      booking: 'Booking rate',
+    },
+    // Source: 顺着漏斗找断点 — what to check when each layer stops converting.
+    check: {
+      click: 'Seen but not visited: check the content and the links.',
+      enquiry:
+        'Visits but no valid leads: check the landing page and the form; if leads come but few are valid, the audience and what the page claims.',
+      booking: 'Valid leads but no bookings: review quotes and follow-up with sales.',
+    },
+    noBreak: `No step fell ${DROP}`,
+    lowSample: `n < ${MIN_FUNNEL_BASE}`,
+    partial: 'to date',
+  },
   columns: {
     draft: 'Draft',
     qa: 'QA',

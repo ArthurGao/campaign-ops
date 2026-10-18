@@ -4,7 +4,7 @@ import type {
   EvidenceItem,
   FactEntry,
   FactSheetVersion,
-  FunnelWeek,
+  FunnelRow,
   Lead,
   OpsStatus,
   PublishPackage,
@@ -26,7 +26,7 @@ import { opsSeed, settingsSeed } from './settings.seed';
 import { tasksSeed } from './tasks.seed';
 import { timeEntriesSeed, weeklyReportsSeed, weekPlansSeed } from './week.seed';
 
-export const SEED_VERSION = 'seed-2026-10-15.2';
+export const SEED_VERSION = 'seed-2026-10-18.1';
 
 export type Seed = {
   seedVersion: string;
@@ -40,7 +40,7 @@ export type Seed = {
   packages: PublishPackage[];
   leads: Lead[];
   recon: ReconRow[];
-  funnel: FunnelWeek[];
+  funnel: FunnelRow[];
   adSets: AdSetReport[];
   settings: Settings;
   ops: OpsStatus;
