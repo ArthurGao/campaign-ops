@@ -302,6 +302,7 @@ pre code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(-
           <tr><td>可引流</td><td>landing page 的一个状态：信息确认过、表单能用、Lead 只触发一次、来源能进 CRM。标了“可引流”，社媒和广告才能把链接指过去</td></tr>
           <tr><td>P0 / P1 / P2</td><td>官网问题的等级。P0 是咨询或测量直接断了，P1 是会让咨询变少，P2 是小问题</td></tr>
           <tr><td>UTM</td><td>加在指向官网的链接后面的来源标签，比如 utm_source=facebook。GA4 和 CRM 靠它分清咨询从哪来</td></tr>
+          <tr><td>Lead Ads</td><td>Meta 上表单直接留在平台里的广告，人不用进官网；线索靠集成写进 CRM，管法见“Lead Ads：表单留在平台里的广告”</td></tr>
           <tr><td>Lead 事件</td><td>有人提交咨询表单时，官网告诉广告平台和 GA4 的那个信号</td></tr>
           <tr><td>有效咨询</td><td>和销售约好标准的咨询，比如说清楚了出行时间和人数，不是所有填了表的都算</td></tr>
           <tr><td>CPL</td><td>每条有效咨询花了多少广告费，按付费渠道分开算，算法见“怎么判断做得好不好”</td></tr>
@@ -565,7 +566,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
           <tbody>
             <tr><td>Search Console</td><td>验证过没有、在谁的账号下、能不能给我只读</td><td>让客户用自己的账号验证；这期间先用公开工具查</td></tr>
             <tr><td>GA4 和 GTM</td><td>装没装、ID 是多少、归谁、谁能改</td><td>先把咨询事件配好，这是最小链路的一部分</td></tr>
-            <tr><td>Meta 和 Google 广告账户</td><td>Business Manager 和 Pixel 归谁、怎么付款、以前投过什么</td><td>广告先放着；归属不清的先理清，换过代理商的经常卡在这</td></tr>
+            <tr><td>Meta 和 Google 广告账户</td><td>Business Manager 和 Pixel 归谁、怎么付款、以前投过什么；用没用过 Lead Ads，Page 的线索给谁、接没接 CRM</td><td>广告先放着；归属不清的先理清，换过代理商的经常卡在这</td></tr>
             <tr><td>CRM</td><td>咨询记在哪、能不能记来源和状态</td><td>先用一张共享表格（Google Sheets 或 Excel）当简易 CRM，字段见前面“名词解释”，以后可以直接导入正式 CRM</td></tr>
             <tr><td>发布工具和社媒账号</td><td>账号归谁、谁是管理员、用什么排期</td><td>用平台自带的排期手动发</td></tr>
             <tr><td>视频工厂</td><td>怎么接单、回执有哪些字段、额度多少</td><td>按工厂现在的方式来，不另搭</td></tr>
@@ -587,6 +588,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <ul class="pts">
           <li>把诊断结果核一遍，整理成一张证据和待办表</li>
           <li>在能访问的范围内把咨询链路测一遍，记下哪里通、哪里断、哪里卡。修好要多久，看权限、审批和执行人</li>
+          <li>按测出来的结果先定广告线索落在哪：官网表单、Lead Ads，还是两个都用（见“最小链路和第一天交付什么”），启动会上和客户确认</li>
           <li>定好下周计划：做哪几件事、谁负责、卡在哪</li>
         </ul>
         <h4>第一周</h4>
@@ -623,7 +625,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <div class="tw"><table class="dt">
           <thead><tr><th>领域</th><th>做什么</th></tr></thead>
           <tbody>
-            <tr><td>广告</td><td>Google 搜索（非品牌词）和 Meta 小预算上线；回流 Agent 每周两次检查，指定的人每天看 landing page；核对后台和变更记录是否一致</td></tr>
+            <tr><td>广告</td><td>Google 搜索（非品牌词）和 Meta 小预算上线，Meta 分官网表单和 Lead Ads 两组；回流 Agent 每周两次检查，指定的人每天看 landing page；核对后台和变更记录是否一致</td></tr>
             <tr><td>社媒</td><td>看第一批帖子带来的访问和私信咨询；写第二批简报，团期和价格确认了就用上</td></tr>
             <tr><td>SEO</td><td>第一批技术修复上线，请求重新 indexing；China Tour 页面补上常见问题的回答，和 GEO 合成一个改动</td></tr>
             <tr><td>GEO</td><td>AI 说错的地方，改官网或请客户联系来源；补齐 Google Business Profile 等第三方资料</td></tr>
@@ -675,6 +677,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
             <tr><td>谁审批、多久能回</td><td>所有对外的事</td></tr>
             <tr><td>账号归谁、权限给谁</td><td>修追踪、投广告</td></tr>
             <tr><td>咨询现在谁接、记在哪、多久回</td><td>线索承接和效果判断</td></tr>
+            <tr><td>官网有没有隐私政策页；Meta Page 的线索谁能看到</td><td>Lead Ads（平台要求隐私政策链接）</td></tr>
             <tr><td>广告预算</td><td>只卡广告</td></tr>
           </tbody>
         </table></div>
@@ -734,10 +737,24 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <h4>先跑通哪条链路</h4>
         <p>China Tour 页面 → 咨询表单 → Lead 事件只触发一次 → 来源被记下来 → 线索按时到销售手里。</p>
         <p>这条不通，引流再多也看不出效果；承接有问题时，流量越多浪费越多。</p>
+        <h4>广告线索落在哪：第一天先定</h4>
+        <p>付费线索可以落在官网表单（靠 Pixel 和 GA4 测），也可以落在 Meta 的 Lead Ads（表单在平台里，靠 CRM 同步测）。选哪个，后面的检查、上线条件、对账和工时都跟着变，所以第一天看完链路测试就定，启动会上和客户确认，写进 Fact Sheet。</p>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>第一天看到的情况</th><th>怎么定</th></tr></thead>
+          <tbody>
+            <tr><td>官网表单能用，GTM 权限第一周能拿到，追踪一周内修得好</td><td>默认：Google 搜索引到官网；Meta 分两组，官网表单和 Lead Ads 对照</td></tr>
+            <tr><td>官网修不动：没权限、P0 太多，或者执行人排不上</td><td>Meta 先只用 Lead Ads，不用等官网；Google 搜索等页面“可引流”再上</td></tr>
+            <tr><td>销售人手少，接不住更多咨询</td><td>只用官网表单。Lead Ads 量大质量低，先不开</td></tr>
+            <tr><td>没有隐私政策页，或者 Page 的线索权限理不清</td><td>先不用 Lead Ads，把这两件事放进第一周待办</td></tr>
+          </tbody>
+        </table></div>
+        <p>用 Lead Ads 时，最小链路换成：广告 → 平台表单 → CRM 同步 → 来源（ad ID、表单版本）被记下来 → 线索按时到销售手里。Pixel 照装，用来积累 retargeting audience 和看官网访问，但不再是这条链路的一环。</p>
+        <p>这个决定会改到的地方：第一天查什么（多查 Page 线索权限和隐私政策）、广告的第二个上线条件、每天检查什么、CRM 的来源字段、漏斗少不少“访问”一层、CPL 怎么分开算。官网的修复照做，只是不再卡着 Meta 广告。</p>
         <h4>第一天收工时手上有什么</h4>
         <ul class="pts">
           <li>一张核过、排过序的证据和待办表（系统盘点和链路测试的结果也写在里面）</li>
           <li>Fact Sheet v0，每条标了状态和来源</li>
+          <li>广告线索落在哪的初步决定（官网表单、Lead Ads 或两个都用），等启动会确认</li>
           <li>发出去的问题清单，约好的启动会</li>
           <li>下周计划：做哪几件事、谁负责、依赖什么、卡在哪</li>
         </ul>
@@ -933,7 +950,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
           <thead><tr><th>条件</th><th>怎样算满足</th><th>谁确认</th></tr></thead>
           <tbody>
             <tr><td>产品确认</td><td>团期、价格、余位、包含项目都定了</td><td>客户</td></tr>
-            <tr><td>landing page 和追踪</td><td>页面标了“可引流”；Lead 只触发一次；来源进 CRM；线索能到销售</td><td>我复核</td></tr>
+            <tr><td>landing page 和追踪</td><td>页面标了“可引流”；Lead 只触发一次；来源进 CRM；线索能到销售。用 Lead Ads 的，换成：表单批过、测试线索带着来源进了 CRM、销售收到了（见下面“Lead Ads”）</td><td>我复核</td></tr>
             <tr><td>素材和文案就绪</td><td>这条广告要用的素材和文案已验收、批过、版本清楚。搜索广告只要文案，不用等视频</td><td>客户</td></tr>
             <tr><td>预算和监控责任</td><td>总预算、各渠道上限、测试期、什么情况暂停都书面批了；我不在线时谁接告警、谁有权暂停、多久响应也定好了</td><td>客户决策人</td></tr>
           </tbody>
@@ -943,7 +960,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <p><button type="button" class="tag t-ag" data-agent="fb">回流 Agent</button> 盯数据、带证据提建议，<button type="button" class="tag t-ag" data-agent="out">出稿 Agent</button> 起草广告文案，<span class="tag t-pm">PM</span> 看是不是在批过的范围内，超出范围就找 <span class="tag t-cl">客户</span> 批，<span class="tag t-tl">投放执行人</span> 操作并登记，回流 Agent 例行每周两次核对后台实际状态，重大上线或调整后增加一次。</p>
         <h4>怎么盯</h4>
         <ul class="pts">
-          <li>每天：平台 automated rules 管花费和 ad disapproval；指定的人花 5 分钟看 landing page 和表单能不能用。回流 Agent 不每天跑</li>
+          <li>每天：平台 automated rules 管花费和 ad disapproval；指定的人花 5 分钟看 landing page 和表单能不能用，昨天的 Lead Ads 线索是不是都进了 CRM。回流 Agent 不每天跑</li>
           <li>每周两次：回流 Agent 跑一次，看花费、CPL、点击到咨询的 conversion rate，有异常就报</li>
           <li>每周一次：我和销售看线索质量，平台数据和 CRM 对账</li>
           <li>除了必须马上停的情况，一周只调一次，别打断平台的 learning phase</li>
@@ -954,13 +971,46 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <div class="tw"><table class="dt">
           <thead><tr><th>类型</th><th>情况</th><th>怎么处理</th></tr></thead>
           <tbody>
-            <tr><td>马上停</td><td>landing page 或表单坏了；追踪断了；产品信息变了；花费到上限；ad disapproval 或账户受限</td><td>指定的人按事先授权暂停，事后报告；花费类用平台 automated rules，不靠 AI</td></tr>
+            <tr><td>马上停</td><td>landing page 或表单坏了；追踪断了；Lead Ads 线索没进 CRM；产品信息变了；花费到上限；ad disapproval 或账户受限</td><td>指定的人按事先授权暂停，事后报告；花费类用平台 automated rules，不靠 AI</td></tr>
             <tr><td>提建议</td><td>花到预设金额还没有有效咨询；咨询多但质量差；成本降了质量也稳；frequency 太高</td><td>回流 Agent 提，按审批流程走</td></tr>
           </tbody>
         </table></div>
         <h4>效果怎么算</h4>
         <p>业绩只看 CRM，CPL 的算法见后面“怎么判断做得好不好”。合格线索通过 Conversions API 和 offline conversions 回传平台。branded search 广告单独看。先投 Google 搜索（非品牌词）和 Meta，小预算试；YouTube 等 Meta 有结果了再说。</p>
         <div class="warn"><b>先不做</b><ul><li>YouTube、TikTok、X 广告先不做；不让 AI 自动调 bidding 或预算</li></ul></div>
+      </div>
+    </details>
+    <details class="box">
+      <summary>Lead Ads：表单留在平台里的广告</summary>
+      <div class="in">
+        <p>Lead Ads（Meta 叫 instant form）让人不离开 Facebook / Instagram 就能留联系方式。填起来容易，线索会多，但人没进官网：没看过行程和价格，质量通常更差；GA4 和 UTM 也看不到。所以它当成单独的渠道来管，和引到官网表单的广告分开算。</p>
+        <h4>什么时候用</h4>
+        <ul class="pts">
+          <li>只在 Meta 上用。Google 搜索的人本来就在找，直接引到 landing page</li>
+          <li>用不用、怎么配，第一天定（见“最小链路和第一天交付什么”）。默认第二周 Meta 分两组：一组引到官网表单，一组用 Lead Ads，预算各一半，第四周复盘比有效咨询的 CPL，不比提交数</li>
+          <li>销售接得住才开。Lead Ads 量往往更大，回复时限守不住就先只开官网那组</li>
+        </ul>
+        <h4>表单怎么做</h4>
+        <div class="tw"><table class="dt">
+          <thead><tr><th>部分</th><th>怎么做</th></tr></thead>
+          <tbody>
+            <tr><td>表单类型</td><td>选 higher intent（提交前多一步确认），宁可少一点</td></tr>
+            <tr><td>介绍文字</td><td>算对外内容：写到的团期、价格要标 Fact Sheet 编号，没确认的不能写。表单和广告文案放进同一个发布包，客户批的版本包括表单，表单一改就重新批</td></tr>
+            <tr><td>问题</td><td>姓名、邮箱、电话之外，加两三个筛选问题：大概哪个月出发、几个人、看过行程没有。用选项不用自由填写，方便销售判断和回流 Agent 分类</td></tr>
+            <tr><td>隐私和同意</td><td>填客户的隐私政策链接（平台要求）；写清楚谁会联系、怎么联系；同意接收营销信息单独勾选</td></tr>
+            <tr><td>提交后</td><td>感谢页给 China Tour 页面链接（带 UTM），告诉对方销售多久内联系</td></tr>
+          </tbody>
+        </table></div>
+        <h4>怎么进 CRM、怎么跟</h4>
+        <ul class="pts">
+          <li>用 CRM 自带集成或 Zapier 实时写入。没有 UTM，来源写 meta / lead_ads / 广告系列名，另记 ad ID 和表单版本</li>
+          <li>上线前用 Meta 的 Lead Ads Testing Tool 提交一条测试线索：进了 CRM、带着来源、销售收到通知，第二个条件才算满足。测试线索标 TEST，不算数</li>
+          <li>平台后台只能下载最近 90 天的线索。同步断了当天就手动补导，不能等月底</li>
+          <li>回复要比官网表单更快，比如工作时间 2 小时内：刚填完的人还记得，第二天常常忘了自己填过</li>
+          <li>和官网表单、私信按邮箱或电话去重，规则同 CRM 表</li>
+        </ul>
+        <h4>效果怎么算</h4>
+        <p>Lead Ads 没有“访问”这一层，漏斗是曝光 → 打开表单 → 提交 → 有效咨询 → 预订。CPL 单独一行，不和官网那组合并。有效和预订的状态通过 Conversions API 回传，让 Meta 按有效线索优化，而不是按提交数优化。提交多但有效率明显低于官网那组，回流 Agent 建议改筛选问题；改了还是低就停。</p>
       </div>
     </details>
   </section>
@@ -1093,6 +1143,8 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
         <p>往后推的：视频派单晚一周；官网只修 P0；和销售的沟通并进启动会；周报改成一条消息。底线是守住“能不能卖、接不接得住、测不测得到”。</p>
         <h4>视频工厂交付晚了</h4>
         <p>Google 搜索广告不用视频，可以先上；社媒用批过的静态素材，或者往后推；不为赶进度跳过验收；空出来的时间放到官网和 SEO 上。</p>
+        <h4>官网一时修不好</h4>
+        <p>Meta 广告改用 Lead Ads，不等官网；Google 搜索广告要引到页面，等“可引流”再上。社媒帖子照发，链接先指到能用的页面，或者先不放链接。官网修复照常排，修好后 Meta 再加官网那组对照。</p>
         <h4>审批一直不来</h4>
         <p>等审批的任务就停在那，到期提醒一次；先做不受影响的事（追踪、基线、诊断、准备草稿）；周报里写清楚卡在哪、会怎么影响推广窗口。不会先发后补。</p>
         <h4>广告预算是零</h4>
@@ -1117,7 +1169,7 @@ Fact Sheet：FS-v1.3（FS-04 团期：待确认；FS-07 行程城市：已确认
             <tr><td>预订</td><td>付了订金</td><td>CRM</td><td>预订数、从咨询到预订多少天、按来源的预订</td><td>—</td></tr>
           </tbody>
         </table></div>
-        <p>付费渠道 CPL = 这个渠道的广告花费 ÷ 按约定归因算到这个渠道的去重有效咨询数。全渠道总数另外列，不拿总花费去除全部咨询，否则 organic 带来的咨询会把广告成本拉低。分母是零就写“还没有有效咨询，已花 X”，不算成本。内容数量、播放量、ranking、平台后台的 conversions，只用来找问题，不当成销售结果汇报。</p>
+        <p>付费渠道 CPL = 这个渠道的广告花费 ÷ 按约定归因算到这个渠道的去重有效咨询数。全渠道总数另外列，不拿总花费去除全部咨询，否则 organic 带来的咨询会把广告成本拉低。Lead Ads 没有访问层，单独算，见“Lead Ads”。分母是零就写“还没有有效咨询，已花 X”，不算成本。内容数量、播放量、ranking、平台后台的 conversions，只用来找问题，不当成销售结果汇报。</p>
       </div>
     </details>
 
